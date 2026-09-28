@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+@theme {
+  /* Ethiopic fonts follow each Latin font so Amharic text always renders cleanly */
+  --font-serif: "Cormorant Garamond", "Noto Serif Ethiopic", "Times New Roman", serif;
+  --font-sans: "Outfit", "Noto Sans Ethiopic", system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", "Noto Serif Ethiopic", "Times New Roman", serif;
+  --font-ethiopic: "Noto Serif Ethiopic", serif;
+
+  --color-ink: #040303;
+  --color-ink-soft: #100e0d;
+  --color-ivory: #f0eeeb;
+  --color-cream: #ebe4d4;
+  --color-gold: #dea052;
+  --color-gold-bright: #ebb977;
+  --color-earth: #6b4f3a;
+  --color-moss: #3d4a3a;
+  --color-stone: #8f877e;
+  /* Darker amber for accent headings on light backgrounds */
+  --color-amber-deep: #a8691f;
+
+  --ease-fashion: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    @apply bg-ink text-ivory font-sans antialiased;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  ::selection {
+    background: #dea052;
+    color: #040303;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  :focus-visible {
+    outline: 1px solid #ebb977;
+    outline-offset: 3px;
+  }
+}
+
+.page-enter {
+  animation: page-fade 0.7s var(--ease-fashion) both;
+}
+
+@keyframes page-fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.hero-media {
+  animation: kenburns 22s var(--ease-fashion) forwards;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s var(--ease-fashion),
+    transform 0.9s var(--ease-fashion);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.mask-reveal {
+  clip-path: inset(12% 12% 12% 12%);
+  transition: clip-path 1.1s var(--ease-fashion);
+}
+
+.mask-reveal.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+.gold-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #dea052, transparent);
+}
+
+/* Rises in from a backward tilt, like a card being stood up */
+.reveal-3d {
+  opacity: 0;
+  transform: perspective(1400px) rotateX(24deg) translateY(70px) scale(0.96);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 1s var(--ease-fashion),
+    transform 1.2s var(--ease-fashion);
+}
+
+.reveal-3d.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Embossed gold numerals with stacked depth */
+.text-3d {
+  color: #ebb977;
+  text-shadow:
+    1px 1px 0 #dea052,
+    2px 2px 0 #c48538,
+    3px 3px 0 #a8691f,
+    4px 4px 0 #85521a,
+    5px 5px 0 #633c14,
+    10px 14px 28px rgba(0, 0, 0, 0.55);
+}
+
+/* Slow floating motion for decorative layers */
+@keyframes float-3d {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -18px, 0) rotate(2deg); }
+}
+
+.float-3d {
+  animation: float-3d 9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-3d { opacity: 1; transform: none; }
+  .float-3d { animation: none; }
+}
+
+/* Amharic: Ethiopic script has no true italic and reads best with normal spacing */
+html[lang='am'] .italic {
+  font-style: normal;
+}
+
+html[lang='am'] [class*='tracking-'] {
+  letter-spacing: 0.02em;
+}
+
+html[lang='am'] .leading-\[0\.9\],
+html[lang='am'] .leading-\[0\.88\],
+html[lang='am'] .leading-\[0\.95\] {
+  line-height: 1.2;
+}
