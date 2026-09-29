@@ -4,7 +4,18 @@ import { Button } from './Button'
 
 const STORAGE_KEY = 'woynu-inquiries'
 
-export function CustomDesignForm() {
+/** Values to prefill, e.g. from a Woynu AI style (so visitors don't re-enter their choices). */
+export type DesignRequestPrefill = {
+  gender?: 'Woman' | 'Man' | 'Child' | 'Prefer not to say'
+  occasion?: string
+  preferredStyle?: string
+  preferredColors?: string
+  description?: string
+  /** JSON summary of the Woynu AI concept, stored with the inquiry for the studio */
+  woynuAiConcept?: string
+}
+
+export function CustomDesignForm({ prefill }: { prefill?: DesignRequestPrefill }) {
   const [sent, setSent] = useState(false)
   const { t } = useI18n()
 
@@ -56,7 +67,7 @@ export function CustomDesignForm() {
       <label className={label} htmlFor="gender">
         {t('form.gender')}
       </label>
-      <select className={`${field} rounded-none`} id="gender" name="gender" required defaultValue="">
+      <select className={`${field} rounded-none`} id="gender" name="gender" required defaultValue={prefill?.gender ?? ''}>
         <option value="" disabled>
           {t('form.select')}
         </option>
@@ -69,17 +80,17 @@ export function CustomDesignForm() {
       <label className={label} htmlFor="occasion">
         {t('form.occasion')}
       </label>
-      <input className={field} id="occasion" name="occasion" required />
+      <input className={field} id="occasion" name="occasion" required defaultValue={prefill?.occasion} />
 
       <label className={label} htmlFor="preferredStyle">
         {t('form.style')}
       </label>
-      <input className={field} id="preferredStyle" name="preferredStyle" />
+      <input className={field} id="preferredStyle" name="preferredStyle" defaultValue={prefill?.preferredStyle} />
 
       <label className={label} htmlFor="preferredColors">
         {t('form.colors')}
       </label>
-      <input className={field} id="preferredColors" name="preferredColors" />
+      <input className={field} id="preferredColors" name="preferredColors" defaultValue={prefill?.preferredColors} />
 
       <label className={label} htmlFor="size">
         {t('form.size')}
@@ -94,7 +105,14 @@ export function CustomDesignForm() {
       <label className={label} htmlFor="description">
         {t('form.description')}
       </label>
-      <textarea className={`${field} min-h-32 resize-y`} id="description" name="description" required />
+      <textarea
+        className={`${field} min-h-32 resize-y`}
+        id="description"
+        name="description"
+        required
+        defaultValue={prefill?.description}
+      />
+      {prefill?.woynuAiConcept ? <input type="hidden" name="woynuAiConcept" value={prefill.woynuAiConcept} /> : null}
 
       <label className={label} htmlFor="reference">
         {t('form.reference')}

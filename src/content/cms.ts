@@ -66,4 +66,10 @@ export const cmsResources = {
   journal: '/api/journal',
   inquiries: '/api/inquiries',
   testimonials: '/api/testimonials',
+  // Woynu AI (live: POST /api/woynu-ai). Admin resources below are planned, not yet built;
+  // their data currently lives in server/woynu-ai/culturalRules.ts and src/woynu-ai/shared/options.ts.
+  woynuAiGenerate: '/api/woynu-ai',
+  woynuAiRules: '/api/woynu-ai/rules',
+  woynuAiOptions: '/api/woynu-ai/options',
+  woynuAiDesigns: '/api/woynu-ai/designs',
 } as const

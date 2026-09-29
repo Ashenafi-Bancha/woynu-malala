@@ -15,6 +15,7 @@ export const navKey: Record<string, Key> = {
   '/journal': 'nav.journal',
   '/contact': 'nav.contact',
   '/craftsmanship': 'nav.craftsmanship',
+  '/woynu-ai': 'nav.woynuAi',
 }
 
 export function Navbar() {

@@ -25,3 +25,8 @@ dist-ssr
 
 # Local Claude Code preview settings
 .claude
+
+# Environment secrets
+.env
+.env.*
+!.env.example

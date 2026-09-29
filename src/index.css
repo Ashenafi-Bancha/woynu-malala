@@ -175,3 +175,29 @@ html[lang='am'] .leading-\[0\.88\],
 html[lang='am'] .leading-\[0\.95\] {
   line-height: 1.2;
 }
+
+/* Woynu AI loading loom: woven bands rise while a light "shuttle" passes through */
+@keyframes loom-thread {
+  0%, 100% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes loom-shuttle {
+  0% { bottom: 5%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { bottom: 95%; opacity: 0; }
+}
+
+.loom-thread {
+  animation: loom-thread 2.4s ease-in-out infinite;
+}
+
+.loom-shuttle {
+  animation: loom-shuttle 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loom-thread { animation: none; transform: scaleY(0.7); }
+  .loom-shuttle { animation: none; bottom: 50%; }
+}

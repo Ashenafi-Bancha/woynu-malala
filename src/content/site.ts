@@ -29,6 +29,7 @@ export const nav = [
   { to: '/story', label: 'Our Story' },
   { to: '/culture', label: 'Culture' },
   { to: '/custom', label: 'Custom' },
+  { to: '/woynu-ai', label: 'Woynu AI' },
   { to: '/journal', label: 'Journal' },
   { to: '/contact', label: 'Contact' },
 ]

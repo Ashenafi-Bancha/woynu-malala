@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom'
 import { shots } from '../content/media'
 import { CustomDesignForm } from '../components/CustomDesignForm'
 import { Frame3D } from '../components/Frame3D'
@@ -5,9 +6,37 @@ import { Reveal } from '../components/Reveal'
 import { Seo } from '../components/Seo'
 import { SplitTitle, headingClass } from '../components/SplitTitle'
 import { useI18n } from '../i18n'
+import type { WoynuDesignRequestState } from '../components/woynu-ai/WoynuAI'
+import { useStyleTitle } from '../components/woynu-ai/StyleResult'
+import { toDesignRequestPrefill } from '../woynu-ai/designRequest'
+import type { WoynuStyleResult } from '../woynu-ai/shared/types'
+import { useAiText } from '../woynu-ai/strings'
+
+/** Shows the Woynu AI style that this request was started from. */
+function AttachedStyle({ result }: { result: WoynuStyleResult }) {
+  const { a } = useAiText()
+  const title = useStyleTitle(result)
+  return (
+    <div className="mb-8 flex items-center gap-4 border border-gold/40 bg-gold/10 p-4">
+      <img
+        src={result.design.imageUrl}
+        alt={result.design.alt}
+        className="h-24 w-16 shrink-0 object-cover"
+      />
+      <div>
+        <p className="text-[10px] uppercase tracking-[0.3em] text-gold">Woynu AI</p>
+        <p className="mt-1 font-serif text-xl">{title}</p>
+        <p className="mt-1 text-sm text-ivory/65">{a('attached')}</p>
+      </div>
+    </div>
+  )
+}
 
 export function CustomPage() {
   const { t } = useI18n()
+  const location = useLocation()
+  const aiStyle = (location.state as WoynuDesignRequestState | null)?.woynuStyle
+  const prefill = aiStyle ? toDesignRequestPrefill(aiStyle) : undefined
   return (
     <div className="relative overflow-hidden">
       <Seo
@@ -37,7 +66,8 @@ export function CustomPage() {
           </Reveal>
           <Reveal tilt delay={100} className="mt-12">
             <div className="border border-ivory/10 bg-ink-soft/80 p-6 shadow-[0_50px_100px_-40px_rgba(0,0,0,0.95)] backdrop-blur-sm md:p-10">
-              <CustomDesignForm />
+              {aiStyle ? <AttachedStyle result={aiStyle} /> : null}
+              <CustomDesignForm prefill={prefill} />
             </div>
           </Reveal>
         </div>

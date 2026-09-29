@@ -14,6 +14,8 @@ import { Seo } from '../components/Seo'
 import { SplitTitle, headingClass } from '../components/SplitTitle'
 import { Tilt3D, depth } from '../components/Tilt3D'
 import { useI18n } from '../i18n'
+import { colorOptions } from '../woynu-ai/shared/options'
+import { useAiText } from '../woynu-ai/strings'
 
 /** Swipeable row on phones, grid from lg up. */
 const snapRow =
@@ -24,6 +26,7 @@ const cultureTeasers = ['Traditional clothing', 'Patterns', 'Colors', 'Modern in
 
 export function HomePage() {
   const { t, c } = useI18n()
+  const { a } = useAiText()
   return (
     <>
       <Seo path="/" />
@@ -60,6 +63,44 @@ export function HomePage() {
           </Reveal>
         </div>
         <CollectionGrid collections={collections.filter((col) => col.published)} />
+      </section>
+
+      {/* Woynu AI */}
+      <section className="relative overflow-hidden border-y border-gold/20 bg-ink-soft px-5 py-20 md:px-10 md:py-28">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-32 top-1/2 hidden h-[60vh] w-[45vw] -translate-y-1/2 rounded-full bg-gold/10 blur-[130px] md:block"
+        />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
+          <Reveal>
+            <p className="text-[11px] uppercase tracking-[0.4em] text-gold">{a('homeKicker')}</p>
+            <h2 className={`mt-5 ${headingClass} text-4xl sm:text-5xl md:text-6xl`}>
+              <SplitTitle text={a('title')} />
+            </h2>
+            <p className="mt-6 max-w-xl leading-8 text-ivory/70">{a('intro')}</p>
+            <div className="mt-10">
+              <ButtonLink to="/woynu-ai">{a('cta')}</ButtonLink>
+            </div>
+          </Reveal>
+          <Reveal tilt delay={120} className="mx-auto w-full max-w-sm">
+            <Tilt3D className="aspect-[4/5] w-full" max={10}>
+              <div aria-hidden="true" className="absolute -inset-4 border border-gold/35" style={depth(-40)} />
+              <div className="absolute inset-0 flex items-end justify-center gap-2 overflow-hidden bg-ink p-8 shadow-[0_50px_100px_-30px_rgba(0,0,0,0.9)]">
+                {colorOptions.map((col, i) => (
+                  <span
+                    key={col.id}
+                    aria-hidden="true"
+                    className="loom-thread block w-5 origin-bottom"
+                    style={{ backgroundColor: col.hex, height: '75%', animationDelay: `${i * 0.15}s` }}
+                  />
+                ))}
+              </div>
+              <p className="absolute left-6 top-6 font-serif text-3xl italic text-gold" style={depth(50)}>
+                Woynu AI
+              </p>
+            </Tilt3D>
+          </Reveal>
+        </div>
       </section>
 
       {/* Statement */}
