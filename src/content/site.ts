@@ -20,7 +20,7 @@ export const brand = {
   facebookFollowers: '24K',
   tagline: 'Wolaita Heritage. Reimagined.',
   statement: 'Traditional Wolaita identity transformed into contemporary fashion.',
-  siteUrl: 'https://woynumalala.example',
+  siteUrl: 'https://woynu-malala.vercel.app',
 }
 
 export const nav = [
