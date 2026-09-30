@@ -1,4 +1,4 @@
-import { fbPhotos } from '../content/media'
+import { pageImages } from '../content/media'
 import { cultureTopics } from '../content/site'
 import { PageHeader } from '../components/PageHeader'
 import { PlaceholderImage } from '../components/PlaceholderImage'
@@ -20,7 +20,7 @@ export function CulturePage() {
         kicker={t('culture.kicker')}
         title={c('The culture behind the design')}
         intro={t('culture.intro')}
-        media={fbPhotos.groupTrees}
+        media={pageImages.cultureHeader}
       />
 
       <div className="grid gap-6 px-5 pb-24 sm:grid-cols-2 md:gap-8 md:px-10 lg:grid-cols-4">

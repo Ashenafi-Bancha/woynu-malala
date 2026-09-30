@@ -1,4 +1,4 @@
-import { fbPhotos } from '../../content/media'
+import { pageImages } from '../../content/media'
 import { useAiText } from '../../woynu-ai/strings'
 import { Button } from '../Button'
 import { Frame3D } from '../Frame3D'
@@ -30,7 +30,7 @@ export function WoynuAIIntro({ onStart }: { onStart: () => void }) {
           </Button>
         </Reveal>
         <Reveal tilt delay={150} className="mx-auto w-full max-w-[18rem] sm:max-w-sm">
-          <Frame3D media={fbPhotos.studioTwo} className="aspect-[4/5] w-full" caption="Woynu AI" priority />
+          <Frame3D media={pageImages.woynuAiIntro} className="aspect-[4/5] w-full" caption="Woynu AI" priority />
         </Reveal>
       </div>
 

@@ -4,7 +4,8 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "functions": {
-    "api/woynu-ai.ts": { "maxDuration": 120 }
+    "api/woynu-ai.ts": { "maxDuration": 120 },
+    "api/woynu-ai/try-on.ts": { "maxDuration": 120 }
   },
   "rewrites": [{ "source": "/((?!api/|assets/|photos/|.*\\..*).*)", "destination": "/index.html" }]
 }

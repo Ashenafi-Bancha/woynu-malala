@@ -8,7 +8,7 @@ const THREADS = ['#F0EEEB', '#B3261E', '#141111', '#DEA052', '#B3261E', '#F0EEEB
  * message and elapsed time rather than pretending to expose internal AI steps.
  * The animation is a loom of woven bands in the studio's colours.
  */
-export function GenerationLoading() {
+export function GenerationLoading({ title }: { title?: string } = {}) {
   const { a } = useAiText()
   const [seconds, setSeconds] = useState(0)
 
@@ -30,7 +30,7 @@ export function GenerationLoading() {
         <span className="loom-shuttle absolute inset-x-[-12px] h-px bg-gold-bright shadow-[0_0_12px_rgba(235,185,119,0.9)]" />
       </div>
       <p className="mt-10 text-[11px] uppercase tracking-[0.4em] text-gold">Woynu AI</p>
-      <h2 className="mt-4 font-serif text-3xl font-light md:text-4xl">{a('loadingTitle')}</h2>
+      <h2 className="mt-4 font-serif text-3xl font-light md:text-4xl">{title ?? a('loadingTitle')}</h2>
       <p className="mt-4 text-ivory/60">{a('loadingNote')}</p>
       <p className="mt-6 font-serif text-lg italic text-ivory/40" aria-hidden="true">
         {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, '0')}

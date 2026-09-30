@@ -1,4 +1,4 @@
-import { fbPhotos } from '../content/media'
+import { pageImages } from '../content/media'
 import { story } from '../content/site'
 import { PageHeader } from '../components/PageHeader'
 import { Reveal } from '../components/Reveal'
@@ -15,7 +15,7 @@ export function StoryPage() {
         kicker={t('story.kicker')}
         title={t('story.title')}
         intro={t('story.intro')}
-        media={fbPhotos.studioFour}
+        media={pageImages.storyHeader}
       >
         <p className="mt-6 text-sm text-ivory/60">
           {t('story.designer')}: {story.designer}

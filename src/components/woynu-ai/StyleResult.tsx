@@ -11,6 +11,7 @@ import { Button, ButtonLink } from '../Button'
 import { Reveal } from '../Reveal'
 import { SplitTitle, headingClass } from '../SplitTitle'
 import { Tilt3D, depth } from '../Tilt3D'
+import { TryOn } from './TryOn'
 
 type StyleResultProps = {
   result: WoynuStyleResult
@@ -117,6 +118,8 @@ export function StyleResult({ result, onGenerateAgain, onChangePreferences, onRe
           </div>
         </div>
       </div>
+
+      <TryOn key={result.id} result={result} />
 
       {/* Business conversion */}
       <Reveal tilt className="relative mt-24 overflow-hidden border border-gold/30 bg-ink-soft px-6 py-14 text-center md:px-16 md:py-20">

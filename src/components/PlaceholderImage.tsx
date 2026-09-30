@@ -66,7 +66,7 @@ export function PlaceholderImage({
         alt={media.alt}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
-        className={`relative z-[1] h-full w-full object-cover ${kenburns ? 'opacity-90 hero-media' : 'opacity-70 mix-blend-luminosity contrast-110 saturate-50 transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105'} ${imgClassName}`}
+        className={`relative z-[1] h-full w-full object-cover ${kenburns ? 'opacity-90 hero-media' : `${media.placeholder ? 'opacity-70 mix-blend-luminosity contrast-110 saturate-50' : ''} transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105`} ${imgClassName}`}
       />
       <div
         className="pointer-events-none absolute inset-0 z-[2] bg-linear-to-t from-ink/70 via-transparent to-ink/20"

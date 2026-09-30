@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom'
-import { shots } from '../content/media'
+import { pageImages } from '../content/media'
 import { CustomDesignForm } from '../components/CustomDesignForm'
 import { Frame3D } from '../components/Frame3D'
 import { Reveal } from '../components/Reveal'
@@ -62,7 +62,7 @@ export function CustomPage() {
           </Reveal>
           {/* Phones: the photo sits between the intro and the form */}
           <Reveal tilt className="mx-auto mt-12 w-full max-w-xs lg:hidden">
-            <Frame3D media={shots.hands} className="aspect-[4/5] w-full" />
+            <Frame3D media={pageImages.customPage} className="aspect-[4/5] w-full" />
           </Reveal>
           <Reveal tilt delay={100} className="mt-12">
             <div className="border border-ivory/10 bg-ink-soft/80 p-6 shadow-[0_50px_100px_-40px_rgba(0,0,0,0.95)] backdrop-blur-sm md:p-10">
@@ -74,7 +74,7 @@ export function CustomPage() {
         <div className="hidden lg:block">
           <div className="sticky top-32">
             <Reveal tilt delay={150}>
-              <Frame3D media={shots.hands} className="aspect-[4/5] w-full" caption={t('custom.title')} />
+              <Frame3D media={pageImages.customPage} className="aspect-[4/5] w-full" caption={t('custom.title')} />
             </Reveal>
           </div>
         </div>

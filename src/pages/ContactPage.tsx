@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { fbPhotos } from '../content/media'
+import { pageImages } from '../content/media'
 import { phoneDisplay, phoneInternational, social } from '../content/site'
 import { ButtonLink } from '../components/Button'
 import { PageHeader } from '../components/PageHeader'
@@ -40,7 +40,7 @@ export function ContactPage() {
         kicker={t('contact.kicker')}
         title={t('home.contactTitle')}
         intro={t('home.contactText')}
-        media={fbPhotos.studioFour}
+        media={pageImages.contactHeader}
       >
         <div className="mt-10 flex flex-wrap gap-3">
           <ButtonLink to={social.phone.href}>{t('contact.callUs')}</ButtonLink>

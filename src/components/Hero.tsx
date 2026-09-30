@@ -1,15 +1,11 @@
+import { pageImages } from '../content/media'
 import { brand } from '../content/site'
 import { useI18n } from '../i18n'
 import { BrandName } from './BrandName'
 import { ButtonLink } from './Button'
 import { Tilt3D, depth } from './Tilt3D'
 
-// Stock photo (Unsplash, free license) until the studio supplies its own hero image.
-const heroPhoto = {
-  src: '/photos/hero-stock.jpg',
-  alt: 'A woman in a flowing deep red dress standing in a green forest',
-  credit: 'Photo: K Studios / Unsplash',
-}
+const heroPhoto = pageImages.hero
 
 export function Hero() {
   const { t } = useI18n()
@@ -68,15 +64,19 @@ export function Hero() {
             </div>
             <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4" style={depth(60)}>
               <p className="font-serif text-2xl italic text-ivory">{t('hero.caption')}</p>
-              <p className="text-[9px] uppercase tracking-[0.2em] text-ivory/60">{heroPhoto.credit}</p>
+              {heroPhoto.caption ? (
+                <p className="text-[9px] uppercase tracking-[0.2em] text-ivory/60">{heroPhoto.caption}</p>
+              ) : null}
             </div>
           </Tilt3D>
         </div>
       </div>
 
-      <p className="absolute bottom-3 right-4 z-[4] text-[9px] uppercase tracking-[0.2em] text-ivory/50 lg:hidden">
-        {heroPhoto.credit}
-      </p>
+      {heroPhoto.caption ? (
+        <p className="absolute bottom-3 right-4 z-[4] text-[9px] uppercase tracking-[0.2em] text-ivory/50 lg:hidden">
+          {heroPhoto.caption}
+        </p>
+      ) : null}
     </section>
   )
 }

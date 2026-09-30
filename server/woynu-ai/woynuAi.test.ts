@@ -6,7 +6,8 @@ import { buildStyleSpecification, extractStyleNotes } from './designSpec.js'
 import { OpenAIImageProvider, createImageProvider, type ImageGenerationProvider } from './imageGeneration.js'
 import { buildWoynuStylePrompt } from './promptBuilder.js'
 import { createRateLimiter } from './rateLimit.js'
-import { handleWoynuAiRequest, MAX_BODY_BYTES } from './woynuAiService.js'
+import { WoynuAiError } from './errors.js'
+import { handleTryOnRequest, handleWoynuAiRequest, MAX_BODY_BYTES, MAX_TRY_ON_BYTES } from './woynuAiService.js'
 
 const valid: WoynuPreferences = {
   gender: 'female',
@@ -188,6 +189,7 @@ describe('POST /api/woynu-ai', () => {
       name: 'slow',
       generateDesign: (_p, { signal }) =>
         new Promise((_, reject) => signal.addEventListener('abort', () => reject(new Error('aborted')))),
+      tryOn: () => Promise.reject(new Error('unused')),
     }
     const res = await handleWoynuAiRequest(post(valid), preview, { log: quietLog, rateLimiter: openLimiter, provider: slow, timeoutMs: 20 })
     expect(res.status).toBe(504)
@@ -197,6 +199,7 @@ describe('POST /api/woynu-ai', () => {
     const broken: ImageGenerationProvider = {
       name: 'broken',
       generateDesign: () => Promise.reject(new Error('stack trace with secret sk-123')),
+      tryOn: () => Promise.reject(new Error('unused')),
     }
     const res = await handleWoynuAiRequest(post(valid), preview, { log: quietLog, rateLimiter: openLimiter, provider: broken })
     const text = await res.text()
@@ -242,5 +245,128 @@ describe('OpenAIImageProvider', () => {
     expect(createImageProvider({ IMAGE_GENERATION_API_KEY: 'k' }).name).toBe('openai')
     expect(createImageProvider({ IMAGE_GENERATION_PROVIDER: 'preview' }).name).toBe('preview')
     expect(() => createImageProvider({ IMAGE_GENERATION_PROVIDER: 'unknown' })).toThrow()
+  })
+})
+
+describe('POST /api/woynu-ai/try-on', () => {
+  const preview = { IMAGE_GENERATION_PROVIDER: 'preview' }
+  // Smallest byte patterns the server accepts as real JPEG / PNG files
+  const jpeg = `data:image/jpeg;base64,${Buffer.from([0xff, 0xd8, 0xff, 0xe0, ...new Array(40).fill(0)]).toString('base64')}`
+  const png = `data:image/png;base64,${Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, ...new Array(40).fill(0)]).toString('base64')}`
+  const tryOnBody = (overrides: Record<string, unknown> = {}) => ({
+    preferences: valid,
+    photo: jpeg,
+    design: png,
+    consent: true,
+    ...overrides,
+  })
+  const postTryOn = (body: unknown, headers: Record<string, string> = {}) =>
+    new Request('http://localhost:5180/api/woynu-ai/try-on', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', host: 'localhost:5180', ...headers },
+      body: JSON.stringify(body),
+    })
+  const code = async (res: Response) => ((await res.json()) as { error?: { code: string } }).error?.code
+
+  it('requires explicit consent', async () => {
+    const res = await handleTryOnRequest(postTryOn(tryOnBody({ consent: undefined })), preview, { log: quietLog })
+    expect(res.status).toBe(400)
+    expect(await code(res)).toBe('consent_required')
+  })
+
+  it('refuses photos for child and teen age groups', async () => {
+    for (const ageGroup of ['child', 'teen']) {
+      const res = await handleTryOnRequest(postTryOn(tryOnBody({ preferences: { ...valid, ageGroup } })), preview, { log: quietLog })
+      expect(res.status).toBe(403)
+      expect(await code(res)).toBe('not_allowed_for_age')
+    }
+  })
+
+  it('rejects files that are not real images, even with an image type', async () => {
+    const fake = `data:image/jpeg;base64,${Buffer.from('<script>alert(1)</script> not an image').toString('base64')}`
+    const res = await handleTryOnRequest(postTryOn(tryOnBody({ photo: fake })), preview, { log: quietLog, rateLimiter: openLimiter })
+    expect(res.status).toBe(400)
+    expect(await code(res)).toBe('invalid_photo')
+    const res2 = await handleTryOnRequest(postTryOn(tryOnBody({ photo: 'https://example.com/me.jpg' })), preview, { log: quietLog })
+    expect(await code(res2)).toBe('invalid_photo')
+  })
+
+  it('rejects oversized uploads', async () => {
+    const big = `data:image/jpeg;base64,${'A'.repeat(MAX_TRY_ON_BYTES)}`
+    const res = await handleTryOnRequest(postTryOn(tryOnBody({ photo: big })), preview, { log: quietLog })
+    expect(res.status).toBe(413)
+  })
+
+  it('returns a labelled preview in preview mode', async () => {
+    const res = await handleTryOnRequest(postTryOn(tryOnBody()), preview, { log: quietLog, rateLimiter: openLimiter })
+    const body = (await res.json()) as { ok: boolean; result: { mode: string; imageUrl: string } }
+    expect(res.status).toBe(200)
+    expect(body.result.mode).toBe('preview')
+    expect(body.result.imageUrl.startsWith('data:image/svg+xml')).toBe(true)
+  })
+
+  it('sends the photo and design to the provider and never logs image data', async () => {
+    const calls: { images: number; prompt: string }[] = []
+    const logs: unknown[] = []
+    const spy: ImageGenerationProvider = {
+      name: 'spy',
+      generateDesign: () => Promise.reject(new Error('unused')),
+      tryOn: async (prompt, images) => {
+        calls.push({ images: images.length, prompt })
+        throw new WoynuAiError('generation_failed', 502, { cause: 'provider down' })
+      },
+    }
+    const res = await handleTryOnRequest(postTryOn(tryOnBody()), preview, {
+      log: (...args) => logs.push(args),
+      rateLimiter: openLimiter,
+      provider: spy,
+    })
+    expect(res.status).toBe(502)
+    expect(calls[0].images).toBe(2)
+    expect(calls[0].prompt).toMatch(/same face/)
+    expect(JSON.stringify(logs)).not.toContain('base64')
+  })
+
+  it('skips a preview SVG design and describes the outfit instead', async () => {
+    let seen = 0
+    const spy: ImageGenerationProvider = {
+      name: 'spy',
+      generateDesign: () => Promise.reject(new Error('unused')),
+      tryOn: async (_p, images) => {
+        seen = images.length
+        return { imageUrl: 'data:image/jpeg;base64,QUJD', alt: 'x', mode: 'ai' }
+      },
+    }
+    const res = await handleTryOnRequest(postTryOn(tryOnBody({ design: 'data:image/svg+xml;charset=utf-8,%3Csvg%3E' })), preview, {
+      log: quietLog,
+      rateLimiter: openLimiter,
+      provider: spy,
+    })
+    expect(res.status).toBe(200)
+    expect(seen).toBe(1)
+  })
+
+  it('rate limits try-on separately', async () => {
+    const limiter = createRateLimiter({ limit: 1, windowMs: 60_000 })
+    await handleTryOnRequest(postTryOn(tryOnBody()), preview, { log: quietLog, rateLimiter: limiter })
+    const res = await handleTryOnRequest(postTryOn(tryOnBody()), preview, { log: quietLog, rateLimiter: limiter })
+    expect(res.status).toBe(429)
+  })
+})
+
+describe('OpenAIImageProvider.tryOn', () => {
+  it('calls the image edits endpoint with both images and high input fidelity', async () => {
+    const fetchImpl = vi.fn(async () => new Response(JSON.stringify({ data: [{ b64_json: 'QUJD' }] }), { status: 200 }))
+    const provider = new OpenAIImageProvider({ apiKey: 'test-key', fetchImpl })
+    const { specification } = buildStyleSpecification(valid)
+    const img = { bytes: new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 1, 2, 3]), mime: 'image/jpeg' as const }
+    const result = await provider.tryOn('PROMPT', [img, img], { spec: specification, signal: new AbortController().signal })
+    expect(result).toMatchObject({ imageUrl: 'data:image/jpeg;base64,QUJD', mode: 'ai' })
+    const [url, init] = fetchImpl.mock.calls[0] as unknown as [string, RequestInit]
+    expect(url).toBe('https://api.openai.com/v1/images/edits')
+    const form = init.body as FormData
+    expect(form.getAll('image[]')).toHaveLength(2)
+    expect(form.get('input_fidelity')).toBe('high')
+    expect(form.get('prompt')).toBe('PROMPT')
   })
 })

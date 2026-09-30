@@ -1,10 +1,16 @@
-import type { WoynuApiResponse, WoynuStyleResult } from '../../src/woynu-ai/shared/types.js'
+import {
+  TRY_ON_AGE_GROUPS,
+  type TryOnApiResponse,
+  type WoynuApiResponse,
+  type WoynuStyleResult,
+} from '../../src/woynu-ai/shared/types.js'
 import { validatePreferences } from '../../src/woynu-ai/shared/validation.js'
 import { culturalRules } from './culturalRules.js'
 import { buildStyleSpecification } from './designSpec.js'
 import { PUBLIC_MESSAGES, WoynuAiError } from './errors.js'
 import { createImageProvider, type ImageGenerationProvider, type ProviderEnv } from './imageGeneration.js'
-import { buildWoynuStylePrompt } from './promptBuilder.js'
+import { parseImageDataUrl, type ImageInput } from './imageInput.js'
+import { buildTryOnPrompt, buildWoynuStylePrompt } from './promptBuilder.js'
 import { createRateLimiter } from './rateLimit.js'
 
 export const MAX_BODY_BYTES = 4096
@@ -24,8 +30,12 @@ export type WoynuAiDeps = {
 }
 
 const defaultLimiter = createRateLimiter({ limit: 6, windowMs: 10 * 60_000 })
+const tryOnLimiter = createRateLimiter({ limit: 4, windowMs: 10 * 60_000 })
 
-const json = (body: WoynuApiResponse, status: number, extra: Record<string, string> = {}) =>
+/** Try-on carries two resized images (visitor photo + design); well under Vercel's 4.5 MB limit. */
+export const MAX_TRY_ON_BYTES = 4 * 1024 * 1024
+
+const json = (body: WoynuApiResponse | TryOnApiResponse, status: number, extra: Record<string, string> = {}) =>
   new Response(JSON.stringify(body), {
     status,
     headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...extra },
@@ -130,6 +140,82 @@ export async function handleWoynuAiRequest(
       return fail(err)
     }
     log('unexpected', err)
+    return fail(new WoynuAiError('generation_failed', 500))
+  }
+}
+
+/**
+ * POST /api/woynu-ai/try-on
+ * Shows the visitor wearing their generated design. Their photo is validated, sent to the
+ * provider once, and never stored or logged by Woynu Malala.
+ */
+export async function handleTryOnRequest(request: Request, env: WoynuAiEnv, deps: WoynuAiDeps = {}): Promise<Response> {
+  const log = deps.log ?? ((message, detail) => console.error(`[woynu-ai try-on] ${message}`, detail ?? ''))
+
+  try {
+    if (request.method !== 'POST') return fail(new WoynuAiError('method_not_allowed', 405))
+    if (!originAllowed(request, env)) return fail(new WoynuAiError('method_not_allowed', 403))
+    const declared = Number(request.headers.get('content-length') || 0)
+    if (declared > MAX_TRY_ON_BYTES) return fail(new WoynuAiError('payload_too_large', 413))
+
+    const body = await request.text()
+    if (body.length > MAX_TRY_ON_BYTES) return fail(new WoynuAiError('payload_too_large', 413))
+
+    let parsed: Record<string, unknown>
+    try {
+      parsed = JSON.parse(body)
+      if (typeof parsed !== 'object' || parsed === null) throw new Error('not an object')
+    } catch {
+      return fail(new WoynuAiError('invalid_input', 400))
+    }
+
+    if (parsed.consent !== true) return fail(new WoynuAiError('consent_required', 400))
+
+    const validation = validatePreferences(parsed.preferences)
+    if (!validation.ok) return fail(new WoynuAiError('invalid_input', 400))
+    const prefs = validation.value
+    if (!TRY_ON_AGE_GROUPS.includes(prefs.ageGroup)) return fail(new WoynuAiError('not_allowed_for_age', 403))
+
+    const photo = parseImageDataUrl(parsed.photo)
+    // The design is optional for the AI: a preview-mode SVG sketch is skipped, and the
+    // prompt then describes the outfit from the specification instead.
+    let design: ImageInput | undefined
+    if (typeof parsed.design === 'string' && !parsed.design.startsWith('data:image/svg+xml')) {
+      design = parseImageDataUrl(parsed.design)
+    }
+
+    const limiter = deps.rateLimiter ?? tryOnLimiter
+    if (!limiter.take(clientKey(request))) {
+      return json({ ok: false, error: { code: 'rate_limited', message: PUBLIC_MESSAGES.rate_limited } }, 429, {
+        'Retry-After': '600',
+      })
+    }
+
+    const { specification } = buildStyleSpecification(prefs, culturalRules)
+    const prompt = buildTryOnPrompt(specification, Boolean(design))
+    const provider = deps.provider ?? createImageProvider(env)
+
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), deps.timeoutMs ?? DEFAULT_TIMEOUT_MS)
+    try {
+      const result = await provider.tryOn(prompt, design ? [photo, design] : [photo], {
+        spec: specification,
+        signal: controller.signal,
+      })
+      return json({ ok: true, result }, 200)
+    } catch (err) {
+      if (controller.signal.aborted && !(err instanceof WoynuAiError)) throw new WoynuAiError('timeout', 504, { cause: err })
+      throw err
+    } finally {
+      clearTimeout(timer)
+    }
+  } catch (err) {
+    // Only codes and provider messages are logged — never image data.
+    if (err instanceof WoynuAiError) {
+      log(err.code, typeof err.cause === 'string' ? err.cause : undefined)
+      return fail(err)
+    }
+    log('unexpected', err instanceof Error ? err.message : undefined)
     return fail(new WoynuAiError('generation_failed', 500))
   }
 }

@@ -1,4 +1,4 @@
-import { fbPhotos } from '../content/media'
+import { pageImages } from '../content/media'
 import { CraftsmanshipTimeline } from '../components/CraftsmanshipTimeline'
 import { PageHeader } from '../components/PageHeader'
 import { Seo } from '../components/Seo'
@@ -17,7 +17,7 @@ export function CraftsmanshipPage() {
         kicker={t('craft.kicker')}
         title={t('craft.title')}
         intro={t('craft.intro')}
-        media={fbPhotos.studioTwo}
+        media={pageImages.craftHeader}
       />
       <CraftsmanshipTimeline heading={false} />
     </div>

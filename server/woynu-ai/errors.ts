@@ -13,6 +13,9 @@ export class WoynuAiError extends Error {
 }
 
 export const PUBLIC_MESSAGES: Record<WoynuErrorCode, string> = {
+  consent_required: 'Please confirm the photo consent to continue.',
+  invalid_photo: 'Please choose a clear JPG, PNG, or WebP photo.',
+  not_allowed_for_age: 'Photo try-on is available for adults only.',
   invalid_input: 'Please check your choices and try again.',
   payload_too_large: 'Your request is too large. Please shorten your note and try again.',
   method_not_allowed: 'This request is not supported.',

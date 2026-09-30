@@ -13,7 +13,7 @@ export function SplitTitle({ text, light = false }: { text: string; light?: bool
 
   return (
     <>
-      <span className={`block ${base}`}>{words.slice(0, cut).join(' ')}</span>
+      <span className={`block ${base}`}>{words.slice(0, cut).join(' ')}</span>{' '}
       <span className={`block italic ${light ? 'text-amber-deep' : 'text-gold'}`}>{words.slice(cut).join(' ')}</span>
     </>
   )

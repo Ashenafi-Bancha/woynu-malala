@@ -71,3 +71,22 @@ export function buildWoynuStylePrompt(
   ]
   return lines.filter(Boolean).join('\n')
 }
+
+/**
+ * Virtual try-on prompt. Image 1 is the visitor's photo; image 2 (when present) is the
+ * generated design. The person's identity must be preserved exactly.
+ */
+export function buildTryOnPrompt(spec: StyleSpecification, hasDesignImage: boolean): string {
+  const outfit = hasDesignImage
+    ? 'the Wolaita-inspired outfit shown in the second image'
+    : `a Wolaita-inspired outfit: ${spec.clothingConcept.toLowerCase()}, in ${paletteText(spec.palette)}`
+  return [
+    'Virtual try-on for Woynu Malala, a cultural clothing studio in Wolaita Sodo, Ethiopia.',
+    `Show the person from the first image wearing ${outfit}.`,
+    'Keep the person exactly as they are: the same face, facial features, expression, skin tone, hair, body shape, and proportions. Do not beautify, slim, whiten, or otherwise alter them.',
+    'Fit the garment naturally to their body with realistic drape, folds, and fabric texture, and keep the woven details and colours of the design.',
+    'Keep the original pose and framing where possible, with soft natural light and a plain warm neutral background.',
+    'Respectful, modest, dignified fashion portrait. One person only.',
+    'Do not include any text, logos, watermarks, or captions.',
+  ].join('\n')
+}

@@ -1,3 +1,4 @@
+import { imageFor, pad2, slot, slugify } from './images'
 import { fbPhotos, shots } from './media'
 import type {
   Collection,
@@ -526,7 +527,7 @@ export const seenWornNote =
 
 // Small preview thumbnails (206×206) saved from the public Facebook page.
 // Replace with full-size originals from the studio when available.
-export const facebookPhotos = [
+const facebookPreviews = [
   { src: '/photos/facebook/fb-01.jpg', alt: 'A couple outdoors in matching red, white, and black Wolaita garments' },
   { src: '/photos/facebook/fb-02.jpg', alt: 'A couple in coordinated Wolaita cultural outfits beside a garden' },
   { src: '/photos/facebook/fb-03.jpg', alt: 'Four women in white dresses with red woven bodices inside the Woynu Malala studio' },
@@ -536,3 +537,35 @@ export const facebookPhotos = [
   { src: '/photos/facebook/fb-07.jpg', alt: 'A woman in a Wolaita dress holding a shopping bag at an evening venue' },
   { src: '/photos/facebook/fb-08.jpg', alt: 'A group in Wolaita dresses in front of a lit monument at night' },
 ]
+
+/** "Seen & worn" gallery: studio photos in images/gallery/01…08 replace the Facebook previews. */
+export const facebookPhotos = facebookPreviews.map((photo, i) => ({
+  ...photo,
+  src: imageFor(`gallery/${pad2(i + 1)}`) ?? photo.src,
+}))
+
+// ---------------------------------------------------------------------------
+// Studio photos: any file saved in src/assets/images/ with the names below
+// replaces the default image automatically (see src/assets/images/README.md).
+// ---------------------------------------------------------------------------
+for (const c of collections) {
+  c.cover = slot(`collections/${c.slug}/cover`, c.cover, `${c.title} — Woynu Malala`)
+  c.designs.forEach((d, i) => {
+    d.images = [slot(`collections/${c.slug}/design-${i + 1}`, d.images[0], `${d.name} — ${c.title}`), ...d.images.slice(1)]
+  })
+}
+looks.forEach((l, i) => {
+  l.image = slot(`lookbook/look-${pad2(i + 1)}`, l.image, `${l.title} — Woynu Malala lookbook`)
+})
+cultureTopics.forEach((topic) => {
+  topic.image = slot(`culture/${slugify(topic.title)}`, topic.image, topic.title)
+})
+craftSteps.forEach((step) => {
+  step.image = slot(`craftsmanship/step-${step.number}`, step.image, `${step.title} — Woynu Malala craftsmanship`)
+})
+occasions.forEach((o) => {
+  o.image = slot(`occasions/${slugify(o.title)}`, o.image, `${o.title} — Woynu Malala`)
+})
+journal.forEach((post) => {
+  post.cover = slot(`journal/${post.slug}`, post.cover, post.title)
+})

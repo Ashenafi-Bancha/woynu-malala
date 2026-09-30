@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { shots } from '../content/media'
+import { pageImages } from '../content/media'
 import { brand, collections, facebookPhotos, journal, occasions, phoneDisplay, social } from '../content/site'
 import { ButtonLink } from '../components/Button'
 import { CollectionGrid } from '../components/CollectionCard'
@@ -50,7 +50,7 @@ export function HomePage() {
         <div className="relative flex items-center justify-center overflow-hidden bg-ink px-8 py-20 md:px-16">
           <div aria-hidden="true" className="absolute inset-0 hidden bg-[radial-gradient(circle_at_50%_50%,rgba(222,160,82,0.16),transparent_60%)] md:block" />
           <Reveal tilt className="w-full max-w-sm md:max-w-md">
-            <Frame3D media={shots.intro} className="aspect-[4/5] w-full" />
+            <Frame3D media={pageImages.homeIntro} className="aspect-[4/5] w-full" />
           </Reveal>
         </div>
       </section>
@@ -105,7 +105,7 @@ export function HomePage() {
 
       {/* Statement */}
       <section className="relative min-h-[70vh] overflow-hidden">
-        <PlaceholderImage media={shots.dusk} className="absolute inset-0 h-full" kenburns showCaption={false} />
+        <PlaceholderImage media={pageImages.homeStatement} className="absolute inset-0 h-full" kenburns showCaption={false} />
         <div className="absolute inset-0 z-[3] bg-ink/55" />
         <div className="relative z-[4] flex min-h-[70vh] items-end px-5 py-20 md:px-12">
           <Reveal tilt>
@@ -265,7 +265,7 @@ export function HomePage() {
         </div>
         <div className="relative hidden items-center justify-center bg-ink px-16 py-20 lg:flex">
           <div className="sticky top-32 w-full max-w-md">
-            <Frame3D media={shots.scissors} className="aspect-[4/5] w-full" caption={t('custom.title')} />
+            <Frame3D media={pageImages.homeCustom} className="aspect-[4/5] w-full" caption={t('custom.title')} />
           </div>
         </div>
       </section>

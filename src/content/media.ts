@@ -1,3 +1,4 @@
+import { slot } from './images'
 import type { MediaAsset } from './types'
 
 const CAPTION = 'Photography — Client Asset Needed'
@@ -102,4 +103,30 @@ export const shots = {
     'Quiet atelier interior',
     'ink',
   ),
+}
+
+/** Stock hero photo (Unsplash, free licence) used until the studio adds images/hero/hero.jpg. */
+const heroStock: MediaAsset = {
+  src: '/photos/hero-stock.jpg',
+  alt: 'A woman in a flowing deep red dress standing in a green forest',
+  placeholder: true,
+  caption: 'Photo: K Studios / Unsplash',
+  tone: 'earth',
+}
+
+/**
+ * One photo per page section. Save a file under src/assets/images/ with the
+ * matching name to replace the default (see the README in that folder).
+ */
+export const pageImages = {
+  hero: slot('hero/hero', heroStock, 'Woynu Malala cultural fashion'),
+  homeIntro: slot('home/intro', shots.intro, 'Woynu Malala studio'),
+  homeStatement: slot('home/statement', shots.dusk, 'Wolaita landscape'),
+  homeCustom: slot('home/custom', shots.scissors, 'Custom design at Woynu Malala'),
+  storyHeader: slot('story/header', fbPhotos.studioFour, 'The Woynu Malala studio'),
+  cultureHeader: slot('culture/header', fbPhotos.groupTrees, 'Wolaita cultural clothing'),
+  craftHeader: slot('craftsmanship/header', fbPhotos.studioTwo, 'Woynu Malala craftsmanship'),
+  customPage: slot('custom/custom', shots.hands, 'Custom design at Woynu Malala'),
+  contactHeader: slot('contact/header', fbPhotos.studioFour, 'The Woynu Malala studio'),
+  woynuAiIntro: slot('woynu-ai/intro', fbPhotos.studioTwo, 'Woynu AI'),
 }

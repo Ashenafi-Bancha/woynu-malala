@@ -76,7 +76,34 @@ export type WoynuStyleResult = {
   design: GeneratedDesign
 }
 
+/** Virtual try-on: the visitor's photo plus the design Woynu AI created for them. */
+export type TryOnRequest = {
+  preferences: WoynuPreferences
+  /** data: URL (JPEG/PNG/WebP), resized in the browser */
+  photo: string
+  /** data: URL of the generated design (from WoynuStyleResult.design.imageUrl) */
+  design: string
+  /** The visitor agreed to their photo being processed by the AI provider */
+  consent: true
+}
+
+export type TryOnResult = {
+  imageUrl: string
+  alt: string
+  mode: 'ai' | 'preview'
+}
+
+export type TryOnApiResponse =
+  | { ok: true; result: TryOnResult }
+  | { ok: false; error: { code: WoynuErrorCode; message: string } }
+
+/** Age groups that may use photo try-on (photos of minors are not accepted). */
+export const TRY_ON_AGE_GROUPS: readonly AgeGroup[] = ['young_adult', 'adult', 'elder']
+
 export type WoynuErrorCode =
+  | 'consent_required'
+  | 'invalid_photo'
+  | 'not_allowed_for_age'
   | 'invalid_input'
   | 'payload_too_large'
   | 'method_not_allowed'
