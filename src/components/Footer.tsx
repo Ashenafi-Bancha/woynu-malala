@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { brand, footerNav, phoneDisplay, social } from '../content/site'
 import { LanguageToggle, useI18n } from '../i18n'
 import { FollowUs } from './FollowUs'
-import { Logo } from './Logo'
 import { navKey } from './Navbar'
 
 import { BrandName } from './BrandName'
@@ -14,8 +13,7 @@ export function Footer() {
     <footer className="border-t border-ivory/10 bg-ink px-5 py-16 md:px-10">
       <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <Logo className="mb-5 h-16 w-16 text-gold" />
-          <BrandName as="p" size="md" />
+          <BrandName as="p" size="md" descriptor={false} />
           {lang === 'en' ? (
             <p lang="am" className="mt-4 font-ethiopic text-sm text-ivory/80">{brand.amharicName}</p>
           ) : null}

@@ -4,7 +4,6 @@ import { nav } from '../content/site'
 import { LanguageToggle, useI18n } from '../i18n'
 import type { Key } from '../i18n/strings'
 import { BrandName } from './BrandName'
-import { Logo } from './Logo'
 
 export const navKey: Record<string, Key> = {
   '/collections': 'nav.collections',
@@ -53,8 +52,7 @@ export function Navbar() {
         }`}
       >
         <Link to="/" aria-label={t('brand.name')} className="flex min-w-0 items-center gap-2.5 md:gap-3">
-          <Logo className="h-9 w-9 shrink-0 text-gold md:h-11 md:w-11" />
-          <BrandName size="sm" />
+          <BrandName size="sm" descriptor={false} />
         </Link>
         <nav className="hidden items-center gap-6 xl:flex xl:gap-8" aria-label="Primary">
           {nav.map((item) => (

@@ -6,6 +6,8 @@ type BrandNameProps = {
   align?: 'left' | 'center' | 'responsive'
   className?: string
   as?: 'span' | 'h1' | 'p'
+  /** Show the 'Cultural Cloth Design and Decor' line under the name */
+  descriptor?: boolean
 }
 
 const styles = {
@@ -37,7 +39,13 @@ const alignments = {
  * The brand wordmark: "Woynu Malala" set big in bold Cormorant Garamond italic,
  * with "Cultural Cloth Design and Decor" as a small, widely spaced caps line beneath.
  */
-export function BrandName({ size = 'md', align = 'left', className = '', as = 'span' }: BrandNameProps) {
+export function BrandName({
+  size = 'md',
+  align = 'left',
+  className = '',
+  as = 'span',
+  descriptor = true,
+}: BrandNameProps) {
   const Tag = as
   const s = styles[size]
   const { t } = useI18n()
@@ -46,9 +54,11 @@ export function BrandName({ size = 'md', align = 'left', className = '', as = 's
       <span className={`block font-display font-bold italic leading-[0.88] tracking-[-0.01em] text-ivory ${s.name}`}>
         {t('brand.shortName')}
       </span>
-      <span className={`block font-sans font-normal uppercase leading-snug text-gold ${s.descriptor}`}>
-        {t('brand.descriptor')}
-      </span>
+      {descriptor ? (
+        <span className={`block font-sans font-normal uppercase leading-snug text-gold ${s.descriptor}`}>
+          {t('brand.descriptor')}
+        </span>
+      ) : null}
     </Tag>
   )
 }
