@@ -1,86 +1,149 @@
-import { pageImages } from '../content/media'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import * as m from 'motion/react-m'
+import { useReducedMotion } from 'motion/react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { imageFor } from '../content/images'
 import { brand } from '../content/site'
 import { useI18n } from '../i18n'
+import { canRender3D, remember3DFallback, whenIdle } from '../lib/device'
 import { BrandName } from './BrandName'
 import { ButtonLink } from './Button'
-import { Tilt3D, depth } from './Tilt3D'
+import { ClothFallback } from './hero/ClothFallback'
 
-const heroPhoto = pageImages.hero
+// Three.js is a separate chunk, fetched only on capable devices once the page is idle.
+const HeroCloth = lazy(() => import('./hero/HeroCloth'))
+
+const container = { hidden: {}, show: { transition: { staggerChildren: 0.11, delayChildren: 0.05 } } }
+const item = {
+  hidden: { opacity: 0, y: 26 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const } },
+}
 
 export function Hero() {
   const { t } = useI18n()
-  return (
-    <section className="relative min-h-[100svh] overflow-hidden bg-ink">
-      {/* Phones and tablets: the photo fills the screen behind the text */}
-      <img
-        src={heroPhoto.src}
-        srcSet={heroPhoto.srcSet}
-        sizes="100vw"
-        alt=""
-        aria-hidden="true"
-        fetchPriority="high"
-        className="hero-media absolute inset-0 h-full w-full object-cover object-[50%_30%] lg:hidden"
-      />
-      <div className="absolute inset-0 bg-linear-to-b from-ink/70 via-ink/45 to-ink/95 lg:hidden" />
+  const reduced = useReducedMotion()
+  const section = useRef<HTMLElement>(null)
+  const text = useRef<HTMLDivElement>(null)
+  const scroll = useRef(0)
+  const [use3D, setUse3D] = useState(false)
+  const [ready3D, setReady3D] = useState(false)
+  const [active, setActive] = useState(true)
+  const studioPhoto = imageFor('hero/hero')
 
-      {/* Desktop: soft gold glow behind the framed photo */}
+  // Load the 3D cloth only where it will run well, and only after the page has settled.
+  useEffect(() => {
+    if (!canRender3D()) return
+    return whenIdle(() => setUse3D(true))
+  }, [])
+
+  // Stop rendering frames when the hero is off screen or the tab is hidden.
+  useEffect(() => {
+    const el = section.current
+    if (!el) return
+    let inView = true
+    const update = () => setActive(inView && document.visibilityState === 'visible')
+    const io = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting
+      update()
+    })
+    io.observe(el)
+    document.addEventListener('visibilitychange', update)
+    return () => {
+      io.disconnect()
+      document.removeEventListener('visibilitychange', update)
+    }
+  }, [])
+
+  // Scroll: the cloth lifts away and the text drifts up and fades.
+  useEffect(() => {
+    if (reduced || !section.current) return
+    gsap.registerPlugin(ScrollTrigger)
+    const ctx = gsap.context(() => {
+      const range = { trigger: section.current, start: 'top top', end: 'bottom top' }
+      ScrollTrigger.create({ ...range, onUpdate: (self) => (scroll.current = self.progress) })
+      gsap.to(text.current, { yPercent: -12, opacity: 0.1, ease: 'none', scrollTrigger: { ...range, scrub: true } })
+    }, section)
+    return () => ctx.revert()
+  }, [reduced])
+
+  const tooSlow = () => {
+    remember3DFallback()
+    setUse3D(false)
+    setReady3D(false)
+  }
+
+  return (
+    <section ref={section} className="relative min-h-[100svh] overflow-hidden bg-ink">
+      {/* A studio photo saved as images/hero/hero.jpg sits softly behind everything */}
+      {studioPhoto ? (
+        <img
+          src={studioPhoto}
+          alt=""
+          aria-hidden="true"
+          fetchPriority="high"
+          className="absolute inset-0 h-full w-full object-cover opacity-30"
+        />
+      ) : null}
       <div
         aria-hidden="true"
         className="absolute right-[-10%] top-1/2 hidden h-[80vh] w-[60vw] -translate-y-1/2 rounded-full bg-gold/10 blur-[120px] lg:block"
       />
 
-      <div className="relative z-[4] mx-auto grid min-h-[100svh] max-w-[1600px] items-center gap-12 px-5 pb-16 pt-28 md:px-12 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
-        <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-          <p className="text-[11px] uppercase tracking-[0.42em] text-gold">{t('brand.place')}</p>
-          <BrandName as="h1" size="xl" align="responsive" className="mt-6" />
-          <div className="gold-rule mt-8 w-40" />
-          <p lang="am" className="mt-6 font-ethiopic text-2xl font-semibold leading-snug text-gold sm:text-3xl md:text-4xl">
-            {brand.amharicSlogan}
-          </p>
-          <p className="mt-4 max-w-lg font-serif text-xl italic leading-snug text-ivory/80 md:text-2xl">
-            {t('brand.statement')}
-          </p>
-          <div className="mt-10 flex flex-wrap justify-center gap-3 lg:justify-start">
-            <ButtonLink to="/collections">{t('hero.explore')}</ButtonLink>
-            <ButtonLink to="/lookbook" variant="ghost">
-              {t('hero.lookbook')}
-            </ButtonLink>
-          </div>
+      <div className="relative mx-auto grid min-h-[100svh] max-w-[1600px] items-center gap-12 px-5 pb-16 pt-28 md:px-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+        {/* The cloth: full-bleed behind the text on phones, its own column on desktop */}
+        <div className="absolute inset-0 lg:relative lg:inset-auto lg:order-2 lg:h-[min(80vh,760px)]">
+          <ClothFallback
+            className={`absolute inset-x-[16%] bottom-[12%] top-[16%] transition-opacity duration-1000 lg:inset-x-[14%] lg:bottom-[8%] lg:top-[8%] ${
+              ready3D ? 'opacity-0' : 'opacity-70 lg:opacity-100'
+            }`}
+          />
+          {use3D ? (
+            <div
+              className={`absolute inset-0 transition-opacity duration-1000 ${ready3D ? 'opacity-75 lg:opacity-100' : 'opacity-0'}`}
+            >
+              <Suspense fallback={null}>
+                <HeroCloth scroll={scroll} active={active} onReady={() => setReady3D(true)} onTooSlow={tooSlow} />
+              </Suspense>
+            </div>
+          ) : null}
+          {/* Keeps the text readable over the cloth on phones */}
+          <div className="absolute inset-0 bg-linear-to-b from-ink/70 via-ink/45 to-ink/90 lg:hidden" />
         </div>
 
-        <div className="hidden lg:block">
-          <Tilt3D max={7} className="mx-auto aspect-[4/5] w-full max-w-[540px]">
-            <div
-              aria-hidden="true"
-              className="absolute -inset-5 border border-gold/40"
-              style={depth(-40)}
-            />
-            <div className="absolute inset-0 overflow-hidden shadow-[0_50px_100px_-30px_rgba(0,0,0,0.9)]">
-              <img
-                src={heroPhoto.src}
-                srcSet={heroPhoto.srcSet}
-                sizes="(min-width: 1024px) 540px, 100vw"
-                alt={heroPhoto.alt}
-                fetchPriority="high"
-                className="hero-media h-full w-full object-cover object-[45%_40%]"
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-ink/60 via-transparent to-transparent" />
-            </div>
-            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4" style={depth(60)}>
-              <p className="font-serif text-2xl italic text-ivory">{t('hero.caption')}</p>
-              {heroPhoto.caption ? (
-                <p className="text-[9px] uppercase tracking-[0.2em] text-ivory/60">{heroPhoto.caption}</p>
-              ) : null}
-            </div>
-          </Tilt3D>
+        <div ref={text} className="relative z-[4] lg:order-1">
+          <m.div
+            variants={container}
+            initial={reduced ? false : 'hidden'}
+            animate="show"
+            className="flex flex-col items-center text-center lg:items-start lg:text-left"
+          >
+            <m.p variants={item} className="text-[11px] uppercase tracking-[0.42em] text-gold">
+              {t('brand.place')}
+            </m.p>
+            <m.div variants={item} className="mt-6">
+              <BrandName as="h1" size="xl" align="responsive" />
+            </m.div>
+            <m.div variants={item} className="gold-rule mt-8 w-40" />
+            <m.p
+              variants={item}
+              lang="am"
+              className="mt-6 font-ethiopic text-2xl font-semibold leading-snug text-gold sm:text-3xl md:text-4xl"
+            >
+              {brand.amharicSlogan}
+            </m.p>
+            <m.p variants={item} className="mt-4 max-w-lg font-serif text-xl italic leading-snug text-ivory/80 md:text-2xl">
+              {t('brand.statement')}
+            </m.p>
+            <m.div variants={item} className="mt-10 flex flex-wrap justify-center gap-3 lg:justify-start">
+              <ButtonLink to="/collections">{t('hero.explore')}</ButtonLink>
+              <ButtonLink to="/contact" variant="ghost">
+                {t('hero.contact')}
+              </ButtonLink>
+            </m.div>
+          </m.div>
         </div>
       </div>
-
-      {heroPhoto.caption ? (
-        <p className="absolute bottom-3 right-4 z-[4] text-[9px] uppercase tracking-[0.2em] text-ivory/50 lg:hidden">
-          {heroPhoto.caption}
-        </p>
-      ) : null}
     </section>
   )
 }

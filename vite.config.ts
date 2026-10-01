@@ -57,6 +57,11 @@ function woynuAiDevApi(env: Record<string, string>): Plugin {
 export default defineConfig(({ mode }) => ({
   // '' loads every variable from .env files for the dev API; only VITE_* reach the browser bundle.
   plugins: [react(), tailwindcss(), woynuAiDevApi(loadEnv(mode, process.cwd(), ''))],
+  build: {
+    // The lazy 3D chunk (Three.js) is ~930 kB raw / 250 kB gzip by nature. It loads only on
+    // capable devices after the page is idle, so it never blocks first paint.
+    chunkSizeWarningLimit: 1000,
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

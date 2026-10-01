@@ -35,7 +35,8 @@ export const en = {
   'brand.followers': 'followers',
 
   // Hero
-  'hero.explore': 'Explore Collections',
+  'hero.explore': 'View Collections',
+  'hero.contact': 'Contact / Order',
   'hero.lookbook': 'View Lookbook',
   'hero.caption': 'Heritage, worn today.',
 
@@ -184,6 +185,7 @@ export const am: Record<Key, string> = {
   'brand.followers': 'ተከታዮች',
 
   'hero.explore': 'ስብስቦችን ይመልከቱ',
+  'hero.contact': 'ያግኙን / ይዘዙ',
   'hero.lookbook': 'የአልባሳት ማሳያ',
   'hero.caption': 'ቅርስ፣ ዛሬም ይለበሳል።',
 

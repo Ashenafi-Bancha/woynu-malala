@@ -1,3 +1,4 @@
+import { domAnimation, LazyMotion } from 'motion/react'
 import { Suspense } from 'react'
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router-dom'
 import { Footer } from './Footer'
@@ -19,7 +20,7 @@ export function Layout() {
   }
 
   return (
-    <>
+    <LazyMotion features={domAnimation} strict>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <main key={pathname} className="page-enter relative min-h-screen">
@@ -54,6 +55,6 @@ export function Layout() {
       </main>
       <Footer />
       <ScrollRestoration />
-    </>
+    </LazyMotion>
   )
 }

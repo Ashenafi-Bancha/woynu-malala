@@ -21,7 +21,7 @@ Vercel updates the live site in about a minute.
 
 | File | Where it appears | Shape |
 |---|---|---|
-| `hero/hero.jpg` | Big opening photo (full screen on phones, framed on desktop) | Portrait 4:5 |
+| `hero/hero.jpg` | Soft background photo behind the 3D cloth in the hero (optional) | Landscape 16:9 on desktop; crops to portrait on phones |
 | `home/intro.jpg` | "Where heritage becomes fashion" section | Portrait 4:5 |
 | `home/statement.jpg` | Wide banner behind "Born from Wolaita heritage" | **Landscape 16:9** |
 | `home/custom.jpg` | Beside the custom design form (desktop) | Portrait 4:5 |

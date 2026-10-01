@@ -105,22 +105,11 @@ export const shots = {
   ),
 }
 
-/** Stock hero photo (Unsplash, free licence) used until the studio adds images/hero/hero.jpg. */
-const heroStock: MediaAsset = {
-  src: '/photos/hero-stock-1280.webp',
-  srcSet: '/photos/hero-stock-720.webp 720w, /photos/hero-stock-1280.webp 1280w',
-  alt: 'A woman in a flowing deep red dress standing in a green forest',
-  placeholder: true,
-  caption: 'Photo: K Studios / Unsplash',
-  tone: 'earth',
-}
-
 /**
  * One photo per page section. Save a file under src/assets/images/ with the
  * matching name to replace the default (see the README in that folder).
  */
 export const pageImages = {
-  hero: slot('hero/hero', heroStock, 'Woynu Malala cultural fashion'),
   homeIntro: slot('home/intro', shots.intro, 'Woynu Malala studio'),
   homeStatement: slot('home/statement', shots.dusk, 'Wolaita landscape'),
   homeCustom: slot('home/custom', shots.scissors, 'Custom design at Woynu Malala'),
