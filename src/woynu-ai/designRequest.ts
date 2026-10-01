@@ -1,5 +1,12 @@
 import type { DesignRequestPrefill } from '../components/CustomDesignForm'
-import { accessoryOptions, colorOptions, labelOf, occasionOptions, styleOptions } from './shared/options'
+import {
+  accessoryOptions,
+  colorOptions,
+  heritageThemeOptions,
+  labelOf,
+  occasionOptions,
+  styleOptions,
+} from './shared/options'
 import type { WoynuStyleResult } from './shared/types'
 
 /**
@@ -16,6 +23,8 @@ export function toDesignRequestPrefill(result: WoynuStyleResult): DesignRequestP
     `Woynu AI concept: ${s.title}.`,
     s.summary,
     `Clothing concept: ${s.clothingConcept}.`,
+    s.dinguza ? 'Cloth: Dinguza (red, black, yellow).' : '',
+    s.heritageTheme && s.heritageTheme !== 'none' ? `Heritage theme: ${labelOf(heritageThemeOptions, s.heritageTheme)}.` : '',
     `Accessories: ${accessories.length ? accessories.join(', ') : 'none'}.`,
     p.additionalPreferences ? `My notes: ${p.additionalPreferences}` : '',
   ]

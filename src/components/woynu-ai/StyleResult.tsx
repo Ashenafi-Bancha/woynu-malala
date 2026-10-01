@@ -1,6 +1,8 @@
 import {
   accessoryOptions,
   colorOptions,
+  dinguzaOption,
+  heritageThemeOptions,
   labelOf,
   occasionOptions,
   styleOptions,
@@ -25,8 +27,10 @@ export function useStyleTitle(result: WoynuStyleResult) {
   const { lang } = useAiText()
   if (lang === 'en') return result.specification.title
   const { stylePreference, occasion } = result.preferences
+  const { heritageTheme, dinguza } = result.specification
   const occasionLabel = occasion === 'other' ? 'ልዩ ዝግጅት' : labelOf(occasionOptions, occasion, 'am')
-  return `${labelOf(styleOptions, stylePreference, 'am')} የ${occasionLabel} ዘይቤ`
+  const theme = heritageTheme && heritageTheme !== 'none' ? `${labelOf(heritageThemeOptions, heritageTheme, 'am')} · ` : ''
+  return `${theme}${labelOf(styleOptions, stylePreference, 'am')} ${dinguza ? 'የድንጉዛ ' : ''}የ${occasionLabel} ዘይቤ`
 }
 
 export function StyleResult({ result, onGenerateAgain, onChangePreferences, onRequestDesign }: StyleResultProps) {
@@ -57,6 +61,10 @@ export function StyleResult({ result, onGenerateAgain, onChangePreferences, onRe
     [a('accessories'), accessories.length ? accessories.map((x) => labelOf(accessoryOptions, x, lang)).join(', ') : labelOf(accessoryOptions, 'none', lang)],
     [a('inspiration'), spec.designInspiration.length ? spec.designInspiration.join(' · ') : '—'],
   ]
+  if (spec.dinguza) rows.splice(2, 0, [a('cloth'), dinguzaOption.label[lang]])
+  if (spec.heritageTheme && spec.heritageTheme !== 'none') {
+    rows.splice(2, 0, [a('theme'), labelOf(heritageThemeOptions, spec.heritageTheme, lang)])
+  }
   if (spec.styleNotes.length) rows.push([a('notes'), spec.styleNotes.join(', ')])
 
   return (

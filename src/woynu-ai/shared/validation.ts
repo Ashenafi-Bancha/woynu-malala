@@ -2,7 +2,9 @@ import {
   ACCESSORIES,
   AGE_GROUPS,
   COLORS,
+  DINGUZA_PALETTE,
   GENDERS,
+  HERITAGE_THEMES,
   MAX_ACCESSORIES,
   MAX_NOTE_LENGTH,
   OCCASIONS,
@@ -54,12 +56,22 @@ export function validatePreferences(input: unknown): ValidationResult {
   if (typeof input !== 'object' || input === null || Array.isArray(input)) {
     return { ok: false, errors: { gender: 'Invalid request.' } }
   }
-  const raw = input as Record<string, unknown>
+  const raw = { ...(input as Record<string, unknown>) }
 
   if (!isOneOf(GENDERS, raw.gender)) errors.gender = 'Please choose an option.'
   if (!isOneOf(AGE_GROUPS, raw.ageGroup)) errors.ageGroup = 'Please choose an age group.'
   if (!isOneOf(OCCASIONS, raw.occasion)) errors.occasion = 'Please choose an occasion.'
   if (!isOneOf(STYLES, raw.stylePreference)) errors.stylePreference = 'Please choose a style.'
+  if (raw.dinguza !== undefined && typeof raw.dinguza !== 'boolean') errors.dinguza = 'Invalid choice.'
+  const dinguza = raw.dinguza === true
+  if (raw.heritageTheme !== undefined && !isOneOf(HERITAGE_THEMES, raw.heritageTheme)) {
+    errors.heritageTheme = 'Unknown heritage theme.'
+  }
+  // Dinguza fixes the palette, so the colour fields are not required and are overridden.
+  if (dinguza) {
+    raw.primaryColor = DINGUZA_PALETTE[0]
+    raw.secondaryColor = DINGUZA_PALETTE[1]
+  }
   if (!isOneOf(COLORS, raw.primaryColor)) errors.primaryColor = 'Please choose a primary colour.'
 
   let secondaryColor: WoynuPreferences['secondaryColor']
@@ -96,6 +108,10 @@ export function validatePreferences(input: unknown): ValidationResult {
       ageGroup: raw.ageGroup as WoynuPreferences['ageGroup'],
       occasion: raw.occasion as WoynuPreferences['occasion'],
       stylePreference: raw.stylePreference as WoynuPreferences['stylePreference'],
+      ...(dinguza ? { dinguza: true } : {}),
+      ...(raw.heritageTheme && raw.heritageTheme !== 'none'
+        ? { heritageTheme: raw.heritageTheme as WoynuPreferences['heritageTheme'] }
+        : {}),
       primaryColor: raw.primaryColor as WoynuPreferences['primaryColor'],
       ...(secondaryColor ? { secondaryColor } : {}),
       accessories: accessories.length ? accessories : ['none'],

@@ -3,11 +3,21 @@ import {
   accessoryOptions,
   ageGroupOptions,
   colorOptions,
+  dinguzaOption,
   genderOptions,
+  heritageThemeOptions,
   occasionOptions,
   styleOptions,
+  type Option,
 } from '../../woynu-ai/shared/options'
-import { MAX_NOTE_LENGTH, type Accessory, type ColorId, type WoynuPreferences } from '../../woynu-ai/shared/types'
+import {
+  DINGUZA_PALETTE,
+  MAX_NOTE_LENGTH,
+  type Accessory,
+  type ColorId,
+  type HeritageTheme,
+  type WoynuPreferences,
+} from '../../woynu-ai/shared/types'
 import { useAiText } from '../../woynu-ai/strings'
 import { Button } from '../Button'
 import { ColorSwatches, OptionCards } from './StyleOptions'
@@ -15,13 +25,20 @@ import { StyleStep } from './StyleStep'
 
 export type Draft = Partial<WoynuPreferences>
 
-const TOTAL_STEPS = 6
+const TOTAL_STEPS = 7
+
+type ClothChoice = 'dinguza' | 'open'
+const clothOptions: Option<ClothChoice>[] = [
+  { id: 'dinguza', label: dinguzaOption.label, description: dinguzaOption.description },
+  { id: 'open', label: dinguzaOption.offLabel, description: dinguzaOption.offDescription },
+]
 
 /** Which fields must be filled before leaving each step. */
 const REQUIRED: (keyof WoynuPreferences)[][] = [
   ['gender', 'ageGroup'],
   ['occasion'],
   ['stylePreference'],
+  [], // heritage: cloth and theme are optional
   ['primaryColor'],
   [],
   [],
@@ -36,7 +53,7 @@ type StyleFormProps = {
 }
 
 export function StyleForm({ draft, onDraftChange, step, onStepChange, onSubmit }: StyleFormProps) {
-  const { a } = useAiText()
+  const { a, lang } = useAiText()
   const [showErrors, setShowErrors] = useState(false)
   const set = <K extends keyof WoynuPreferences>(key: K, value: WoynuPreferences[K] | undefined) =>
     onDraftChange({ ...draft, [key]: value })
@@ -115,7 +132,64 @@ export function StyleForm({ draft, onDraftChange, step, onStepChange, onSubmit }
       ) : null}
 
       {step === 3 ? (
-        <StyleStep index={3} total={TOTAL_STEPS} title={a('s4')} help={a('s4Help')}>
+        <StyleStep index={3} total={TOTAL_STEPS} title={a('sHeritage')} help={a('sHeritageHelp')}>
+          <OptionCards
+            name="cloth"
+            legend={a('cloth')}
+            options={clothOptions}
+            mode="single"
+            value={draft.dinguza ? 'dinguza' : 'open'}
+            onChange={(v) => {
+              const dinguza = v === 'dinguza'
+              onDraftChange({
+                ...draft,
+                dinguza,
+                // Dinguza fixes the palette; leaving it clears the fixed colours
+                primaryColor: dinguza ? DINGUZA_PALETTE[0] : undefined,
+                secondaryColor: dinguza ? DINGUZA_PALETTE[1] : undefined,
+              })
+            }}
+            columns="grid-cols-1 md:grid-cols-2"
+            large
+          />
+          <div>
+            <OptionCards
+              name="heritageTheme"
+              legend={a('themeOptional')}
+              options={heritageThemeOptions}
+              mode="single"
+              value={draft.heritageTheme ?? 'none'}
+              onChange={(v) => set('heritageTheme', v as HeritageTheme)}
+              columns="grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-4"
+              large
+            />
+            <p className="mt-4 max-w-2xl text-xs leading-6 text-ivory/50">{a('themeNote')}</p>
+          </div>
+        </StyleStep>
+      ) : null}
+
+      {step === 4 && draft.dinguza ? (
+        <StyleStep index={4} total={TOTAL_STEPS} title={a('s4')} help={a('dinguzaLocked')}>
+          <ul className="flex flex-wrap gap-6" aria-label={a('palette')}>
+            {DINGUZA_PALETTE.map((id) => {
+              const color = colorOptions.find((c) => c.id === id)
+              return (
+                <li key={id} className="flex flex-col items-center gap-2 text-xs text-ivory/80">
+                  <span
+                    aria-hidden="true"
+                    className="h-16 w-16 rounded-full border-2 border-gold shadow-[inset_0_-6px_12px_rgba(0,0,0,0.25)]"
+                    style={{ backgroundColor: color?.hex }}
+                  />
+                  {color?.label[lang]}
+                </li>
+              )
+            })}
+          </ul>
+        </StyleStep>
+      ) : null}
+
+      {step === 4 && !draft.dinguza ? (
+        <StyleStep index={4} total={TOTAL_STEPS} title={a('s4')} help={a('s4Help')}>
           <ColorSwatches
             name="primaryColor"
             legend={a('primary')}
@@ -143,8 +217,8 @@ export function StyleForm({ draft, onDraftChange, step, onStepChange, onSubmit }
         </StyleStep>
       ) : null}
 
-      {step === 4 ? (
-        <StyleStep index={4} total={TOTAL_STEPS} title={a('s5')} help={a('s5Help')}>
+      {step === 5 ? (
+        <StyleStep index={5} total={TOTAL_STEPS} title={a('s5')} help={a('s5Help')}>
           <OptionCards
             name="accessories"
             legend={a('accessories')}
@@ -163,8 +237,8 @@ export function StyleForm({ draft, onDraftChange, step, onStepChange, onSubmit }
         </StyleStep>
       ) : null}
 
-      {step === 5 ? (
-        <StyleStep index={5} total={TOTAL_STEPS} title={a('s6')}>
+      {step === 6 ? (
+        <StyleStep index={6} total={TOTAL_STEPS} title={a('s6')}>
           <div>
             <label htmlFor="woynu-note" className="text-[11px] uppercase tracking-[0.32em] text-gold">
               {a('s6Label')}

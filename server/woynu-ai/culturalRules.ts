@@ -1,4 +1,4 @@
-import type { AgeGroup, Gender, Occasion, StylePreference } from '../../src/woynu-ai/shared/types.js'
+import type { AgeGroup, Gender, HeritageTheme, Occasion, StylePreference } from '../../src/woynu-ai/shared/types.js'
 
 /**
  * Woynu Cultural Design Library (v1).
@@ -9,6 +9,8 @@ import type { AgeGroup, Gender, Occasion, StylePreference } from '../../src/woyn
  *
  * Source levels:
  *  - 'woynu_verified'    confirmed by Woynu Malala designers (none yet)
+ *  - 'woynu_stated'      told to us by Woynu Malala (e.g. Dinguza colours, heritage themes);
+ *                        awaiting designer detail and reference photos
  *  - 'woynu_observed'    visible in Woynu Malala's own published garments/photos;
  *                        describes what the garments look like, never what they mean
  *  - 'design_direction'  general fashion craft (silhouette, finish), no cultural claim
@@ -20,6 +22,8 @@ import type { AgeGroup, Gender, Occasion, StylePreference } from '../../src/woyn
 
 export type RuleCategory =
   | 'garment'
+  | 'fabric'
+  | 'heritage_theme'
   | 'design_element'
   | 'pattern'
   | 'modern_interpretation'
@@ -29,7 +33,7 @@ export type RuleCategory =
   | 'cultural_note'
   | 'reference'
 
-export type RuleSource = 'woynu_verified' | 'woynu_observed' | 'design_direction' | 'placeholder'
+export type RuleSource = 'woynu_verified' | 'woynu_stated' | 'woynu_observed' | 'design_direction' | 'placeholder'
 
 export interface CulturalDesignRule {
   id: string
@@ -42,6 +46,10 @@ export interface CulturalDesignRule {
   applicableOccasions?: Occasion[]
   applicableGenders?: Gender[]
   applicableAgeGroups?: AgeGroup[]
+  /** Only used when the visitor picks one of these heritage themes */
+  applicableThemes?: HeritageTheme[]
+  /** true: only with Dinguza; false: never with Dinguza; omitted: either */
+  dinguza?: boolean
   /** Path to an approved reference image (for future image-guided generation) */
   imageReference?: string
   source: RuleSource
@@ -59,6 +67,7 @@ export const culturalRules: CulturalDesignRule[] = [
     promptHint:
       'a white base fabric with rich red woven panels and narrow vertical woven stripe bands, in the visual signature of the Woynu Malala studio',
     applicableStyles: ['traditional', 'traditional_modern'],
+    dinguza: false,
     imageReference: '/photos/facebook/fb-03.jpg',
     source: 'woynu_observed',
     verified: false,
@@ -94,6 +103,55 @@ export const culturalRules: CulturalDesignRule[] = [
     description: 'Striped woven trim at cuffs, hems, and necklines.',
     promptHint: 'striped woven trim at the cuffs, hem, and neckline',
     source: 'woynu_observed',
+    verified: false,
+  },
+
+  // --- Stated by Woynu Malala: Dinguza and heritage themes ---
+  {
+    id: 'fabric-dinguza',
+    category: 'fabric',
+    name: 'Dinguza woven cloth',
+    description:
+      'Wolaita Dinguza cloth in red, black, and yellow (colours as stated by Woynu Malala). Stripe order, proportions, and reference photos to be supplied by the designers.',
+    promptHint:
+      'made from Wolaita Dinguza woven cloth: bold woven stripes in red, black, and yellow only, with a visible handwoven texture',
+    dinguza: true,
+    source: 'woynu_stated',
+    verified: false,
+  },
+  {
+    id: 'theme-land-of-kings',
+    category: 'heritage_theme',
+    name: 'Land of Kings',
+    description:
+      'Heritage statement from Woynu Malala: Wolaita is the land of 50+ kings. Design interpretation (to be verified): a regal, ceremonial presence.',
+    promptHint:
+      'a regal, stately presence: a long layered silhouette with a draped shoulder cloth and rich, dense weaving, worn with dignity',
+    applicableThemes: ['land_of_kings'],
+    source: 'design_direction',
+    verified: false,
+  },
+  {
+    id: 'theme-seven-gates',
+    category: 'heritage_theme',
+    name: 'Seven Gates',
+    description:
+      'Heritage statement from Woynu Malala: there are seven gates to Wolaita Sodo town. Design interpretation (to be verified): a motif of seven.',
+    promptHint: 'a motif of seven: exactly seven bold woven bands or panels arranged in a steady rhythm across the garment',
+    applicableThemes: ['seven_gates'],
+    source: 'design_direction',
+    verified: false,
+  },
+  {
+    id: 'theme-warrior-heritage',
+    category: 'heritage_theme',
+    name: 'Warrior Heritage',
+    description:
+      'Heritage statement from Woynu Malala: Wolaita\u2019s history of war and courage. Design interpretation (to be verified): strength expressed through cut and contrast, never through weapons.',
+    promptHint:
+      'strength and courage expressed through the cut: a strong structured silhouette with defined shoulders, a firmly wrapped waist, and bold high-contrast stripes',
+    applicableThemes: ['warrior_heritage'],
+    source: 'design_direction',
     verified: false,
   },
 
@@ -165,6 +223,22 @@ export const culturalRules: CulturalDesignRule[] = [
     verified: false,
   },
   {
+    id: 'dinguza-styles',
+    category: 'fabric',
+    name: '[Historical Dinguza styles: names, periods, stripe layouts, reference photos. Woynu Malala designers to provide]',
+    description: 'One entry per historical style once verified, each with approved reference images.',
+    source: 'placeholder',
+    verified: false,
+  },
+  {
+    id: 'heritage-history',
+    category: 'heritage_theme',
+    name: '[Heritage history details: kings, the seven gates, war history. Woynu Malala or cultural experts to provide]',
+    description: 'Verified text and approved visual symbols for each heritage theme.',
+    source: 'placeholder',
+    verified: false,
+  },
+  {
     id: 'age-guidance',
     category: 'cultural_note',
     name: '[Age-specific guidance — Woynu Malala designers to provide]',
@@ -179,6 +253,8 @@ type RuleQuery = {
   occasion: Occasion
   gender: Gender
   ageGroup: AgeGroup
+  heritageTheme?: HeritageTheme
+  dinguza?: boolean
 }
 
 const matches = <T>(list: T[] | undefined, value: T) => !list || list.includes(value)
@@ -192,6 +268,9 @@ export function selectRules(query: RuleQuery, rules: CulturalDesignRule[] = cult
       matches(r.applicableStyles, query.stylePreference) &&
       matches(r.applicableOccasions, query.occasion) &&
       matches(r.applicableGenders, query.gender) &&
-      matches(r.applicableAgeGroups, query.ageGroup),
+      matches(r.applicableAgeGroups, query.ageGroup) &&
+      // Theme rules apply only when that theme is chosen
+      (!r.applicableThemes || (query.heritageTheme !== undefined && r.applicableThemes.includes(query.heritageTheme))) &&
+      (r.dinguza === undefined || r.dinguza === Boolean(query.dinguza)),
   )
 }

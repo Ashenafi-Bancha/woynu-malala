@@ -1,4 +1,4 @@
-import type { Accessory, AgeGroup, ColorId, Gender, Occasion, StylePreference } from './types.js'
+import type { Accessory, AgeGroup, ColorId, Gender, HeritageTheme, Occasion, StylePreference } from './types.js'
 
 // Display options for Woynu AI, in English and Amharic. The server uses the English
 // labels when writing the design brief. Colour entries carry no cultural meanings:
@@ -95,6 +95,53 @@ export const styleOptions: Option<StylePreference>[] = [
     },
   },
 ]
+
+/**
+ * Heritage themes, as stated by Woynu Malala. The descriptions are the studio's own
+ * heritage statements; how each one shapes a garment is a design interpretation and
+ * lives in server/woynu-ai/culturalRules.ts. Designers should verify both.
+ */
+export const heritageThemeOptions: Option<HeritageTheme>[] = [
+  {
+    id: 'none',
+    label: { en: 'No theme', am: 'ያለ ጭብጥ' },
+    description: { en: 'Keep the design free of a heritage story.', am: 'ዲዛይኑ ያለ ቅርስ ታሪክ ይሁን።' },
+  },
+  {
+    id: 'land_of_kings',
+    label: { en: 'Land of Kings', am: 'የነገሥታት ምድር' },
+    description: {
+      en: 'Inspired by Wolaita’s heritage as the land of 50+ kings.',
+      am: 'ከ50 በላይ ነገሥታት ምድር በሆነችው ወላይታ ቅርስ የተነሳሳ።',
+    },
+  },
+  {
+    id: 'seven_gates',
+    label: { en: 'Seven Gates', am: 'ሰባቱ በሮች' },
+    description: {
+      en: 'Inspired by the seven gates of Wolaita Sodo.',
+      am: 'በወላይታ ሶዶ ሰባት በሮች የተነሳሳ።',
+    },
+  },
+  {
+    id: 'warrior_heritage',
+    label: { en: 'Warrior Heritage', am: 'የጀግንነት ቅርስ' },
+    description: {
+      en: 'Inspired by Wolaita’s history of courage in defending its land.',
+      am: 'ወላይታ ምድሯን በመከላከል ባሳየችው የጀግንነት ታሪክ የተነሳሳ።',
+    },
+  },
+]
+
+export const dinguzaOption = {
+  label: { en: 'Dinguza', am: 'ድንጉዛ' },
+  description: {
+    en: 'Wolaita Dinguza woven cloth, in its red, black, and yellow.',
+    am: 'የወላይታ ድንጉዛ ሽመና፣ በቀይ፣ ጥቁር እና ቢጫ ቀለሞቹ።',
+  },
+  offLabel: { en: 'Open palette', am: 'ነፃ የቀለም ምርጫ' },
+  offDescription: { en: 'Choose your own colours in the next step.', am: 'በሚቀጥለው ደረጃ የራስዎን ቀለሞች ይምረጡ።' },
+}
 
 export type ColorOption = Option<ColorId> & { hex: string }
 

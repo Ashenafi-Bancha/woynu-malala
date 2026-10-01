@@ -24,7 +24,13 @@ export const ACCESSORIES = [
   'none',
 ] as const
 
+/** Heritage stories a design can be inspired by. 'none' means no theme. */
+export const HERITAGE_THEMES = ['none', 'land_of_kings', 'seven_gates', 'warrior_heritage'] as const
+/** Dinguza is woven in these three colours. */
+export const DINGUZA_PALETTE = ['red', 'black', 'yellow'] as const satisfies readonly (typeof COLORS)[number][]
+
 export type Gender = (typeof GENDERS)[number]
+export type HeritageTheme = (typeof HERITAGE_THEMES)[number]
 export type AgeGroup = (typeof AGE_GROUPS)[number]
 export type Occasion = (typeof OCCASIONS)[number]
 export type StylePreference = (typeof STYLES)[number]
@@ -37,6 +43,9 @@ export type WoynuPreferences = {
   ageGroup: AgeGroup
   occasion: Occasion
   stylePreference: StylePreference
+  /** Use Wolaita Dinguza cloth; the palette is then fixed to red, black and yellow */
+  dinguza?: boolean
+  heritageTheme?: HeritageTheme
   primaryColor: ColorId
   secondaryColor?: ColorId
   accessories: Accessory[]
@@ -49,6 +58,8 @@ export type StyleSpecification = {
   summary: string
   occasion: Occasion
   stylePreference: StylePreference
+  dinguza: boolean
+  heritageTheme: HeritageTheme
   palette: ColorId[]
   accessories: Accessory[]
   clothingConcept: string

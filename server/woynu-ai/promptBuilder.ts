@@ -47,6 +47,8 @@ export function buildWoynuStylePrompt(
   const subject = SUBJECT[prefs.ageGroup][prefs.gender]
   const occasion = OCCASION_PHRASE[prefs.occasion] ?? `a ${labelOf(occasionOptions, prefs.occasion).toLowerCase()}`
   const garments = hintsFor(rules, ['reference', 'garment', 'modern_interpretation'])
+  const fabric = hintsFor(rules, ['fabric'])
+  const themes = hintsFor(rules, ['heritage_theme'])
   const details = hintsFor(rules, ['design_element'])
   const finish = hintsFor(rules, ['occasion'])
   const accessories = prefs.accessories.filter((a): a is Exclude<Accessory, 'none'> => a !== 'none')
@@ -57,6 +59,10 @@ export function buildWoynuStylePrompt(
     `Create a full-length editorial fashion photograph of ${subject} wearing a Wolaita-inspired outfit designed for ${occasion}.`,
     `Style direction: ${STYLE_DIRECTION[prefs.stylePreference]}.`,
     garments.length ? `Garment: ${garments.join('; ')}.` : '',
+    fabric.length ? `Fabric: ${fabric.join('; ')}.` : '',
+    themes.length
+      ? `Heritage theme, expressed only through the garment's design: ${themes.join('; ')}. Do not depict weapons, battle scenes, crowns, thrones, gates, buildings, flags, or historical figures.`
+      : '',
     details.length ? `Details: ${details.join('; ')}.` : '',
     finish.length ? `Finish: ${finish.join('; ')}.` : '',
     `Colour palette: ${paletteText(spec.palette)}${spec.palette.length === 2 ? ', with the first colour dominant' : ''}. Use only these garment colours.`,

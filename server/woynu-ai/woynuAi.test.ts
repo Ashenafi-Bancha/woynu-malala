@@ -370,3 +370,52 @@ describe('OpenAIImageProvider.tryOn', () => {
     expect(form.get('prompt')).toBe('PROMPT')
   })
 })
+
+describe('Dinguza and heritage themes', () => {
+  it('fixes the palette to red, black and yellow when Dinguza is chosen', () => {
+    const r = validatePreferences({ ...valid, dinguza: true, primaryColor: 'green', secondaryColor: 'white' })
+    expect(r.ok && r.value.primaryColor).toBe('red')
+    expect(r.ok && r.value.secondaryColor).toBe('black')
+    if (!r.ok) return
+    const { specification } = buildStyleSpecification(r.value)
+    expect(specification.palette).toEqual(['red', 'black', 'yellow'])
+    expect(specification.dinguza).toBe(true)
+    expect(specification.title).toContain('Dinguza')
+  })
+
+  it('accepts Dinguza without any colour choice, and rejects unknown themes', () => {
+    const { primaryColor: _p, secondaryColor: _s, ...noColours } = valid
+    expect(validatePreferences({ ...noColours, dinguza: true }).ok).toBe(true)
+    expect(validatePreferences({ ...valid, heritageTheme: 'land_of_dragons' }).ok).toBe(false)
+    expect(validatePreferences({ ...valid, dinguza: 'yes' }).ok).toBe(false)
+  })
+
+  it('puts Dinguza cloth in the prompt and leaves out the white studio signature', () => {
+    const prefs = { ...valid, dinguza: true, primaryColor: 'red' as const, secondaryColor: 'black' as const }
+    const { specification, rules } = buildStyleSpecification(prefs)
+    const prompt = buildWoynuStylePrompt(prefs, specification, rules)
+    expect(prompt).toContain('Dinguza woven cloth')
+    expect(prompt).toContain('red, black and yellow')
+    expect(prompt).not.toContain('white base fabric')
+  })
+
+  it('adds a theme only when chosen, as a garment design and never as historical imagery', () => {
+    const plain = buildStyleSpecification(valid)
+    expect(buildWoynuStylePrompt(valid, plain.specification, plain.rules)).not.toContain('Heritage theme')
+
+    const prefs = { ...valid, heritageTheme: 'seven_gates' as const }
+    const { specification, rules } = buildStyleSpecification(prefs)
+    const prompt = buildWoynuStylePrompt(prefs, specification, rules)
+    expect(prompt).toContain('exactly seven bold woven bands')
+    expect(prompt).toContain('Do not depict weapons, battle scenes')
+    expect(prompt).not.toContain('regal')
+    expect(specification.title.startsWith('Seven Gates · ')).toBe(true)
+    expect(specification.heritageTheme).toBe('seven_gates')
+  })
+
+  it('keeps every theme and Dinguza rule marked unverified until the studio confirms them', () => {
+    const added = culturalRules.filter((r) => r.category === 'heritage_theme' || r.category === 'fabric')
+    expect(added.length).toBeGreaterThan(0)
+    expect(added.every((r) => r.verified === false)).toBe(true)
+  })
+})

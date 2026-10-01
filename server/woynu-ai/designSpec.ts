@@ -1,11 +1,17 @@
 import {
   accessoryOptions,
   colorOptions,
+  heritageThemeOptions,
   labelOf,
   occasionOptions,
   styleOptions,
 } from '../../src/woynu-ai/shared/options.js'
-import type { ColorId, StyleSpecification, WoynuPreferences } from '../../src/woynu-ai/shared/types.js'
+import {
+  DINGUZA_PALETTE,
+  type ColorId,
+  type StyleSpecification,
+  type WoynuPreferences,
+} from '../../src/woynu-ai/shared/types.js'
 import { culturalRules, selectRules, type CulturalDesignRule } from './culturalRules.js'
 
 /**
@@ -41,7 +47,8 @@ const colorName = (id: ColorId) => labelOf(colorOptions, id).toLowerCase()
 
 export function paletteText(palette: ColorId[]): string {
   const names = palette.map(colorName)
-  return names.length === 2 ? `${names[0]} and ${names[1]}` : names[0]
+  if (names.length <= 1) return names[0]
+  return `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`
 }
 
 export type BuiltSpecification = {
@@ -56,12 +63,22 @@ export function buildStyleSpecification(
   rules: CulturalDesignRule[] = culturalRules,
 ): BuiltSpecification {
   const selected = selectRules(prefs, rules)
-  const palette: ColorId[] = prefs.secondaryColor ? [prefs.primaryColor, prefs.secondaryColor] : [prefs.primaryColor]
+  const dinguza = prefs.dinguza === true
+  const heritageTheme = prefs.heritageTheme ?? 'none'
+  const palette: ColorId[] = dinguza
+    ? [...DINGUZA_PALETTE]
+    : prefs.secondaryColor
+      ? [prefs.primaryColor, prefs.secondaryColor]
+      : [prefs.primaryColor]
   const accessories = prefs.accessories.filter((a) => a !== 'none')
 
   const styleLabel = labelOf(styleOptions, prefs.stylePreference)
   const occasionLabel = prefs.occasion === 'other' ? 'Occasion' : labelOf(occasionOptions, prefs.occasion)
-  const title = `${styleLabel} ${occasionLabel} Style`.replace('Everyday Wear Style', 'Everyday Style')
+  const themePrefix = heritageTheme === 'none' ? '' : `${labelOf(heritageThemeOptions, heritageTheme)} · `
+  const title = `${themePrefix}${styleLabel} ${dinguza ? 'Dinguza ' : ''}${occasionLabel} Style`.replace(
+    'Everyday Wear Style',
+    'Everyday Style',
+  )
 
   const accessoryText = accessories.length
     ? ` and ${accessories.map((a) => labelOf(accessoryOptions, a).toLowerCase()).join(', ')}`
@@ -72,21 +89,33 @@ export function buildStyleSpecification(
     traditional_modern: `A contemporary cultural fashion concept combining traditional-inspired elements with a modern silhouette, in ${paletteText(palette)}${accessoryText}.`,
   }
 
-  const garmentRules = selected.filter((r) => r.category === 'garment' || r.category === 'modern_interpretation')
+  const themeSentence =
+    heritageTheme === 'none' ? '' : ` ${heritageThemeOptions.find((t) => t.id === heritageTheme)?.description?.en ?? ''}`
+  const fabricSentence = dinguza ? ' Woven as Wolaita Dinguza cloth.' : ''
+
+  const garmentRules = selected.filter((r) => ['fabric', 'garment', 'modern_interpretation'].includes(r.category))
   const clothingConcept = garmentRules.length
     ? garmentRules.map((r) => r.name).join(' · ')
     : 'A garment concept shaped by your chosen style and occasion'
 
   const designInspiration = selected
     .filter((r) => r.category !== 'occasion')
-    .map((r) => (r.source === 'woynu_observed' ? `${r.name} (from Woynu Malala’s published garments)` : r.name))
+    .map((r) =>
+      r.source === 'woynu_observed'
+        ? `${r.name} (from Woynu Malala\u2019s published garments)`
+        : r.category === 'heritage_theme'
+          ? `${r.name} (heritage theme, design interpretation)`
+          : r.name,
+    )
 
   return {
     specification: {
       title,
-      summary: summaryByStyle[prefs.stylePreference],
+      summary: `${summaryByStyle[prefs.stylePreference]}${fabricSentence}${themeSentence}`,
       occasion: prefs.occasion,
       stylePreference: prefs.stylePreference,
+      dinguza,
+      heritageTheme,
       palette,
       accessories: prefs.accessories,
       clothingConcept,
