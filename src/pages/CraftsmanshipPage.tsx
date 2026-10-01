@@ -1,5 +1,5 @@
 import { pageImages } from '../content/media'
-import { CraftsmanshipTimeline } from '../components/CraftsmanshipTimeline'
+import { ProcessPinned } from '../components/ProcessPinned'
 import { PageHeader } from '../components/PageHeader'
 import { Seo } from '../components/Seo'
 import { useI18n } from '../i18n'
@@ -19,7 +19,7 @@ export function CraftsmanshipPage() {
         intro={t('craft.intro')}
         media={pageImages.craftHeader}
       />
-      <CraftsmanshipTimeline heading={false} />
+      <ProcessPinned />
     </div>
   )
 }
