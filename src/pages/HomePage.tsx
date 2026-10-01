@@ -25,12 +25,30 @@ const snapItem = 'w-[78vw] max-w-sm shrink-0 snap-center lg:w-auto lg:max-w-none
 const cultureTeasers = ['Traditional clothing', 'Patterns', 'Colors', 'Modern interpretation']
 
 export function HomePage() {
-  const { t, c } = useI18n()
+  const { t, c, lang } = useI18n()
   const { a } = useAiText()
   return (
     <>
       <Seo path="/" />
       <Hero />
+
+      {/* Slogan */}
+      <section className="relative overflow-hidden border-y border-gold/25 bg-ink-soft px-5 py-16 text-center md:py-24">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 hidden h-64 w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-[110px] md:block"
+        />
+        <Reveal tilt className="relative">
+          <div className="gold-rule mx-auto w-32" />
+          <p lang="am" className="mx-auto mt-8 max-w-4xl font-ethiopic text-3xl font-semibold leading-snug text-ivory sm:text-4xl md:text-6xl">
+            {brand.amharicSlogan}
+          </p>
+          {lang === 'en' ? (
+            <p className="mt-6 font-serif text-xl italic text-gold md:text-2xl">{brand.sloganTranslation}</p>
+          ) : null}
+          <div className="gold-rule mx-auto mt-8 w-32" />
+        </Reveal>
+      </section>
 
       {/* Introduction */}
       <section className="grid items-stretch lg:grid-cols-2">

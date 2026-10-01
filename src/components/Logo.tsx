@@ -11,7 +11,7 @@ export function Logo({ className = 'h-10 w-10' }: { className?: string }) {
       width={256}
       height={256}
       decoding="async"
-      className={`block object-cover ${className}`}
+      className={`block rounded-full object-cover ${className}`}
     />
   )
 }

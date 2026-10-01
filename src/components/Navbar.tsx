@@ -7,6 +7,7 @@ import { BrandName } from './BrandName'
 import { Logo } from './Logo'
 
 export const navKey: Record<string, Key> = {
+  '/': 'nav.home',
   '/collections': 'nav.collections',
   '/lookbook': 'nav.lookbook',
   '/story': 'nav.story',
@@ -56,11 +57,12 @@ export function Navbar() {
           <Logo className="h-10 w-10 shrink-0 md:h-12 md:w-12" />
           <BrandName size="sm" descriptor={false} />
         </Link>
-        <nav className="hidden items-center gap-6 xl:flex xl:gap-8" aria-label="Primary">
+        <nav className="hidden items-center gap-5 xl:flex 2xl:gap-8" aria-label="Primary">
           {nav.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
+              end={item.to === '/'}
               className={({ isActive }) =>
                 `whitespace-nowrap text-[11px] uppercase tracking-[0.28em] transition ${
                   isActive ? 'text-gold' : 'text-ivory/80 hover:text-gold'
@@ -95,6 +97,7 @@ export function Navbar() {
               <NavLink
                 key={item.to}
                 to={item.to}
+                end={item.to === '/'}
                 className={({ isActive }) =>
                   `flex items-baseline gap-4 border-b border-ivory/10 py-4 font-serif text-3xl italic transition ${
                     isActive ? 'text-gold' : 'text-ivory'

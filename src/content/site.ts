@@ -25,6 +25,7 @@ export const brand = {
 }
 
 export const nav = [
+  { to: '/', label: 'Home' },
   { to: '/collections', label: 'Collections' },
   { to: '/lookbook', label: 'Lookbook' },
   { to: '/story', label: 'Our Story' },

@@ -4,6 +4,8 @@
 
 export const en = {
   // Navigation & chrome
+  'nav.home': 'Home',
+  'nav.backHome': 'Back to home',
   'nav.collections': 'Collections',
   'nav.lookbook': 'Lookbook',
   'nav.story': 'Our Story',
@@ -152,6 +154,8 @@ export const en = {
 export type Key = keyof typeof en
 
 export const am: Record<Key, string> = {
+  'nav.home': 'መነሻ',
+  'nav.backHome': 'ወደ መነሻ ተመለስ',
   'nav.collections': 'ስብስቦች',
   'nav.lookbook': 'የአልባሳት ማሳያ',
   'nav.story': 'ታሪካችን',

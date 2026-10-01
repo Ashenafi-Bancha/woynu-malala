@@ -19,6 +19,7 @@ export function Footer() {
           {lang === 'en' ? (
             <p lang="am" className="mt-4 font-ethiopic text-sm text-ivory/80">{brand.amharicName}</p>
           ) : null}
+          <p lang="am" className="mt-4 font-ethiopic text-lg font-semibold text-gold">{brand.amharicSlogan}</p>
           <p className="mt-3 text-sm text-ivory/70">{t('brand.tagline')}</p>
           <p className="mt-1 text-sm text-ivory/70">{t('brand.location')}</p>
           <LanguageToggle className="mt-6" />

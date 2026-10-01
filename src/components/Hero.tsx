@@ -32,7 +32,7 @@ export function Hero() {
           <p className="text-[11px] uppercase tracking-[0.42em] text-gold">{t('brand.place')}</p>
           <BrandName as="h1" size="xl" align="responsive" className="mt-6" />
           <div className="gold-rule mt-8 w-40" />
-          <p lang="am" className="mt-6 font-ethiopic text-base text-ivory/90 md:text-lg">
+          <p lang="am" className="mt-6 font-ethiopic text-2xl font-semibold leading-snug text-gold sm:text-3xl md:text-4xl">
             {brand.amharicSlogan}
           </p>
           <p className="mt-4 max-w-lg font-serif text-xl italic leading-snug text-ivory/80 md:text-2xl">
