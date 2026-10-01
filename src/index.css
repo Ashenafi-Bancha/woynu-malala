@@ -9,12 +9,13 @@
 @font-face {
   font-family: "WM Serif Fallback";
   src: local("Times New Roman"), local("TimesNewRomanPSMT"), local("Times");
-  size-adjust: 89%;
+  /* a touch above the measured 89%, so swapping to the real font never makes text larger */
+  size-adjust: 92%;
 }
 @font-face {
   font-family: "WM Serif Fallback Wide";
   src: local("Noto Serif"), local("Georgia"), local("DejaVu Serif");
-  size-adjust: 72%;
+  size-adjust: 74%;
 }
 
 @theme {
