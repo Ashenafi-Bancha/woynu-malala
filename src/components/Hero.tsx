@@ -1,6 +1,6 @@
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { Component, lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react'
 import { imageFor } from '../content/images'
 import { brand } from '../content/site'
 import { useI18n } from '../i18n'
@@ -11,6 +11,20 @@ import { ClothFallback } from './hero/ClothFallback'
 
 // Three.js is a separate chunk, fetched only on capable devices once the page is idle.
 const HeroCloth = lazy(() => import('./hero/HeroCloth'))
+
+/** If WebGL fails to start (or the 3D chunk fails to load), fall back to the still cloth. */
+class ClothBoundary extends Component<{ onError: () => void; children: ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+  componentDidCatch() {
+    this.props.onError()
+  }
+  render() {
+    return this.state.failed ? null : this.props.children
+  }
+}
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.11, delayChildren: 0.05 } } }
 const ease = [0.22, 1, 0.36, 1] as const
@@ -127,9 +141,11 @@ export function Hero() {
             <div
               className={`absolute inset-0 transition-opacity duration-1000 ${ready3D ? 'opacity-75 lg:opacity-100' : 'opacity-0'}`}
             >
-              <Suspense fallback={null}>
-                <HeroCloth scroll={scroll} active={active} onReady={() => setReady3D(true)} onTooSlow={tooSlow} />
-              </Suspense>
+              <ClothBoundary onError={tooSlow}>
+                <Suspense fallback={null}>
+                  <HeroCloth scroll={scroll} active={active} onReady={() => setReady3D(true)} onTooSlow={tooSlow} />
+                </Suspense>
+              </ClothBoundary>
             </div>
           ) : null}
           {/* Keeps the text readable over the cloth on phones */}

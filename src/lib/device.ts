@@ -15,14 +15,10 @@ export const prefersReducedMotion = () =>
 export const hasFinePointer = () =>
   typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
-function hasWebGL(): boolean {
-  try {
-    const canvas = document.createElement('canvas')
-    return Boolean(canvas.getContext('webgl2'))
-  } catch {
-    return false
-  }
-}
+// Only checks that the browser has WebGL 2 at all. Actually creating a context here would
+// cost tens of milliseconds on every page load; if creation later fails, the 3D component's
+// error boundary switches to the still fallback.
+const hasWebGL = () => 'WebGL2RenderingContext' in window
 
 /**
  * 3D is skipped for: reduced-motion users, data-saver mode, slow connections, devices
