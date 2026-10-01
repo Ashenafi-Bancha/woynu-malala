@@ -72,8 +72,8 @@ export function Hero() {
     if (reduced || !section.current) return
     let revert = () => {}
     let cancelled = false
-    // GSAP is not needed for the first paint, so it is fetched once the page is idle.
-    const cancelIdle = whenIdle(async () => {
+    // GSAP only drives scroll effects, so it is fetched on the visitor's first scroll.
+    const load = async () => {
       const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([import('gsap'), import('gsap/ScrollTrigger')])
       if (cancelled || !section.current) return
       gsap.registerPlugin(ScrollTrigger)
@@ -83,10 +83,11 @@ export function Hero() {
         gsap.to(text.current, { yPercent: -12, opacity: 0.1, ease: 'none', scrollTrigger: { ...range, scrub: true } })
       }, section)
       revert = () => ctx.revert()
-    })
+    }
+    window.addEventListener('scroll', load, { once: true, passive: true })
     return () => {
       cancelled = true
-      cancelIdle()
+      window.removeEventListener('scroll', load)
       revert()
     }
   }, [reduced])
