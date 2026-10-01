@@ -15,10 +15,20 @@ import { ClothFallback } from './hero/ClothFallback'
 const HeroCloth = lazy(() => import('./hero/HeroCloth'))
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.11, delayChildren: 0.05 } } }
+const ease = [0.22, 1, 0.36, 1] as const
 const item = {
   hidden: { opacity: 0, y: 26 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
 }
+// The name is the page's largest element: it is painted from the very first frame
+// (never fully transparent) so it doesn't delay Largest Contentful Paint.
+const title = {
+  hidden: { opacity: 0.45, y: 22 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
+}
+
+/** Give the page a few quiet seconds before the 3D download starts competing for the phone. */
+const START_3D_AFTER_MS = 3000
 
 export function Hero() {
   const { t } = useI18n()
@@ -34,7 +44,14 @@ export function Hero() {
   // Load the 3D cloth only where it will run well, and only after the page has settled.
   useEffect(() => {
     if (!canRender3D()) return
-    return whenIdle(() => setUse3D(true))
+    let timer = 0
+    const cancelIdle = whenIdle(() => {
+      timer = window.setTimeout(() => setUse3D(true), START_3D_AFTER_MS)
+    })
+    return () => {
+      cancelIdle()
+      window.clearTimeout(timer)
+    }
   }, [])
 
   // Stop rendering frames when the hero is off screen or the tab is hidden.
@@ -121,7 +138,7 @@ export function Hero() {
             <m.p variants={item} className="text-[11px] uppercase tracking-[0.42em] text-gold">
               {t('brand.place')}
             </m.p>
-            <m.div variants={item} className="mt-6">
+            <m.div variants={title} className="mt-6">
               <BrandName as="h1" size="xl" align="responsive" />
             </m.div>
             <m.div variants={item} className="gold-rule mt-8 w-40" />

@@ -65,7 +65,7 @@ export function LanguageToggle({ className = '' }: { className?: string }) {
       onClick={() => setLang(value)}
       aria-pressed={lang === value}
       lang={value}
-      className={`min-h-9 min-w-10 px-2.5 text-[11px] tracking-[0.12em] transition ${
+      className={`min-h-9 min-w-10 px-2.5 text-[11px] tracking-[0.12em] transition ${value === 'am' ? 'font-ethiopic' : ''} ${
         lang === value ? 'bg-gold text-ink' : 'text-ivory/75 hover:text-gold'
       }`}
     >
