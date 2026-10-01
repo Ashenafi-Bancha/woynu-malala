@@ -1,10 +1,27 @@
 @import "tailwindcss";
 
+/*
+ * Fallbacks sized to match Cormorant Garamond, which is narrower than system serif fonts.
+ * Without these, headings wrap differently in the fallback font and jump when the real
+ * font arrives. Measured: Cormorant is ~89% the width of Times New Roman and ~70% of
+ * Georgia-width serifs (Android's Noto Serif is close to Georgia).
+ */
+@font-face {
+  font-family: "WM Serif Fallback";
+  src: local("Times New Roman"), local("TimesNewRomanPSMT"), local("Times");
+  size-adjust: 89%;
+}
+@font-face {
+  font-family: "WM Serif Fallback Wide";
+  src: local("Noto Serif"), local("Georgia"), local("DejaVu Serif");
+  size-adjust: 72%;
+}
+
 @theme {
   /* Ethiopic fonts follow each Latin font so Amharic text always renders cleanly */
-  --font-serif: "Cormorant Garamond", "Noto Serif Ethiopic", "Times New Roman", serif;
+  --font-serif: "Cormorant Garamond", "WM Serif Fallback", "WM Serif Fallback Wide", "Noto Serif Ethiopic", serif;
   --font-sans: "Outfit", "Noto Sans Ethiopic", system-ui, sans-serif;
-  --font-display: "Cormorant Garamond", "Noto Serif Ethiopic", "Times New Roman", serif;
+  --font-display: "Cormorant Garamond", "WM Serif Fallback", "WM Serif Fallback Wide", "Noto Serif Ethiopic", serif;
   --font-ethiopic: "Noto Serif Ethiopic", serif;
 
   --color-ink: #040303;

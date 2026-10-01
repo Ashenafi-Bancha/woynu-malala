@@ -70,6 +70,20 @@
         </div>
       </section>
     </div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module">
+      // The stylesheet is imported here so it is linked in <head> and styles the static hero.
+      import '/src/index.css'
+
+      // The static hero above is painted first; the app starts one frame later.
+      // (The timeout covers background tabs, where animation frames do not fire.)
+      let started = false
+      const start = () => {
+        if (started) return
+        started = true
+        import('/src/main.tsx')
+      }
+      requestAnimationFrame(() => setTimeout(start, 0))
+      setTimeout(start, 400)
+    </script>
   </body>
 </html>

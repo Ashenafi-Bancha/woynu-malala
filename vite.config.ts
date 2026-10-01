@@ -54,9 +54,30 @@ function woynuAiDevApi(env: Record<string, string>): Plugin {
   }
 }
 
+/**
+ * index.html starts the app with a dynamic import after first paint. This adds a
+ * <link rel="modulepreload"> for that bundle so it still downloads straight away.
+ */
+function preloadAppBundle(): Plugin {
+  return {
+    name: 'preload-app-bundle',
+    apply: 'build',
+    transformIndexHtml: {
+      order: 'post',
+      handler(_html, ctx) {
+        const chunk = Object.values(ctx.bundle ?? {}).find(
+          (c) => c.type === 'chunk' && c.isDynamicEntry && c.name === 'main',
+        )
+        if (!chunk) return []
+        return [{ tag: 'link', attrs: { rel: 'modulepreload', crossorigin: true, href: `/${chunk.fileName}` }, injectTo: 'head' }]
+      },
+    },
+  }
+}
+
 export default defineConfig(({ mode }) => ({
   // '' loads every variable from .env files for the dev API; only VITE_* reach the browser bundle.
-  plugins: [react(), tailwindcss(), woynuAiDevApi(loadEnv(mode, process.cwd(), ''))],
+  plugins: [react(), tailwindcss(), woynuAiDevApi(loadEnv(mode, process.cwd(), '')), preloadAppBundle()],
   build: {
     // The lazy 3D chunk (Three.js) is ~930 kB raw / 250 kB gzip by nature. It loads only on
     // capable devices after the page is idle, so it never blocks first paint.
