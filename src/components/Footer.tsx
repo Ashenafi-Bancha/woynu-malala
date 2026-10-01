@@ -5,6 +5,7 @@ import { FollowUs } from './FollowUs'
 import { navKey } from './Navbar'
 
 import { BrandName } from './BrandName'
+import { Logo } from './Logo'
 
 export function Footer() {
   const year = new Date().getFullYear()
@@ -13,6 +14,7 @@ export function Footer() {
     <footer className="border-t border-ivory/10 bg-ink px-5 py-16 md:px-10">
       <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
+          <Logo className="mb-5 h-24 w-24" />
           <BrandName as="p" size="md" descriptor={false} />
           {lang === 'en' ? (
             <p lang="am" className="mt-4 font-ethiopic text-sm text-ivory/80">{brand.amharicName}</p>
