@@ -249,6 +249,21 @@ export const collections: Collection[] = [
   },
 ]
 
+/** Category filter on the Collections page. A collection can sit in more than one category. */
+export const collectionFilters = ['All', 'Women', 'Men', 'Children', 'Occasions', 'Heritage'] as const
+export type CollectionFilter = (typeof collectionFilters)[number]
+
+export const collectionCategories: Record<string, CollectionFilter[]> = {
+  'wolaita-heritage': ['Heritage'],
+  'modern-wolaita': ['Heritage'],
+  bridal: ['Women', 'Occasions'],
+  women: ['Women'],
+  men: ['Men'],
+  children: ['Children'],
+  'special-occasions': ['Occasions'],
+  custom: ['Occasions'],
+}
+
 export const looks: Look[] = [
   {
     id: 'l1',

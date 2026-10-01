@@ -114,6 +114,7 @@ export const pageImages = {
   homeStatement: slot('home/statement', shots.dusk, 'Wolaita landscape'),
   homeCustom: slot('home/custom', shots.scissors, 'Custom design at Woynu Malala'),
   storyHeader: slot('story/header', fbPhotos.studioFour, 'The Woynu Malala studio'),
+  storyBanner: slot('story/banner', shots.landscape, 'Wolaita landscape'),
   cultureHeader: slot('culture/header', fbPhotos.groupTrees, 'Wolaita cultural clothing'),
   craftHeader: slot('craftsmanship/header', fbPhotos.studioTwo, 'Woynu Malala craftsmanship'),
   customPage: slot('custom/custom', shots.hands, 'Custom design at Woynu Malala'),

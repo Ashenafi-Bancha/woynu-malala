@@ -219,3 +219,8 @@ html[lang='am'] .leading-\[0\.95\] {
   .loom-thread { animation: none; transform: scaleY(0.7); }
   .loom-shuttle { animation: none; bottom: 50%; }
 }
+
+/* Lenis drives scrolling itself, so the browser's own smooth-scroll must be off while it runs */
+html.lenis-active {
+  scroll-behavior: auto;
+}

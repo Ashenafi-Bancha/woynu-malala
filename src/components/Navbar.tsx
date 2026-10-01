@@ -90,6 +90,7 @@ export function Navbar() {
       {open ? (
         <div
           id="mobile-menu"
+          data-lenis-prevent
           className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink px-6 pb-12 pt-24 xl:hidden"
         >
           <nav className="flex flex-col" aria-label="Mobile">

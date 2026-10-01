@@ -106,6 +106,7 @@ Use **square** photos for the lookbook (1:1).
 | File | Where it appears |
 |---|---|
 | `story/header.jpg` | Top of Our Story |
+| `story/banner.jpg` | Wide scrolling banner on Our Story (landscape 16:9, at least 1600 px wide) |
 | `custom/custom.jpg` | Custom design page |
 | `contact/header.jpg` | Top of the Contact page |
 | `woynu-ai/intro.jpg` | Woynu AI introduction |

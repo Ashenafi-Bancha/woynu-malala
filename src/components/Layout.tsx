@@ -1,16 +1,41 @@
 import { LazyMotion } from 'motion/react'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router-dom'
 import { Footer } from './Footer'
 import { Navbar } from './Navbar'
 import { brand } from '../content/site'
 import { useI18n } from '../i18n'
+import { hasFinePointer, prefersReducedMotion, whenIdle } from '../lib/device'
 
 const loadMotionFeatures = () => import('../lib/motionFeatures').then((m) => m.default)
 
 export function Layout() {
   const { pathname } = useLocation()
   const { t } = useI18n()
+
+  // Smooth wheel scrolling for mouse and trackpad users. Touch devices keep the browser's
+  // own scrolling, which is smoother and cheaper on mid-range phones.
+  useEffect(() => {
+    if (!hasFinePointer() || prefersReducedMotion()) return
+    let destroy = () => {}
+    let cancelled = false
+    const cancelIdle = whenIdle(async () => {
+      const { default: Lenis } = await import('lenis')
+      if (cancelled) return
+      const lenis = new Lenis({ autoRaf: true, duration: 1.05 })
+      document.documentElement.classList.add('lenis-active')
+      destroy = () => {
+        lenis.destroy()
+        document.documentElement.classList.remove('lenis-active')
+      }
+    })
+    return () => {
+      cancelled = true
+      cancelIdle()
+      destroy()
+    }
+  }, [])
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ClothingStore',

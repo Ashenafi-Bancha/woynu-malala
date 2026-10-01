@@ -1,6 +1,7 @@
 import { pageImages } from '../content/media'
 import { story } from '../content/site'
 import { PageHeader } from '../components/PageHeader'
+import { ParallaxImage } from '../components/ParallaxImage'
 import { Reveal } from '../components/Reveal'
 import { Seo } from '../components/Seo'
 import { Tilt3D, depth } from '../components/Tilt3D'
@@ -21,6 +22,8 @@ export function StoryPage() {
           {t('story.designer')}: {story.designer}
         </p>
       </PageHeader>
+
+      <ParallaxImage media={pageImages.storyBanner} className="mb-20 h-[42vh] md:mb-28 md:h-[62vh]" />
 
       <div className="mx-auto grid max-w-6xl gap-6 px-5 pb-24 sm:grid-cols-2 md:gap-8 md:px-10 lg:grid-cols-3">
         {story.blocks.map((block, i) => (

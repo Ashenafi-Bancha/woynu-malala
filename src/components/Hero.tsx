@@ -5,6 +5,7 @@ import { imageFor } from '../content/images'
 import { brand } from '../content/site'
 import { useI18n } from '../i18n'
 import { canRender3D, remember3DFallback, whenIdle } from '../lib/device'
+import { loadGsap } from '../lib/gsap'
 import { BrandName } from './BrandName'
 import { ButtonLink } from './Button'
 import { ClothFallback } from './hero/ClothFallback'
@@ -88,9 +89,8 @@ export function Hero() {
     let cancelled = false
     // GSAP only drives scroll effects, so it is fetched on the visitor's first scroll.
     const load = async () => {
-      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([import('gsap'), import('gsap/ScrollTrigger')])
+      const { gsap, ScrollTrigger } = await loadGsap()
       if (cancelled || !section.current) return
-      gsap.registerPlugin(ScrollTrigger)
       const ctx = gsap.context(() => {
         const range = { trigger: section.current, start: 'top top', end: 'bottom top' }
         ScrollTrigger.create({ ...range, onUpdate: (self) => (scroll.current = self.progress) })
