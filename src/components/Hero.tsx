@@ -14,6 +14,8 @@ export function Hero() {
       {/* Phones and tablets: the photo fills the screen behind the text */}
       <img
         src={heroPhoto.src}
+        srcSet={heroPhoto.srcSet}
+        sizes="100vw"
         alt=""
         aria-hidden="true"
         fetchPriority="high"
@@ -56,6 +58,8 @@ export function Hero() {
             <div className="absolute inset-0 overflow-hidden shadow-[0_50px_100px_-30px_rgba(0,0,0,0.9)]">
               <img
                 src={heroPhoto.src}
+                srcSet={heroPhoto.srcSet}
+                sizes="(min-width: 1024px) 540px, 100vw"
                 alt={heroPhoto.alt}
                 fetchPriority="high"
                 className="hero-media h-full w-full object-cover object-[45%_40%]"

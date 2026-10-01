@@ -8,6 +8,8 @@ export type MediaAsset = {
   tone: 'ink' | 'earth' | 'gold' | 'ivory' | 'moss'
   /** Small source image: shown framed over a blurred fill instead of stretched */
   lowRes?: boolean
+  /** Responsive sources, e.g. '/a-720.webp 720w, /a-1280.webp 1280w' */
+  srcSet?: string
 }
 
 export type Collection = {

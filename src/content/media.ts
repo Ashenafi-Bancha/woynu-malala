@@ -44,62 +44,62 @@ export const shots = {
     'earth',
   ),
   intro: media(
-    'https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=1800&q=80',
+    '/photos/stock/intro.webp',
     'Folded cloth in earth tones',
     'earth',
   ),
   gold: media(
-    'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1600&q=80',
+    '/photos/stock/gold.webp',
     'Gold metal detail in low light',
     'gold',
   ),
   landscape: media(
-    'https://images.unsplash.com/photo-1523805009345-7448845a9e53?auto=format&fit=crop&w=2000&q=80',
+    '/photos/stock/landscape.webp',
     'Highland landscape at dusk',
     'moss',
   ),
   weave: media(
-    'https://images.unsplash.com/photo-1459501462159-c8f3f1c2c0a0?auto=format&fit=crop&w=1600&q=80',
+    '/photos/stock/linen.webp',
     'Close weave of natural fiber',
     'ivory',
   ),
   thread: media(
-    'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1600&q=80',
+    '/photos/stock/thread.webp',
     'Hanging garments as studio still life, not brand inventory',
     'ink',
   ),
   hands: media(
-    'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=1600&q=80',
+    '/photos/stock/hands.webp',
     'Hands at a work table with cloth',
     'earth',
   ),
   scissors: media(
-    'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1600&q=80',
+    '/photos/stock/scissors.webp',
     'Atelier table with scissors and fabric',
     'ink',
   ),
   linen: media(
-    'https://images.unsplash.com/photo-1523381294911-8d3cead13475?auto=format&fit=crop&w=1600&q=80',
+    '/photos/stock/linen.webp',
     'Folded linen stack',
     'ivory',
   ),
   dusk: media(
-    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=2000&q=80',
+    '/photos/stock/dusk.webp',
     'Open landscape used as cultural atmosphere',
     'moss',
   ),
   ceremony: media(
-    'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=80',
+    '/photos/stock/ceremony.webp',
     'Soft floral still life suggesting celebration',
     'gold',
   ),
   paper: media(
-    'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1600&q=80',
+    '/photos/stock/paper.webp',
     'Handwritten notes on paper',
     'ivory',
   ),
   studio: media(
-    'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1800&q=80',
+    '/photos/stock/studio.webp',
     'Quiet atelier interior',
     'ink',
   ),
@@ -107,7 +107,8 @@ export const shots = {
 
 /** Stock hero photo (Unsplash, free licence) used until the studio adds images/hero/hero.jpg. */
 const heroStock: MediaAsset = {
-  src: '/photos/hero-stock.jpg',
+  src: '/photos/hero-stock-1280.webp',
+  srcSet: '/photos/hero-stock-720.webp 720w, /photos/hero-stock-1280.webp 1280w',
   alt: 'A woman in a flowing deep red dress standing in a green forest',
   placeholder: true,
   caption: 'Photo: K Studios / Unsplash',
