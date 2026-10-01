@@ -1,4 +1,4 @@
-import { siFacebook, siInstagram, siTiktok, siWhatsapp, type SimpleIcon } from 'simple-icons'
+import { siFacebook, siInstagram, siTelegram, siTiktok, siWhatsapp, type SimpleIcon } from 'simple-icons'
 import { brand, social } from '../content/site'
 import { useI18n } from '../i18n'
 
@@ -26,6 +26,7 @@ const networks: Network[] = [
     glyphFilter: 'drop-shadow(-1.2px -1.2px 0 #25F4EE) drop-shadow(1.2px 1.2px 0 #FE2C55)',
   },
   { icon: siWhatsapp, href: social.whatsapp.href, background: '#25D366' },
+  { icon: siTelegram, href: social.telegram.href, background: '#26A5E4' },
 ]
 
 type FollowUsProps = {

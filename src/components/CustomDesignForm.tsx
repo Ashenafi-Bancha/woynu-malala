@@ -1,8 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useI18n } from '../i18n'
+import { openWhatsApp } from '../lib/whatsapp'
 import { Button } from './Button'
-
-const STORAGE_KEY = 'woynu-inquiries'
 
 /** Values to prefill, e.g. from a Woynu AI style (so visitors don't re-enter their choices). */
 export type DesignRequestPrefill = {
@@ -22,15 +21,28 @@ export function CustomDesignForm({ prefill }: { prefill?: DesignRequestPrefill }
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const form = e.currentTarget
-    const data = Object.fromEntries(new FormData(form).entries())
-    const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]') as unknown[]
-    existing.push({
-      ...data,
-      status: 'new',
-      createdAt: new Date().toISOString(),
-      imageName: (form.elements.namedItem('reference') as HTMLInputElement | null)?.files?.[0]?.name ?? '',
-    })
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(existing))
+    const data = new FormData(form)
+    const get = (key: string) => String(data.get(key) ?? '').trim()
+    const hasPhoto = Boolean((form.elements.namedItem('reference') as HTMLInputElement | null)?.files?.length)
+    // The site has no server, so the request is written out as a WhatsApp message to the studio.
+    openWhatsApp([
+      'Hello Woynu Malala, I would like to request a custom design.',
+      '',
+      `Name: ${get('name')}`,
+      `Phone: ${get('phone')}`,
+      get('email') && `Email: ${get('email')}`,
+      `For: ${get('gender')}`,
+      `Occasion: ${get('occasion')}`,
+      get('preferredStyle') && `Preferred style: ${get('preferredStyle')}`,
+      get('preferredColors') && `Preferred colours: ${get('preferredColors')}`,
+      get('size') && `Size / measurements: ${get('size')}`,
+      get('eventDate') && `Event date: ${get('eventDate')}`,
+      '',
+      get('description'),
+      '',
+      hasPhoto && 'I will attach my reference photo in this chat.',
+      '(Sent from the Woynu Malala website)',
+    ])
     setSent(true)
     form.reset()
   }
@@ -62,7 +74,7 @@ export function CustomDesignForm({ prefill }: { prefill?: DesignRequestPrefill }
       <label className={label} htmlFor="email">
         {t('form.email')}
       </label>
-      <input className={field} id="email" name="email" type="email" required autoComplete="email" />
+      <input className={field} id="email" name="email" type="email" autoComplete="email" />
 
       <label className={label} htmlFor="gender">
         {t('form.gender')}

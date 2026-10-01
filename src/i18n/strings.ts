@@ -22,7 +22,7 @@ export const en = {
   'social.soon': 'link coming soon',
   'common.loading': 'Loading',
   'common.rights': 'All rights reserved.',
-  'common.socialNote': 'Instagram and TikTok links are coming soon.',
+  'common.socialNote': 'Instagram, TikTok, and Telegram links are coming soon.',
 
   // Brand
   'brand.shortName': 'Woynu Malala',
@@ -137,6 +137,24 @@ export const en = {
   'contact.call': 'Call',
   'contact.visit': 'Visit studio',
   'contact.custom': 'Custom design',
+  'contact.telegram': 'Telegram',
+  'contact.soon': 'coming soon',
+  'contact.hours': 'Opening hours',
+  'contact.map': 'Find us',
+  'contact.showMap': 'Show map',
+  'contact.mapNote': 'The map shows Wolaita Sodo town. The exact studio location will be added once confirmed.',
+  'order.kicker': 'Order',
+  'order.title': 'Send an order or question',
+  'order.name': 'Your name',
+  'order.interest': 'I am interested in',
+  'order.ready': 'A ready-made piece',
+  'order.custom': 'A custom design',
+  'order.decor': 'Décor',
+  'order.other': 'Something else',
+  'order.occasion': 'Occasion and date (optional)',
+  'order.message': 'Your message',
+  'order.send': 'Send on WhatsApp',
+  'order.note': 'This opens WhatsApp with your message ready. Press send there to reach the studio.',
   'contact.directions': 'Get directions',
   'contact.chat': 'Chat on WhatsApp',
   'contact.callUs': 'Call us',
@@ -161,7 +179,7 @@ export const en = {
   'form.reference': 'Reference image',
   'form.submit': 'Request a Custom Design',
   'form.sent':
-    'Request saved on this device. When the site is connected to a server, requests will reach the studio. No message has been sent yet.',
+    'WhatsApp has opened with your request ready. Press send there, and attach your reference photo in the chat.',
 } as const
 
 export type Key = keyof typeof en
@@ -185,7 +203,7 @@ export const am: Record<Key, string> = {
   'social.soon': 'አድራሻው በቅርቡ ይገባል',
   'common.loading': 'በመጫን ላይ',
   'common.rights': 'መብቱ በሕግ የተጠበቀ ነው።',
-  'common.socialNote': 'የኢንስታግራም እና የቲክቶክ አድራሻዎች በቅርቡ ይገባሉ።',
+  'common.socialNote': 'የኢንስታግራም፣ የቲክቶክ እና የቴሌግራም አድራሻዎች በቅርቡ ይገባሉ።',
 
   'brand.shortName': 'ወይኑ ማላላ',
   'brand.descriptor': 'ባህላዊ አልባሳት ዲዛይን እና ዲኮር',
@@ -288,6 +306,24 @@ export const am: Record<Key, string> = {
   'contact.call': 'ይደውሉ',
   'contact.visit': 'ስቱዲዮውን ይጎብኙ',
   'contact.custom': 'ልዩ ዲዛይን',
+  'contact.telegram': 'ቴሌግራም',
+  'contact.soon': 'በቅርቡ',
+  'contact.hours': 'የሥራ ሰዓት',
+  'contact.map': 'በካርታ ያግኙን',
+  'contact.showMap': 'ካርታውን አሳይ',
+  'contact.mapNote': 'ካርታው የወላይታ ሶዶ ከተማን ያሳያል። ትክክለኛው የስቱዲዮ ቦታ ሲረጋገጥ ይጨመራል።',
+  'order.kicker': 'ትዕዛዝ',
+  'order.title': 'ትዕዛዝ ወይም ጥያቄ ይላኩ',
+  'order.name': 'ስምዎ',
+  'order.interest': 'የምፈልገው',
+  'order.ready': 'የተዘጋጀ ልብስ',
+  'order.custom': 'ልዩ ዲዛይን',
+  'order.decor': 'ዲኮር',
+  'order.other': 'ሌላ',
+  'order.occasion': 'ዝግጅት እና ቀን (አማራጭ)',
+  'order.message': 'መልዕክትዎ',
+  'order.send': 'በዋትስአፕ ላክ',
+  'order.note': 'ይህ መልዕክትዎን አዘጋጅቶ ዋትስአፕን ይከፍታል። ለስቱዲዮው እንዲደርስ እዚያ “ላክ”ን ይጫኑ።',
   'contact.directions': 'አቅጣጫ ያግኙ',
   'contact.chat': 'በዋትስአፕ ያውሩን',
   'contact.callUs': 'ይደውሉልን',
@@ -311,7 +347,7 @@ export const am: Record<Key, string> = {
   'form.reference': 'የማጣቀሻ ምስል',
   'form.submit': 'ልዩ ዲዛይን ይጠይቁ',
   'form.sent':
-    'ጥያቄዎ በዚህ መሣሪያ ላይ ተቀምጧል። ድረ-ገጹ ከአገልጋይ ጋር ሲገናኝ ጥያቄዎች ወደ ስቱዲዮው ይደርሳሉ። እስካሁን ምንም መልዕክት አልተላከም።',
+    'ዋትስአፕ ጥያቄዎን አዘጋጅቶ ተከፍቷል። እዚያ “ላክ”ን ይጫኑ፤ የማጣቀሻ ፎቶዎንም በውይይቱ ውስጥ ያያይዙ።',
 }
 
 /**

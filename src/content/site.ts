@@ -46,6 +46,7 @@ export const social = {
   facebook: { href: 'https://www.facebook.com/profile.php?id=100082906343810', label: 'Facebook', pending: '' },
   tiktok: { href: '#', label: 'TikTok', pending: '[Social URL — Client Information Needed]' },
   whatsapp: { href: 'https://wa.me/251923400278', label: 'WhatsApp', pending: '' },
+  telegram: { href: '#', label: 'Telegram', pending: '[Telegram username — Client Information Needed]' },
   phone: { href: 'tel:+251923400278', label: 'Call', pending: '' },
   studio: {
     href: 'https://www.google.com/maps/search/?api=1&query=Wolaita+Sodo%2C+Ethiopia',
@@ -55,6 +56,13 @@ export const social = {
 }
 
 /** Studio phone, shown locally formatted; the same number is used for calls and WhatsApp. */
+/** PLACEHOLDER: replace with the studio's real opening hours. */
+export const openingHours = '[Opening hours — to be provided by Woynu Malala]'
+
+/** Map of Wolaita Sodo town (OpenStreetMap). No marker: the exact studio location is not yet confirmed. */
+export const mapEmbedUrl =
+  'https://www.openstreetmap.org/export/embed.html?bbox=37.730%2C6.830%2C37.790%2C6.880&layer=mapnik'
+
 export const phoneDisplay = '0923 400 278'
 export const phoneInternational = '+251 923 400 278'
 

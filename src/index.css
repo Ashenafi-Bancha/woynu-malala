@@ -224,3 +224,21 @@ html[lang='am'] .leading-\[0\.95\] {
 html.lenis-active {
   scroll-behavior: auto;
 }
+
+/* Footer brand mark: two rings turning slowly around the logo */
+@keyframes brand-ring {
+  to { transform: rotate(360deg); }
+}
+
+.brand-ring {
+  animation: brand-ring 36s linear infinite;
+}
+
+.brand-ring-reverse {
+  border-top-color: rgba(222, 160, 82, 0.7);
+  animation: brand-ring 22s linear infinite reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-ring, .brand-ring-reverse { animation: none; }
+}

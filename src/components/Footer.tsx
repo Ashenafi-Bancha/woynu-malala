@@ -14,7 +14,11 @@ export function Footer() {
     <footer className="border-t border-ivory/10 bg-ink px-5 py-16 md:px-10">
       <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <Logo className="mb-5 h-24 w-24" />
+          <div className="relative mb-7 h-24 w-24">
+            <span aria-hidden="true" className="brand-ring absolute -inset-2.5 rounded-full border border-dashed border-gold/60" />
+            <span aria-hidden="true" className="brand-ring-reverse absolute -inset-5 rounded-full border border-gold/15" />
+            <Logo className="h-24 w-24" />
+          </div>
           <BrandName as="p" size="md" descriptor={false} />
           {lang === 'en' ? (
             <p lang="am" className="mt-4 font-ethiopic text-sm text-ivory/80">{brand.amharicName}</p>

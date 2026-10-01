@@ -14,4 +14,4 @@ npm run build
 
 Brand facts live in `src/content/site.ts`. Anything unknown is marked `[Client Content Needed]`. Photography is labeled placeholder stills — not presented as real Woynu Malala garments or customers.
 
-Inquiries from the custom form are stored in `localStorage` under `woynu-inquiries` until a backend is connected. Resource map: `src/content/cms.ts`.
+The site has no server. The custom-design form and the contact order form open WhatsApp with the request written out, so it reaches the studio's phone. Resource map: `src/content/cms.ts`.
