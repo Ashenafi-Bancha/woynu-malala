@@ -6,9 +6,11 @@ import { CollectionGrid } from '../components/CollectionCard'
 import { CraftsmanshipTimeline } from '../components/CraftsmanshipTimeline'
 import { CustomDesignForm } from '../components/CustomDesignForm'
 import { Frame3D } from '../components/Frame3D'
+import { Gallery } from '../components/Gallery'
 import { PlaceholderImage } from '../components/PlaceholderImage'
 import { Reveal } from '../components/Reveal'
 import { SectionHeading } from '../components/SectionHeading'
+import { Testimonials } from '../components/Testimonials'
 import { SplitTitle, headingClass } from '../components/SplitTitle'
 import { Tilt3D, depth } from '../components/Tilt3D'
 import { useI18n } from '../i18n'
@@ -202,34 +204,13 @@ export default function HomeSections() {
       </section>
 
       {/* Seen & worn */}
-      <section className="bg-ink px-5 py-20 md:px-10 md:py-28">
+      <section className="overflow-hidden bg-ink px-5 py-20 md:px-10 md:py-28">
         <Reveal>
           <SectionHeading kicker={t('home.seenKicker')} title={t('home.seenTitle')} />
           <p className="mt-6 max-w-xl text-ivory/70">{t('home.seenText')}</p>
-          <p className="mt-4 max-w-xl text-ivory/55">
-            [Testimonials — Client Content Needed] Real customer words will appear here. None have been invented.
-          </p>
         </Reveal>
-        <div className="mx-auto mt-12 grid max-w-5xl grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
-          {facebookPhotos.map((p, i) => (
-            <Reveal key={p.src} tilt delay={(i % 4) * 80}>
-              <a href={social.facebook.href} target="_blank" rel="noopener noreferrer" className="group block">
-                <Tilt3D className="aspect-square w-full" max={14}>
-                  <div className="absolute inset-0 overflow-hidden bg-ink-soft shadow-[0_30px_50px_-25px_rgba(0,0,0,0.9)]">
-                    <img
-                      src={p.src}
-                      alt={p.alt}
-                      width={206}
-                      height={206}
-                      loading="lazy"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div aria-hidden="true" className="absolute inset-2 border border-ivory/15" style={depth(30)} />
-                </Tilt3D>
-              </a>
-            </Reveal>
-          ))}
+        <div className="mt-12">
+          <Gallery photos={facebookPhotos} />
         </div>
         <div className="mt-12 text-center">
           <ButtonLink to={social.facebook.href} variant="ghost">
@@ -237,6 +218,8 @@ export default function HomeSections() {
           </ButtonLink>
         </div>
       </section>
+
+      <Testimonials />
 
       {/* Journal */}
       <section className="overflow-hidden bg-ink-soft px-5 py-20 md:px-10 md:py-28">

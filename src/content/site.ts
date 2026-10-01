@@ -535,6 +535,34 @@ export const story = {
   designer: '[Designer Name — Client Information Needed]',
 }
 
+/**
+ * PLACEHOLDERS. Replace with real customer words (with their permission) and set
+ * `placeholder: false`. Nothing here is an invented quote.
+ */
+export const testimonials = [
+  {
+    id: 't1',
+    quote: '[Customer testimonial — to be provided by Woynu Malala]',
+    name: '[Customer name]',
+    detail: '[Occasion · Town]',
+    placeholder: true,
+  },
+  {
+    id: 't2',
+    quote: '[Customer testimonial — to be provided by Woynu Malala]',
+    name: '[Customer name]',
+    detail: '[Occasion · Town]',
+    placeholder: true,
+  },
+  {
+    id: 't3',
+    quote: '[Customer testimonial — to be provided by Woynu Malala]',
+    name: '[Customer name]',
+    detail: '[Occasion · Town]',
+    placeholder: true,
+  },
+]
+
 export const testimonialsPlaceholder =
   '[Testimonials — Client Content Needed] Real customer words will appear here. None have been invented.'
 
