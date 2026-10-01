@@ -1,10 +1,12 @@
-import { domAnimation, LazyMotion } from 'motion/react'
+import { LazyMotion } from 'motion/react'
 import { Suspense } from 'react'
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router-dom'
 import { Footer } from './Footer'
 import { Navbar } from './Navbar'
 import { brand } from '../content/site'
 import { useI18n } from '../i18n'
+
+const loadMotionFeatures = () => import('../lib/motionFeatures').then((m) => m.default)
 
 export function Layout() {
   const { pathname } = useLocation()
@@ -20,7 +22,7 @@ export function Layout() {
   }
 
   return (
-    <LazyMotion features={domAnimation} strict>
+    <LazyMotion features={loadMotionFeatures} strict>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <main key={pathname} className="page-enter relative min-h-screen">

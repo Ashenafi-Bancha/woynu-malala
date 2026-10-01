@@ -2,8 +2,8 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { BrandName } from './components/BrandName'
+import { HomePage } from './pages/HomePage'
 
-const HomePage = lazy(() => import('./pages/HomePage').then((m) => ({ default: m.HomePage })))
 const CollectionsPage = lazy(() =>
   import('./pages/CollectionsPage').then((m) => ({ default: m.CollectionsPage })),
 )

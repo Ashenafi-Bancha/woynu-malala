@@ -1,5 +1,3 @@
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import * as m from 'motion/react-m'
 import { useReducedMotion } from 'motion/react'
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
@@ -20,12 +18,9 @@ const item = {
   hidden: { opacity: 0, y: 26 },
   show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
 }
-// The name is the page's largest element: it is painted from the very first frame
-// (never fully transparent) so it doesn't delay Largest Contentful Paint.
-const title = {
-  hidden: { opacity: 0.45, y: 22 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
-}
+// The place line and the name are not animated: index.html already paints them before any
+// JavaScript runs, so they must stay put when React takes over. The lines below them and
+// the buttons then arrive one after another.
 
 /** Give the page a few quiet seconds before the 3D download starts competing for the phone. */
 const START_3D_AFTER_MS = 3000
@@ -75,13 +70,25 @@ export function Hero() {
   // Scroll: the cloth lifts away and the text drifts up and fades.
   useEffect(() => {
     if (reduced || !section.current) return
-    gsap.registerPlugin(ScrollTrigger)
-    const ctx = gsap.context(() => {
-      const range = { trigger: section.current, start: 'top top', end: 'bottom top' }
-      ScrollTrigger.create({ ...range, onUpdate: (self) => (scroll.current = self.progress) })
-      gsap.to(text.current, { yPercent: -12, opacity: 0.1, ease: 'none', scrollTrigger: { ...range, scrub: true } })
-    }, section)
-    return () => ctx.revert()
+    let revert = () => {}
+    let cancelled = false
+    // GSAP is not needed for the first paint, so it is fetched once the page is idle.
+    const cancelIdle = whenIdle(async () => {
+      const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([import('gsap'), import('gsap/ScrollTrigger')])
+      if (cancelled || !section.current) return
+      gsap.registerPlugin(ScrollTrigger)
+      const ctx = gsap.context(() => {
+        const range = { trigger: section.current, start: 'top top', end: 'bottom top' }
+        ScrollTrigger.create({ ...range, onUpdate: (self) => (scroll.current = self.progress) })
+        gsap.to(text.current, { yPercent: -12, opacity: 0.1, ease: 'none', scrollTrigger: { ...range, scrub: true } })
+      }, section)
+      revert = () => ctx.revert()
+    })
+    return () => {
+      cancelled = true
+      cancelIdle()
+      revert()
+    }
   }, [reduced])
 
   const tooSlow = () => {
@@ -135,13 +142,11 @@ export function Hero() {
             animate="show"
             className="flex flex-col items-center text-center lg:items-start lg:text-left"
           >
-            <m.p variants={item} className="text-[11px] uppercase tracking-[0.42em] text-gold">
-              {t('brand.place')}
-            </m.p>
-            <m.div variants={title} className="mt-6">
+            <p className="text-[11px] uppercase tracking-[0.42em] text-gold">{t('brand.place')}</p>
+            <div className="mt-6">
               <BrandName as="h1" size="xl" align="responsive" />
-            </m.div>
-            <m.div variants={item} className="gold-rule mt-8 w-40" />
+            </div>
+            <div className="gold-rule mt-8 w-40" />
             <m.p
               variants={item}
               lang="am"
