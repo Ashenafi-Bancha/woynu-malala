@@ -6,11 +6,35 @@
  * font arrives. Measured: Cormorant is ~89% the width of Times New Roman and ~70% of
  * Georgia-width serifs (Android's Noto Serif is close to Georgia).
  */
+/* One face per style, so the browser uses the system's real bold/italic cuts and never
+   fakes them (a faked bold italic is narrower, which made the hero name grow on swap). */
 @font-face {
   font-family: "WM Serif Fallback";
   src: local("Times New Roman"), local("TimesNewRomanPSMT"), local("Times");
-  /* a touch above the measured 89%, so swapping to the real font never makes text larger */
+  font-weight: 300 500;
+  font-style: normal;
+  size-adjust: 100%;
+}
+@font-face {
+  font-family: "WM Serif Fallback";
+  src: local("Times New Roman Italic"), local("TimesNewRomanPS-ItalicMT"), local("Times Italic");
+  font-weight: 300 500;
+  font-style: italic;
   size-adjust: 92%;
+}
+@font-face {
+  font-family: "WM Serif Fallback";
+  src: local("Times New Roman Bold"), local("TimesNewRomanPS-BoldMT"), local("Times Bold");
+  font-weight: 600 700;
+  font-style: normal;
+  size-adjust: 96%;
+}
+@font-face {
+  font-family: "WM Serif Fallback";
+  src: local("Times New Roman Bold Italic"), local("TimesNewRomanPS-BoldItalicMT"), local("Times Bold Italic");
+  font-weight: 600 700;
+  font-style: italic;
+  size-adjust: 93%;
 }
 @font-face {
   font-family: "WM Serif Fallback Wide";
