@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import { collectionCategories, collectionFilters, collections, type CollectionFilter } from '../content/site'
 import { useI18n } from '../i18n'
+import { Backdrop3D } from '../components/Backdrop3D'
 import { CollectionGrid } from '../components/CollectionCard'
 import { Reveal } from '../components/Reveal'
 import { SplitTitle, headingClass } from '../components/SplitTitle'
 import { Seo } from '../components/Seo'
+
+// The opening's 3D ring is built from the collection covers
+const coverPhotos = collections.filter((col) => col.published).map((col) => col.cover.src)
 
 export function CollectionsPage() {
   const { t, c } = useI18n()
@@ -20,6 +24,7 @@ export function CollectionsPage() {
         aria-hidden="true"
         className="pointer-events-none absolute -left-40 top-20 hidden h-[50vh] w-[50vw] rounded-full bg-gold/10 blur-[140px] md:block"
       />
+      <Backdrop3D scene="ring" photos={coverPhotos} className="absolute inset-x-0 top-0 h-[34rem] md:h-[40rem]" />
       <Reveal className="relative px-5 pb-10 pt-16 md:px-10 md:pb-12">
         <p className="text-[11px] uppercase tracking-[0.4em] text-gold">
           {t('collections.kicker')} · {String(published.length).padStart(2, '0')} {t('collections.count')}
@@ -27,7 +32,7 @@ export function CollectionsPage() {
         <h1 className={`mt-5 ${headingClass} text-5xl sm:text-6xl md:text-8xl`}>
           <SplitTitle text={t('home.collectionsTitle')} />
         </h1>
-        <div className="mt-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="mt-8 flex flex-col gap-6">
           <p className="max-w-xl text-base leading-8 text-ivory/65 md:text-lg">{t('collections.intro')}</p>
           <p className="hidden text-[10px] uppercase tracking-[0.3em] text-ivory/45 md:block">{t('collections.hint')}</p>
         </div>

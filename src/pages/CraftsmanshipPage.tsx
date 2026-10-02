@@ -18,6 +18,7 @@ export function CraftsmanshipPage() {
         title={t('craft.title')}
         intro={t('craft.intro')}
         media={pageImages.craftHeader}
+        scene="loom"
       />
       <ProcessPinned />
     </div>

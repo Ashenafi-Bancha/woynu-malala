@@ -131,7 +131,7 @@
 }
 
 .hero-media {
-  animation: kenburns 22s var(--ease-fashion) forwards;
+  animation: kenburns 18s ease-in-out infinite alternate;
 }
 
 .reveal {
@@ -355,4 +355,62 @@ html.lenis-active {
   .split-line > span { transform: none; transition: none; }
   .marquee-track { animation: none; }
   .page-curtain { display: none; }
+}
+
+/* Cards keep swaying gently in 3D when idle */
+@keyframes sway-3d {
+  from { transform: rotateY(-4.5deg) rotateX(1.5deg); }
+  to { transform: rotateY(4.5deg) rotateX(-1.5deg); }
+}
+
+.sway-3d {
+  transform-style: preserve-3d;
+  animation: sway-3d 7s ease-in-out infinite alternate;
+}
+
+.sway-3d:hover {
+  animation-play-state: paused;
+}
+
+@keyframes gold-shimmer {
+  to { background-position: -150% 0; }
+}
+
+@keyframes film-grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-2%, -2%); }
+  100% { transform: translate(3%, 3%); }
+}
+
+/* Computers only: a light sweeps across the amber half of every heading, and a faint
+   film grain moves over the page. Phones skip both to save battery. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .gold-shimmer {
+    /* extra room so the clipped background still covers italic descenders */
+    padding: 0 0.1em 0.14em 0;
+    margin-bottom: -0.14em;
+    background: linear-gradient(100deg, currentColor 0 42%, #fff1cf 50%, currentColor 58% 100%) 100% 0 / 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gold-shimmer 5.5s linear infinite;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: -10%;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: film-grain 0.9s steps(4) infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sway-3d { animation: none; }
+  .hero-media { animation: none; }
 }

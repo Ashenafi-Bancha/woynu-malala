@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
  * Brand heading style: first half upright in soft white, second half in amber italic,
  * e.g. "Where Culture, Heritage / & History Becomes Fashion".
  * The split falls at the middle word; a leading "&" moves to the accent line.
- * Each line rises out of a mask the first time the heading scrolls into view.
+ * Each line rises out of a mask every time the heading scrolls into view.
  */
 export function SplitTitle({ text, light = false }: { text: string; light?: boolean }) {
   const first = useRef<HTMLSpanElement>(null)
@@ -15,19 +15,14 @@ export function SplitTitle({ text, light = false }: { text: string; light?: bool
     if (!el) return
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) return
-        setShown(true)
-        io.disconnect()
+        if (entry.isIntersecting) setShown(true)
+        // Scrolled back above the heading: reset, so it rises again next time
+        else if (entry.boundingClientRect.top > 0) setShown(false)
       },
       { threshold: 0.2 },
     )
     io.observe(el)
-    // Safety net: never leave a heading hidden (e.g. if it starts inside a collapsed area)
-    const timer = setTimeout(() => setShown(true), 4000)
-    return () => {
-      io.disconnect()
-      clearTimeout(timer)
-    }
+    return () => io.disconnect()
   }, [])
 
   const words = text.trim().split(/\s+/)
@@ -51,7 +46,7 @@ export function SplitTitle({ text, light = false }: { text: string; light?: bool
         <span>{words.slice(0, cut).join(' ')}</span>
       </span>{' '}
       <span className={`split-line split-line-late ${state} italic ${light ? 'text-amber-deep' : 'text-gold'}`}>
-        <span>{words.slice(cut).join(' ')}</span>
+        <span className="gold-shimmer">{words.slice(cut).join(' ')}</span>
       </span>
     </>
   )

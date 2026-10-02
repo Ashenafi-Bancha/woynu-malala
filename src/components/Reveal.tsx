@@ -22,10 +22,10 @@ export function Reveal({ children, className = '', delay = 0, mask = false, tilt
     }
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add('is-visible')
-          io.disconnect()
-        }
+        if (entry.isIntersecting) el.classList.add('is-visible')
+        // Left through the bottom of the screen: reset, so it plays again on the way back down.
+        // (Leaving through the top keeps it shown, which avoids flicker at the top edge.)
+        else if (entry.boundingClientRect.top > 0) el.classList.remove('is-visible')
       },
       { threshold: 0.16, rootMargin: '0px 0px -8% 0px' },
     )

@@ -7,6 +7,9 @@ import { Seo } from '../components/Seo'
 import { Tilt3D, depth } from '../components/Tilt3D'
 import { useI18n } from '../i18n'
 
+// The header's 3D ring is built from the topic photos
+const topicPhotos = cultureTopics.map((topic) => topic.image.src)
+
 export function CulturePage() {
   const { t, c } = useI18n()
   return (
@@ -21,6 +24,8 @@ export function CulturePage() {
         title={c('The culture behind the design')}
         intro={t('culture.intro')}
         media={pageImages.cultureHeader}
+        scene="ring"
+        photos={topicPhotos}
       />
 
       <div className="grid gap-6 px-5 pb-24 sm:grid-cols-2 md:gap-8 md:px-10 lg:grid-cols-4">

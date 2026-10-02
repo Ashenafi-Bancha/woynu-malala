@@ -24,6 +24,8 @@ export function Tilt3D({ children, className = '', max = 10, glare = true, auto 
   const ref = useRef<HTMLDivElement>(null)
   const [t, setT] = useState({ rx: 0, ry: 0, gx: 50, gy: 50, active: false })
   const [scrollRx, setScrollRx] = useState(0)
+  // Each card starts its idle sway at a different point, so a row of cards never moves in step
+  const [swayDelay] = useState(() => -Math.random() * 8)
 
   // Touch screens can't hover, so there the card tilts as it scrolls through the screen.
   useEffect(() => {
@@ -67,6 +69,8 @@ export function Tilt3D({ children, className = '', max = 10, glare = true, auto 
 
   return (
     <div className={`relative ${className}`} style={{ perspective: '1200px' }}>
+      {/* Idle motion: the card keeps swaying gently even when nobody touches it */}
+      <div className={`sway-3d ${auto ? 'relative h-full' : 'absolute inset-0'}`} style={{ animationDelay: `${swayDelay}s` }}>
       <div
         ref={ref}
         onPointerMove={onMove}
@@ -94,6 +98,7 @@ export function Tilt3D({ children, className = '', max = 10, glare = true, auto 
             }}
           />
         ) : null}
+      </div>
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { MediaAsset } from '../content/types'
+import { Backdrop3D, type BackdropScene } from './Backdrop3D'
 import { Frame3D } from './Frame3D'
 import { SplitTitle, headingClass } from './SplitTitle'
 import { Reveal } from './Reveal'
@@ -10,13 +11,18 @@ type PageHeaderProps = {
   intro?: ReactNode
   media?: MediaAsset
   mediaCaption?: string
+  /** Which 3D scene plays behind the header */
+  scene?: BackdropScene
+  /** Image URLs for the `ring` scene */
+  photos?: string[]
   children?: ReactNode
 }
 
-/** Shared opening for inner pages: large italic title with an optional 3D framed photo. */
-export function PageHeader({ kicker, title, intro, media, mediaCaption, children }: PageHeaderProps) {
+/** Shared opening for inner pages: large italic title over a living 3D scene, with an optional framed photo. */
+export function PageHeader({ kicker, title, intro, media, mediaCaption, scene = 'ribbons', photos, children }: PageHeaderProps) {
   return (
     <header className="relative overflow-hidden px-5 pb-16 pt-28 md:px-12 md:pb-28 md:pt-40">
+      <Backdrop3D scene={scene} photos={photos} />
       <div
         aria-hidden="true"
         className="float-3d pointer-events-none absolute -left-40 top-10 hidden h-[55vh] w-[55vw] rounded-full bg-gold/10 blur-[140px] md:block"

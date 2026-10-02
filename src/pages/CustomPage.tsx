@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import { pageImages } from '../content/media'
+import { Backdrop3D } from '../components/Backdrop3D'
 import { CustomDesignForm } from '../components/CustomDesignForm'
 import { Frame3D } from '../components/Frame3D'
 import { Reveal } from '../components/Reveal'
@@ -48,6 +49,7 @@ export function CustomPage() {
         aria-hidden="true"
         className="float-3d pointer-events-none absolute -left-40 top-20 hidden h-[55vh] w-[50vw] rounded-full bg-gold/10 blur-[140px] md:block"
       />
+      <Backdrop3D scene="ribbons" className="absolute inset-x-0 top-0 h-[36rem] md:h-[44rem]" />
       <div className="relative mx-auto grid max-w-[1500px] gap-12 px-5 pb-24 pt-28 md:px-12 md:pt-40 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
         <div>
           <Reveal>

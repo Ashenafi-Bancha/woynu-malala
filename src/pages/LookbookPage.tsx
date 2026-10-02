@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { looks } from '../content/site'
+import { Backdrop3D } from '../components/Backdrop3D'
 import { Seo } from '../components/Seo'
 import { SplitTitle, headingClass } from '../components/SplitTitle'
 import { useI18n } from '../i18n'
+import { prefersReducedMotion } from '../lib/device'
 
 const DRAG_DEG_PER_PX = 0.25
 
@@ -51,6 +53,16 @@ export function LookbookPage() {
     return () => window.removeEventListener('keydown', onKey)
   }, [next, prev])
 
+  // The ring keeps turning by itself; it waits while the visitor is hovering or dragging
+  const hold = useRef(false)
+  useEffect(() => {
+    if (prefersReducedMotion()) return
+    const id = window.setInterval(() => {
+      if (!hold.current && !drag.current && document.visibilityState === 'visible') next()
+    }, 4200)
+    return () => window.clearInterval(id)
+  }, [next])
+
   const onPointerDown = (e: React.PointerEvent) => {
     drag.current = { x: e.clientX, moved: false }
   }
@@ -95,6 +107,7 @@ export function LookbookPage() {
           style={{ opacity: i === index ? 0.35 : 0 }}
         />
       ))}
+      <Backdrop3D scene="ribbons" overlay={false} />
       <div className="absolute inset-0 bg-linear-to-b from-ink/80 via-ink/40 to-ink" />
 
       <div className="relative z-[2] flex min-h-[calc(100svh-5rem)] flex-col">
@@ -113,6 +126,8 @@ export function LookbookPage() {
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
+          onPointerEnter={(e) => (hold.current = e.pointerType === 'mouse')}
+          onPointerLeave={() => (hold.current = false)}
           role="region"
           aria-roledescription="carousel"
           aria-label="Lookbook"
