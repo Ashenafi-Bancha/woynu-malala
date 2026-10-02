@@ -28,9 +28,11 @@ export function PlaceholderImage({
   kenburns = false,
   lowResPlacement = 'bottom',
 }: Props) {
+  // A caller that positions the figure itself must not also get `relative`
+  const position = /(absolute|fixed|sticky)/.test(className) ? '' : 'relative'
   if (media.lowRes) {
     return (
-      <figure className={`relative overflow-hidden bg-ink-soft ${className}`}>
+      <figure className={`${position} overflow-hidden bg-ink-soft ${className}`}>
         <img
           src={media.src}
           alt=""
@@ -59,7 +61,7 @@ export function PlaceholderImage({
   }
 
   return (
-    <figure className={`relative overflow-hidden bg-ink-soft ${className}`}>
+    <figure className={`${position} overflow-hidden bg-ink-soft ${className}`}>
       <div className={`absolute inset-0 bg-linear-to-br ${tones[media.tone]}`} aria-hidden="true" />
       <img
         src={media.src}

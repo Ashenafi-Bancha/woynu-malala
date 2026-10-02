@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom'
 import { pageImages } from '../content/media'
 import { brand, collections, facebookPhotos, journal, occasions, phoneDisplay, social } from '../content/site'
 import { ButtonLink } from '../components/Button'
-import { CollectionGrid } from '../components/CollectionCard'
 import { CraftsmanshipTimeline } from '../components/CraftsmanshipTimeline'
 import { CustomDesignForm } from '../components/CustomDesignForm'
 import { Frame3D } from '../components/Frame3D'
 import { Gallery } from '../components/Gallery'
 import { PlaceholderImage } from '../components/PlaceholderImage'
 import { Reveal } from '../components/Reveal'
+import { HorizontalCollections, Marquee, ScrubText } from '../components/ScrollFx'
 import { SectionHeading } from '../components/SectionHeading'
 import { Testimonials } from '../components/Testimonials'
 import { SplitTitle, headingClass } from '../components/SplitTitle'
@@ -30,22 +30,24 @@ export default function HomeSections() {
   const { a } = useAiText()
   return (
     <>
-      {/* Slogan */}
-      <section className="relative overflow-hidden border-y border-gold/25 bg-ink-soft px-5 py-16 text-center md:py-24">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 hidden h-64 w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-[110px] md:block"
-        />
-        <Reveal tilt className="relative">
-          <div className="gold-rule mx-auto w-32" />
-          <p lang="am" className="mx-auto mt-8 max-w-4xl font-ethiopic text-3xl font-semibold leading-snug text-ivory sm:text-4xl md:text-6xl">
-            {brand.amharicSlogan}
-          </p>
-          {lang === 'en' ? (
-            <p className="mt-6 font-serif text-xl italic text-gold md:text-2xl">{brand.sloganTranslation}</p>
-          ) : null}
-          <div className="gold-rule mx-auto mt-8 w-32" />
-        </Reveal>
+      {/* Slogan: two bands gliding in opposite directions */}
+      <section aria-label={brand.amharicSlogan} className="relative overflow-hidden border-y border-gold/25 bg-ink-soft py-12 md:py-16">
+        <Marquee className="font-ethiopic text-4xl font-semibold text-ivory sm:text-5xl md:text-7xl">
+          {[0, 1, 2].map((i) => (
+            <span key={i} lang="am" className="flex shrink-0 items-center whitespace-nowrap">
+              <span className="px-8 md:px-12">{brand.amharicSlogan}</span>
+              <span aria-hidden="true" className="h-3 w-3 shrink-0 rotate-45 bg-gold md:h-4 md:w-4" />
+            </span>
+          ))}
+        </Marquee>
+        <Marquee reverse className="mt-6 font-serif text-2xl italic text-gold/80 md:mt-8 md:text-4xl">
+          {[0, 1, 2, 3].map((i) => (
+            <span key={i} className="flex shrink-0 items-center whitespace-nowrap">
+              <span className="px-8 md:px-12">{lang === 'en' ? brand.sloganTranslation : t('brand.tagline')}</span>
+              <span aria-hidden="true" className="h-px w-16 shrink-0 bg-gold/60" />
+            </span>
+          ))}
+        </Marquee>
       </section>
 
       {/* Introduction */}
@@ -71,15 +73,15 @@ export default function HomeSections() {
         </div>
       </section>
 
-      {/* Collections */}
-      <section className="bg-ink">
-        <div className="px-5 pb-12 pt-20 md:px-10 md:pb-16 md:pt-28">
+      {/* Collections: pinned sideways scroll on desktop, grid elsewhere */}
+      <HorizontalCollections
+        collections={collections.filter((col) => col.published)}
+        heading={
           <Reveal>
             <SectionHeading kicker={t('nav.collections')} title={t('home.collectionsTitle')} />
           </Reveal>
-        </div>
-        <CollectionGrid collections={collections.filter((col) => col.published)} />
-      </section>
+        }
+      />
 
       {/* Woynu AI */}
       <section className="relative overflow-hidden border-y border-gold/20 bg-ink-soft px-5 py-20 md:px-10 md:py-28">
@@ -121,19 +123,16 @@ export default function HomeSections() {
 
       {/* Statement */}
       <section className="relative min-h-[70vh] overflow-hidden">
-        <PlaceholderImage media={pageImages.homeStatement} className="absolute inset-0 h-full" kenburns showCaption={false} />
+        <div className="absolute inset-0">
+          <PlaceholderImage media={pageImages.homeStatement} className="h-full" kenburns showCaption={false} />
+        </div>
         <div className="absolute inset-0 z-[3] bg-ink/55" />
         <div className="relative z-[4] flex min-h-[70vh] items-end px-5 py-20 md:px-12">
-          <Reveal tilt>
-            <p className={`${headingClass} text-4xl md:text-6xl`}>
-              <span className="block text-ivory">{t('home.quote1')}</span>
-              <span className="block italic text-gold">{t('home.quote2')}</span>
-            </p>
-            <p className="mt-6 max-w-lg text-sm text-ivory/70">
-              Video section ready for MP4 / YouTube / Vimeo. Poster image is a landscape placeholder — not a brand
-              film. Use lazy-loaded media when the studio provides footage.
-            </p>
-          </Reveal>
+          {/* Each word lights up as the section scrolls through the screen */}
+          <p className={`${headingClass} max-w-5xl text-5xl sm:text-6xl md:text-8xl`}>
+            <ScrubText text={t('home.quote1')} className="block text-ivory" />
+            <ScrubText text={t('home.quote2')} className="block italic text-gold" />
+          </p>
         </div>
       </section>
 

@@ -3,6 +3,7 @@ import { Suspense, useEffect } from 'react'
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router-dom'
 import { Footer } from './Footer'
 import { Navbar } from './Navbar'
+import { Cursor, ScrollProgress } from './ScrollFx'
 import { brand } from '../content/site'
 import { useI18n } from '../i18n'
 import { hasFinePointer, prefersReducedMotion, whenIdle } from '../lib/device'
@@ -49,7 +50,11 @@ export function Layout() {
   return (
     <LazyMotion features={loadMotionFeatures} strict>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <ScrollProgress />
+      <Cursor />
       <Navbar />
+      {/* A new curtain element per page plays the sweep on every navigation */}
+      <div key={`curtain-${pathname}`} aria-hidden="true" className="page-curtain" />
       <main key={pathname} className="page-enter relative min-h-screen">
         {pathname !== '/' ? (
           // Sits in the space each page already leaves under the fixed header

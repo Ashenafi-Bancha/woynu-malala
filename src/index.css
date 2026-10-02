@@ -108,18 +108,16 @@
   }
 }
 
+/* `backwards` (not `both`): once the fade ends, no transform is left on <main>. A leftover
+   transform there would stop pinned (position: fixed) scroll sections from sticking. */
 .page-enter {
-  animation: page-fade 0.7s var(--ease-fashion) both;
+  animation: page-fade 0.7s var(--ease-fashion) backwards;
 }
 
 @keyframes page-fade {
   from {
     opacity: 0;
     transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
 
@@ -267,4 +265,94 @@ html.lenis-active {
 
 @media (prefers-reduced-motion: reduce) {
   .brand-ring, .brand-ring-reverse { animation: none; }
+}
+
+/* Headings rise out of a mask, line by line */
+.split-line {
+  display: block;
+  overflow: hidden;
+  /* room for italic descenders and swashes inside the mask */
+  padding: 0.06em 0.08em 0.14em 0;
+  margin-bottom: -0.14em;
+}
+
+.split-line > span {
+  display: block;
+  transform: translateY(112%) rotate(3deg);
+  transform-origin: 0 100%;
+  transition: transform 1.1s var(--ease-fashion);
+}
+
+.split-line-late > span {
+  transition-delay: 0.14s;
+}
+
+.split-line.is-shown > span {
+  transform: none;
+}
+
+/* Endless sideways band */
+@keyframes marquee {
+  to { transform: translateX(-100%); }
+}
+
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+.marquee-reverse {
+  animation-direction: reverse;
+}
+
+/* Page change: an amber curtain sweeps up and away */
+@keyframes curtain {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(0); }
+}
+
+.page-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  transform-origin: 50% 0;
+  transform: scaleY(0);
+  background: linear-gradient(180deg, #dea052, #a8691f);
+  animation: curtain 0.85s var(--ease-fashion) both;
+}
+
+/* Mouse follower */
+.cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 80;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #dea052;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.3s,
+    width 0.3s var(--ease-fashion),
+    height 0.3s var(--ease-fashion),
+    background-color 0.3s;
+  will-change: transform;
+}
+
+.cursor-ring[data-visible='true'] {
+  opacity: 1;
+}
+
+.cursor-ring[data-active='true'] {
+  width: 64px;
+  height: 64px;
+  background-color: rgba(222, 160, 82, 0.16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .split-line > span { transform: none; transition: none; }
+  .marquee-track { animation: none; }
+  .page-curtain { display: none; }
 }

@@ -4,7 +4,7 @@ import { Component, lazy, Suspense, useEffect, useRef, useState, type ReactNode 
 import { imageFor } from '../content/images'
 import { brand } from '../content/site'
 import { useI18n } from '../i18n'
-import { canRender3D, remember3DFallback, whenIdle } from '../lib/device'
+import { canRender3D, hasFinePointer, remember3DFallback, whenIdle } from '../lib/device'
 import { loadGsap } from '../lib/gsap'
 import { BrandName } from './BrandName'
 import { ButtonLink } from './Button'
@@ -37,8 +37,11 @@ const item = {
 // JavaScript runs, so they must stay put when React takes over. The lines below them and
 // the buttons then arrive one after another.
 
-/** Give the page a few quiet seconds before the 3D download starts competing for the phone. */
-const START_3D_AFTER_MS = 3000
+/**
+ * How long after the page is idle the 3D scene starts. Computers start almost at once;
+ * phones get a couple of quiet seconds first, so the download doesn't compete with the page.
+ */
+const start3DAfterMs = () => (hasFinePointer() ? 300 : 2200)
 
 export function Hero() {
   const { t } = useI18n()
@@ -56,7 +59,7 @@ export function Hero() {
     if (!canRender3D()) return
     let timer = 0
     const cancelIdle = whenIdle(() => {
-      timer = window.setTimeout(() => setUse3D(true), START_3D_AFTER_MS)
+      timer = window.setTimeout(() => setUse3D(true), start3DAfterMs())
     })
     return () => {
       cancelIdle()
@@ -129,30 +132,28 @@ export function Hero() {
         className="absolute right-[-10%] top-1/2 hidden h-[80vh] w-[60vw] -translate-y-1/2 rounded-full bg-gold/10 blur-[120px] lg:block"
       />
 
-      <div className="relative mx-auto grid min-h-[100svh] max-w-[1600px] items-center gap-12 px-5 pb-16 pt-28 md:px-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-        {/* The cloth: full-bleed behind the text on phones, its own column on desktop */}
-        <div className="absolute inset-0 lg:relative lg:inset-auto lg:order-2 lg:h-[min(80vh,760px)]">
-          <ClothFallback
-            className={`absolute inset-x-[16%] bottom-[12%] top-[16%] transition-opacity duration-1000 lg:inset-x-[14%] lg:bottom-[8%] lg:top-[8%] ${
-              ready3D ? 'opacity-0' : 'opacity-70 lg:opacity-100'
-            }`}
-          />
-          {use3D ? (
-            <div
-              className={`absolute inset-0 transition-opacity duration-1000 ${ready3D ? 'opacity-75 lg:opacity-100' : 'opacity-0'}`}
-            >
-              <ClothBoundary onError={tooSlow}>
-                <Suspense fallback={null}>
-                  <HeroCloth scroll={scroll} active={active} onReady={() => setReady3D(true)} onTooSlow={tooSlow} />
-                </Suspense>
-              </ClothBoundary>
-            </div>
-          ) : null}
-          {/* Keeps the text readable over the cloth on phones */}
-          <div className="absolute inset-0 bg-linear-to-b from-ink/70 via-ink/45 to-ink/90 lg:hidden" />
-        </div>
+      {/* The 3D scene fills the whole hero, behind the text */}
+      <div className="absolute inset-0">
+        <ClothFallback
+          className={`absolute inset-x-[16%] bottom-[12%] top-[16%] transition-opacity duration-1000 lg:inset-y-[14%] lg:left-[58%] lg:right-[10%] ${
+            ready3D ? 'opacity-0' : 'opacity-70 lg:opacity-100'
+          }`}
+        />
+        {use3D ? (
+          <div className={`absolute inset-0 transition-opacity duration-1000 ${ready3D ? 'opacity-90 lg:opacity-100' : 'opacity-0'}`}>
+            <ClothBoundary onError={tooSlow}>
+              <Suspense fallback={null}>
+                <HeroCloth scroll={scroll} active={active} onReady={() => setReady3D(true)} onTooSlow={tooSlow} />
+              </Suspense>
+            </ClothBoundary>
+          </div>
+        ) : null}
+        {/* Keeps the text readable: darker behind it on phones, a soft fade from the left on desktop */}
+        <div className="absolute inset-0 bg-linear-to-b from-ink/75 via-ink/60 to-ink/90 lg:bg-linear-to-r lg:from-ink lg:via-ink/55 lg:to-transparent" />
+      </div>
 
-        <div ref={text} className="relative z-[4] lg:order-1">
+      <div className="relative mx-auto grid min-h-[100svh] max-w-[1600px] items-center gap-12 px-5 pb-16 pt-28 md:px-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+        <div ref={text} className="relative z-[4]">
           <m.div
             variants={container}
             initial={reduced ? false : 'hidden'}
