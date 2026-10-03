@@ -21,6 +21,7 @@ export const en = {
   'social.follow': 'Follow us',
   'social.soon': 'link coming soon',
   'common.loading': 'Loading',
+  'common.toTop': 'Back to top',
   'common.rights': 'All rights reserved.',
   'common.socialNote': 'Instagram, TikTok, and Telegram links are coming soon.',
 
@@ -202,6 +203,7 @@ export const am: Record<Key, string> = {
   'social.follow': 'ይከተሉን',
   'social.soon': 'አድራሻው በቅርቡ ይገባል',
   'common.loading': 'በመጫን ላይ',
+  'common.toTop': 'ወደ ላይ ተመለስ',
   'common.rights': 'መብቱ በሕግ የተጠበቀ ነው።',
   'common.socialNote': 'የኢንስታግራም፣ የቲክቶክ እና የቴሌግራም አድራሻዎች በቅርቡ ይገባሉ።',
 

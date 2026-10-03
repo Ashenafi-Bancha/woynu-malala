@@ -414,3 +414,254 @@ html.lenis-active {
   .sway-3d { animation: none; }
   .hero-media { animation: none; }
 }
+
+/* ------------------------------------------------------------------ interaction effects */
+
+/* No grey flash on tap: every tappable thing has its own press effect instead */
+a, button, [role='button'], label {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Page change, part 1: the curtain closes upward over the old page (part 2 is .page-curtain) */
+.page-cover {
+  position: fixed;
+  inset: 0;
+  z-index: 56;
+  pointer-events: none;
+  transform: scaleY(0);
+  transform-origin: 50% 100%;
+  background: linear-gradient(180deg, #dea052, #a8691f);
+  transition: transform 0.42s var(--ease-fashion);
+}
+
+.page-cover.is-on {
+  transform: scaleY(1);
+}
+
+/* Tap / click: an expanding ring, a flash of glow, and sparks */
+.tap-burst {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.tap-burst::before,
+.tap-burst::after {
+  content: '';
+  position: absolute;
+  left: -36px;
+  top: -36px;
+  width: 72px;
+  height: 72px;
+  border-radius: 9999px;
+}
+
+.tap-burst::before {
+  border: 1.5px solid #ebb977;
+  animation: tap-ring 0.6s var(--ease-fashion) both;
+}
+
+.tap-burst::after {
+  background: radial-gradient(circle, rgba(235, 185, 119, 0.55), rgba(222, 160, 82, 0) 68%);
+  animation: tap-glow 0.7s ease-out both;
+}
+
+.tap-burst i {
+  position: absolute;
+  left: -2px;
+  top: -2px;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: #ffe2b0;
+  box-shadow: 0 0 8px 1px rgba(235, 185, 119, 0.9);
+  animation: tap-spark 0.65s var(--ease-fashion) both;
+}
+
+@keyframes tap-ring {
+  from { transform: scale(0.15); opacity: 0.95; }
+  to { transform: scale(1.25); opacity: 0; }
+}
+
+@keyframes tap-glow {
+  from { transform: scale(0.4); opacity: 1; }
+  to { transform: scale(2.1); opacity: 0; }
+}
+
+@keyframes tap-spark {
+  from { transform: rotate(var(--angle)) translateX(6px) scale(1); opacity: 1; }
+  to { transform: rotate(var(--angle)) translateX(var(--reach)) scale(0.2); opacity: 0; }
+}
+
+/* Soft light that trails the mouse */
+.pointer-glow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 45;
+  width: 560px;
+  height: 560px;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle, rgba(222, 160, 82, 0.13), rgba(222, 160, 82, 0.04) 45%, transparent 68%);
+  transition: opacity 0.6s;
+  will-change: transform;
+}
+
+.pointer-glow[data-visible='true'] {
+  opacity: 1;
+}
+
+/* Buttons: lean toward the mouse, press in when tapped, a light sweeps across, and a halo glows */
+.btn-fx {
+  position: relative;
+  isolation: isolate;
+  transform: translate(var(--mx, 0px), var(--my, 0px)) scale(var(--press, 1));
+  transition:
+    transform 0.35s var(--ease-fashion),
+    color 0.3s,
+    background-color 0.3s,
+    border-color 0.3s;
+}
+
+.btn-fx:active {
+  --press: 0.95;
+}
+
+/* halo */
+.btn-fx::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  z-index: -1;
+  background: #dea052;
+  filter: blur(16px);
+  opacity: 0;
+  transition: opacity 0.45s;
+  pointer-events: none;
+}
+
+.btn-fx:hover::after,
+.btn-fx:active::after,
+.btn-fx:focus-visible::after {
+  opacity: 0.5;
+}
+
+/* The main (gold) buttons breathe with light all the time */
+.btn-glow::after {
+  animation: glow-pulse 2.8s ease-in-out infinite alternate;
+}
+
+.btn-glow:hover::after,
+.btn-glow:active::after {
+  animation: none;
+  opacity: 0.75;
+}
+
+@keyframes glow-pulse {
+  from { opacity: 0.12; }
+  to { opacity: 0.5; }
+}
+
+/* light sweep */
+.btn-fx::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.45) 50%, transparent 65%) no-repeat;
+  background-size: 250% 100%;
+  background-position: 160% 0;
+  pointer-events: none;
+}
+
+.btn-fx:hover::before,
+.btn-fx:active::before {
+  background-position: -60% 0;
+  transition: background-position 0.8s var(--ease-fashion);
+}
+
+/* Header links: a glowing gold line grows under the link */
+nav[aria-label='Primary'] a {
+  position: relative;
+  padding-block: 0.5rem;
+}
+
+nav[aria-label='Primary'] a::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: #dea052;
+  box-shadow: 0 0 10px 1px rgba(222, 160, 82, 0.8);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.45s var(--ease-fashion);
+}
+
+nav[aria-label='Primary'] a:hover::after,
+nav[aria-label='Primary'] a[aria-current='page']::after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+}
+
+/* Phone menu: each link slides and lights up under the finger */
+nav[aria-label='Mobile'] a {
+  transition:
+    transform 0.3s var(--ease-fashion),
+    color 0.3s,
+    text-shadow 0.3s;
+}
+
+nav[aria-label='Mobile'] a:active {
+  transform: translateX(10px);
+  color: #dea052;
+  text-shadow: 0 0 24px rgba(222, 160, 82, 0.7);
+}
+
+/* Gold glow */
+.gold-rule {
+  box-shadow: 0 0 14px rgba(222, 160, 82, 0.55);
+}
+
+.glow-card {
+  transition: box-shadow 0.7s var(--ease-fashion);
+}
+
+.group:hover .glow-card,
+.group:active .glow-card,
+.group:focus-visible .glow-card {
+  box-shadow:
+    0 40px 80px -30px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(222, 160, 82, 0.55),
+    0 0 70px -8px rgba(222, 160, 82, 0.55);
+}
+
+/* Form fields light up while they are being filled in */
+input:not([type='checkbox']):not([type='radio']):not([type='file']):focus,
+textarea:focus,
+select:focus {
+  box-shadow:
+    0 0 0 1px #dea052,
+    0 0 26px -4px rgba(222, 160, 82, 0.6);
+  transition: box-shadow 0.35s;
+}
+
+/* Back-to-top button */
+.to-top {
+  box-shadow: 0 0 26px -4px rgba(222, 160, 82, 0.6);
+}
+
+.to-top:hover,
+.to-top:active {
+  box-shadow: 0 0 34px 0 rgba(222, 160, 82, 0.85);
+  transform: scale(0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-cover, .pointer-glow { display: none; }
+  .btn-fx { transform: none; }
+  .btn-glow::after { animation: none; }
+  .btn-fx::before { display: none; }
+}

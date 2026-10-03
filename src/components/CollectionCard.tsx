@@ -22,7 +22,7 @@ export function CollectionCard({ collection, index }: { collection: Collection; 
           className="absolute inset-0 translate-x-3 translate-y-3 border border-gold/25 transition duration-700 group-hover:translate-x-5 group-hover:translate-y-5"
           style={depth(-30)}
         />
-        <div className="absolute inset-0 overflow-hidden bg-ink-soft shadow-[0_40px_80px_-30px_rgba(0,0,0,0.95)]">
+        <div className="glow-card absolute inset-0 overflow-hidden bg-ink-soft shadow-[0_40px_80px_-30px_rgba(0,0,0,0.95)]">
           <PlaceholderImage
             media={collection.cover}
             className="absolute inset-0 h-full w-full"

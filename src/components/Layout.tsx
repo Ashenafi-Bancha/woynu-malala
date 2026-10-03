@@ -2,6 +2,7 @@ import { LazyMotion } from 'motion/react'
 import { Suspense, useEffect } from 'react'
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router-dom'
 import { Footer } from './Footer'
+import { Interactions } from './Interactions'
 import { Navbar } from './Navbar'
 import { Cursor, ScrollProgress } from './ScrollFx'
 import { brand } from '../content/site'
@@ -52,6 +53,7 @@ export function Layout() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <ScrollProgress />
       <Cursor />
+      <Interactions />
       <Navbar />
       {/* A new curtain element per page plays the sweep on every navigation */}
       <div key={`curtain-${pathname}`} aria-hidden="true" className="page-curtain" />
