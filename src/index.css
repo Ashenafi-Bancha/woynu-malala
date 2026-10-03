@@ -218,30 +218,49 @@ html[lang='am'] .leading-\[0\.95\] {
   line-height: 1.2;
 }
 
-/* Woynu AI loading loom: woven bands rise while a light "shuttle" passes through */
-@keyframes loom-thread {
-  0%, 100% { transform: scaleY(0.25); }
-  50% { transform: scaleY(1); }
+/* Woynu AI: rectangular tiles in red, yellow and black light up in a travelling wave */
+@keyframes weave-tile {
+  0%, 100% { opacity: 0.22; transform: scale(0.86); }
+  45%, 60% { opacity: 1; transform: scale(1); }
 }
 
-@keyframes loom-shuttle {
-  0% { bottom: 5%; opacity: 0; }
-  15% { opacity: 1; }
-  85% { opacity: 1; }
-  100% { bottom: 95%; opacity: 0; }
+.weave-tile {
+  display: block;
+  /* the outline keeps the black tiles readable on the dark panel */
+  box-shadow: inset 0 0 0 1px rgba(240, 238, 235, 0.16);
+  animation: weave-tile 3.2s ease-in-out infinite;
 }
 
-.loom-thread {
-  animation: loom-thread 2.4s ease-in-out infinite;
+/* "Coming soon" label */
+.soon-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  width: fit-content;
+  border: 1px solid #dea052;
+  background: rgba(222, 160, 82, 0.14);
+  padding: 0.5em 0.95em;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #ebb977;
+  box-shadow: 0 0 22px -4px rgba(222, 160, 82, 0.6);
 }
 
-.loom-shuttle {
-  animation: loom-shuttle 2.4s ease-in-out infinite;
+.soon-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #ebb977;
+  box-shadow: 0 0 8px 2px rgba(235, 185, 119, 0.9);
+  animation: glow-pulse 1.2s ease-in-out infinite alternate;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .loom-thread { animation: none; transform: scaleY(0.7); }
-  .loom-shuttle { animation: none; bottom: 50%; }
+  .weave-tile { animation: none; }
+  .soon-badge::before { animation: none; }
 }
 
 /* Lenis drives scrolling itself, so the browser's own smooth-scroll must be off while it runs */

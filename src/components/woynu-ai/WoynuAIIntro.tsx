@@ -18,6 +18,7 @@ export function WoynuAIIntro({ onStart }: { onStart: () => void }) {
     <div>
       <div className="grid items-center gap-14 lg:grid-cols-[1.2fr_1fr]">
         <Reveal>
+          <p className="soon-badge mb-5">{a('comingSoon')}</p>
           <p className="text-[11px] uppercase tracking-[0.4em] text-gold">{a('kicker')}</p>
           <p className="mt-6 font-serif text-3xl italic text-gold md:text-4xl">Woynu AI</p>
           <h1 className={`mt-2 ${headingClass} text-5xl sm:text-6xl md:text-7xl`}>
