@@ -41,6 +41,9 @@ const item = {
  * How long after the page is idle the 3D scene starts. Computers start almost at once;
  * phones get a couple of quiet seconds first, so the download doesn't compete with the page.
  */
+/** Phones: the two buttons share one row, so they are set a little tighter */
+const compact = 'max-lg:px-2 max-lg:tracking-[0.14em]'
+
 const start3DAfterMs = () => (hasFinePointer() ? 300 : 2200)
 
 export function Hero() {
@@ -53,6 +56,15 @@ export function Hero() {
   const [ready3D, setReady3D] = useState(false)
   const [active, setActive] = useState(true)
   const studioPhoto = imageFor('hero/hero')
+
+  // From lg up the cloth sits beside the text; below that it has the top zone to itself
+  const [beside, setBeside] = useState(() => window.matchMedia('(min-width: 1024px)').matches)
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)')
+    const update = () => setBeside(query.matches)
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
 
   // Load the 3D cloth only where it will run well, and only after the page has settled.
   useEffect(() => {
@@ -116,7 +128,10 @@ export function Hero() {
   }
 
   return (
-    <section ref={section} className="relative min-h-[100svh] overflow-hidden bg-ink">
+    // Phones stack the hero in three zones under the header: the 3D cloth on its own,
+    // then the name and slogan, then the buttons and the scroll cue. From lg up the cloth
+    // fills the hero and the text sits to its left.
+    <section ref={section} className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink lg:block">
       {/* A studio photo saved as images/hero/hero.jpg sits softly behind everything */}
       {studioPhoto ? (
         <img
@@ -132,54 +147,71 @@ export function Hero() {
         className="absolute right-[-10%] top-1/2 hidden h-[80vh] w-[60vw] -translate-y-1/2 rounded-full bg-gold/10 blur-[120px] lg:block"
       />
 
-      {/* The 3D scene fills the whole hero, behind the text */}
-      <div className="absolute inset-0">
+      {/* Zone 1: the 3D cloth. On phones nothing is drawn over it. */}
+      <div className="relative mt-16 h-[30svh] shrink-0 lg:absolute lg:inset-0 lg:mt-0 lg:h-auto">
+        {/* Phones: a breathing gold glow behind the cloth */}
+        <div aria-hidden="true" className="hero-glow absolute inset-x-[8%] inset-y-[10%] rounded-full bg-gold/40 blur-[60px] lg:hidden" />
         <ClothFallback
-          className={`absolute inset-x-[16%] bottom-[12%] top-[16%] transition-opacity duration-1000 lg:inset-y-[14%] lg:left-[58%] lg:right-[10%] ${
-            ready3D ? 'opacity-0' : 'opacity-70 lg:opacity-100'
+          className={`absolute inset-x-[26%] inset-y-[6%] transition-opacity duration-1000 lg:inset-y-[14%] lg:left-[58%] lg:right-[10%] ${
+            ready3D ? 'opacity-0' : 'opacity-100'
           }`}
         />
         {use3D ? (
-          <div className={`absolute inset-0 transition-opacity duration-1000 ${ready3D ? 'opacity-90 lg:opacity-100' : 'opacity-0'}`}>
+          <div className={`absolute inset-0 transition-opacity duration-1000 ${ready3D ? 'opacity-100' : 'opacity-0'}`}>
             <ClothBoundary onError={tooSlow}>
               <Suspense fallback={null}>
-                <HeroCloth scroll={scroll} active={active} onReady={() => setReady3D(true)} onTooSlow={tooSlow} />
+                <HeroCloth
+                  scroll={scroll}
+                  beside={beside}
+                  active={active}
+                  onReady={() => setReady3D(true)}
+                  onTooSlow={tooSlow}
+                />
               </Suspense>
             </ClothBoundary>
           </div>
         ) : null}
-        {/* Keeps the text readable: darker behind it on phones, a soft fade from the left on desktop */}
-        <div className="absolute inset-0 bg-linear-to-b from-ink/75 via-ink/60 to-ink/90 lg:bg-linear-to-r lg:from-ink lg:via-ink/55 lg:to-transparent" />
+        {/* Desktop: a soft fade from the left keeps the text readable over the scene */}
+        <div className="absolute inset-0 hidden bg-linear-to-r from-ink via-ink/55 to-transparent lg:block" />
       </div>
 
-      <div className="relative mx-auto grid min-h-[100svh] max-w-[1600px] items-center gap-12 px-5 pb-16 pt-28 md:px-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-        <div ref={text} className="relative z-[4]">
+      <div className="relative mx-auto flex w-full max-w-[1600px] flex-1 flex-col px-5 pb-6 pt-3 md:px-12 lg:grid lg:min-h-[100svh] lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16 lg:pb-16 lg:pt-28">
+        <div ref={text} className="relative z-[4] flex flex-1 flex-col lg:block">
           <m.div
             variants={container}
             initial={reduced ? false : 'hidden'}
             animate="show"
-            className="flex flex-col items-center text-center lg:items-start lg:text-left"
+            className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left"
           >
+            {/* Zone 2: who we are */}
             <p className="text-[11px] uppercase tracking-[0.42em] text-gold">{t('brand.place')}</p>
-            <div className="mt-6">
+            <div className="mt-4 lg:mt-6">
               <BrandName as="h1" size="xl" align="responsive" />
             </div>
-            <div className="gold-rule mt-8 w-40" />
+            <div className="gold-rule mt-6 w-40 lg:mt-8" />
             <m.p
               variants={item}
               lang="am"
-              className="mt-6 font-ethiopic text-2xl font-semibold leading-snug text-gold sm:text-3xl md:text-4xl"
+              className="mt-5 font-ethiopic text-2xl font-semibold leading-snug text-gold sm:text-3xl md:text-4xl lg:mt-6"
             >
               {brand.amharicSlogan}
             </m.p>
-            <m.p variants={item} className="mt-4 max-w-lg font-serif text-xl italic leading-snug text-ivory/80 md:text-2xl">
+            <m.p variants={item} className="mt-3 max-w-lg font-serif text-xl italic leading-snug text-ivory/80 md:text-2xl lg:mt-4">
               {t('brand.statement')}
             </m.p>
-            <m.div variants={item} className="mt-10 flex flex-wrap justify-center gap-3 lg:justify-start">
-              <ButtonLink to="/collections">{t('hero.explore')}</ButtonLink>
-              <ButtonLink to="/contact" variant="ghost">
+
+            {/* Zone 3: what to do next */}
+            <m.div variants={item} className="mt-auto grid w-full grid-cols-2 gap-3 pt-7 lg:mt-10 lg:flex lg:w-auto lg:pt-0">
+              <ButtonLink to="/collections" className={compact}>
+                {t('hero.explore')}
+              </ButtonLink>
+              <ButtonLink to="/contact" variant="ghost" className={compact}>
                 {t('hero.contact')}
               </ButtonLink>
+            </m.div>
+            <m.div variants={item} className="mt-5 flex flex-col items-center gap-2 lg:mt-12 lg:flex-row lg:gap-4">
+              <span aria-hidden="true" className="scroll-cue" />
+              <span className="text-[10px] uppercase tracking-[0.34em] text-ivory/60">{t('hero.scroll')}</span>
             </m.div>
           </m.div>
         </div>

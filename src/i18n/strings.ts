@@ -38,6 +38,7 @@ export const en = {
   // Hero
   'hero.explore': 'View Collections',
   'hero.contact': 'Contact / Order',
+  'hero.scroll': 'Scroll to explore',
   'hero.lookbook': 'View Lookbook',
   'hero.caption': 'Heritage, worn today.',
 
@@ -218,6 +219,7 @@ export const am: Record<Key, string> = {
 
   'hero.explore': 'ስብስቦችን ይመልከቱ',
   'hero.contact': 'ያግኙን / ይዘዙ',
+  'hero.scroll': 'ለማየት ወደ ታች ይሸብልሉ',
   'hero.lookbook': 'የአልባሳት ማሳያ',
   'hero.caption': 'ቅርስ፣ ዛሬም ይለበሳል።',
 

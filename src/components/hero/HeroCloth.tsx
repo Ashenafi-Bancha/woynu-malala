@@ -11,18 +11,20 @@ import { CLOTH_GEOMETRY, createClothMaterial, createDust } from './clothMaterial
 export type ClothControls = {
   /** 0..1 scroll progress through the hero, written by the page */
   scroll: RefObject<number>
+  /** True when the cloth shares the hero with the text (desktop); false when it has its own zone (phones) */
+  beside: boolean
 }
 
 const easeOutCubic = (x: number) => 1 - Math.pow(1 - x, 3)
 
-function Scene({ scroll }: ClothControls) {
+function Scene({ scroll, beside }: ClothControls) {
   const group = useRef<THREE.Group>(null)
   const pointer = useRef({ x: 0, y: 0 })
   const eased = useRef({ x: 0, y: 0 })
   const born = useRef<number | null>(null)
   const { viewport, camera, gl } = useThree()
-  // Wide screens: the cloth sits to the right of the text. Tall screens: centred behind it.
-  const wide = viewport.aspect > 1.15
+  // Desktop: the cloth sits to the right of the text. Phones: centred in its own zone.
+  const wide = beside
 
   const cloth = useMemo(createClothMaterial, [])
   const dust = useMemo(() => createDust(wide ? 260 : 110), [wide])
@@ -115,7 +117,7 @@ type HeroClothProps = ClothControls & {
   onTooSlow: () => void
 }
 
-export default function HeroCloth({ scroll, active, onReady, onTooSlow }: HeroClothProps) {
+export default function HeroCloth({ scroll, beside, active, onReady, onTooSlow }: HeroClothProps) {
   return (
     <Canvas
       aria-hidden="true"
@@ -127,7 +129,7 @@ export default function HeroCloth({ scroll, active, onReady, onTooSlow }: HeroCl
       style={{ pointerEvents: 'none' }}
     >
       <PerformanceMonitor bounds={() => [26, 60]} flipflops={2} onDecline={onTooSlow} onFallback={onTooSlow}>
-        <Scene scroll={scroll} />
+        <Scene scroll={scroll} beside={beside} />
       </PerformanceMonitor>
     </Canvas>
   )

@@ -4,15 +4,15 @@ import { useI18n } from '../i18n'
 import { hasFinePointer, prefersReducedMotion } from '../lib/device'
 
 // Site-wide interaction effects, shared by phones and computers:
-//   – a gold ring, glow and sparks wherever the visitor taps or clicks
-//   – a soft light that follows the mouse, and buttons that lean toward it (computers)
+//   – a brief glow and sparks wherever the visitor taps or clicks
+//   – buttons that lean toward the mouse (computers)
 //   – a curtain that closes over the page before a link opens the next one
 //   – a glowing "back to top" button that fills as the page is scrolled
 
 const SPARKS = 7
 const COVER_MS = 420
 
-/** Ring + glow + sparks at the point of every tap or click. */
+/** Glow + sparks at the point of every tap or click. */
 function useTapBurst(layer: React.RefObject<HTMLDivElement | null>) {
   useEffect(() => {
     if (prefersReducedMotion()) return
@@ -39,24 +39,11 @@ function useTapBurst(layer: React.RefObject<HTMLDivElement | null>) {
   }, [layer])
 }
 
-/** Computers: a wide soft light trails the mouse, and buttons lean toward it. */
-function usePointerLight(glow: React.RefObject<HTMLDivElement | null>) {
+/** Computers: buttons lean toward the mouse while it is over them. */
+function useMagneticButtons() {
   useEffect(() => {
     if (!hasFinePointer() || prefersReducedMotion()) return
-    const el = glow.current
-    let x = window.innerWidth / 2
-    let y = window.innerHeight / 2
-    let tx = x
-    let ty = y
-    let frame = 0
     let pulled: HTMLElement | null = null
-
-    const tick = () => {
-      x += (tx - x) * 0.09
-      y += (ty - y) * 0.09
-      if (el) el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`
-      frame = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(tick) : 0
-    }
     const release = () => {
       pulled?.style.removeProperty('--mx')
       pulled?.style.removeProperty('--my')
@@ -64,11 +51,6 @@ function usePointerLight(glow: React.RefObject<HTMLDivElement | null>) {
     }
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return
-      tx = e.clientX
-      ty = e.clientY
-      if (el) el.dataset.visible = 'true'
-      if (!frame) frame = requestAnimationFrame(tick)
-
       const button = (e.target as Element | null)?.closest?.<HTMLElement>('.btn-fx') ?? null
       if (button !== pulled) release()
       if (button) {
@@ -78,19 +60,14 @@ function usePointerLight(glow: React.RefObject<HTMLDivElement | null>) {
         pulled = button
       }
     }
-    const onLeave = () => {
-      if (el) el.dataset.visible = 'false'
-      release()
-    }
     window.addEventListener('pointermove', onMove, { passive: true })
-    document.documentElement.addEventListener('pointerleave', onLeave)
+    document.documentElement.addEventListener('pointerleave', release)
     return () => {
       window.removeEventListener('pointermove', onMove)
-      document.documentElement.removeEventListener('pointerleave', onLeave)
-      cancelAnimationFrame(frame)
+      document.documentElement.removeEventListener('pointerleave', release)
       release()
     }
-  }, [glow])
+  }, [])
 }
 
 /**
@@ -204,15 +181,13 @@ function BackToTop() {
 
 export function Interactions() {
   const layer = useRef<HTMLDivElement>(null)
-  const glow = useRef<HTMLDivElement>(null)
   const cover = useRef<HTMLDivElement>(null)
   useTapBurst(layer)
-  usePointerLight(glow)
+  useMagneticButtons()
   usePageCover(cover)
 
   return (
     <>
-      <div ref={glow} aria-hidden="true" data-visible="false" className="pointer-glow" />
       <div ref={layer} aria-hidden="true" className="pointer-events-none fixed inset-0 z-[75] overflow-hidden" />
       <div ref={cover} aria-hidden="true" className="page-cover" />
       <BackToTop />

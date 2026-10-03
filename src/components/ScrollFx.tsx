@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Collection } from '../content/types'
-import { hasFinePointer, prefersReducedMotion } from '../lib/device'
+import { prefersReducedMotion } from '../lib/device'
 import { loadGsap } from '../lib/gsap'
 import { CollectionCard, CollectionGrid } from './CollectionCard'
 
@@ -174,45 +174,4 @@ export function HorizontalCollections({ collections, heading }: { collections: C
       </div>
     </section>
   )
-}
-
-/** A soft ring that follows the mouse and grows over links and buttons (mouse users only). */
-export function Cursor() {
-  const ring = useRef<HTMLDivElement>(null)
-  const [enabled] = useState(() => hasFinePointer() && !prefersReducedMotion())
-
-  useEffect(() => {
-    if (!enabled || !ring.current) return
-    const el = ring.current
-    let x = -100
-    let y = -100
-    let tx = x
-    let ty = y
-    let frame = 0
-    const tick = () => {
-      x += (tx - x) * 0.2
-      y += (ty - y) * 0.2
-      el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`
-      frame = Math.abs(tx - x) + Math.abs(ty - y) > 0.3 ? requestAnimationFrame(tick) : 0
-    }
-    const onMove = (e: PointerEvent) => {
-      if (e.pointerType !== 'mouse') return
-      tx = e.clientX
-      ty = e.clientY
-      el.dataset.visible = 'true'
-      el.dataset.active = (e.target as Element | null)?.closest?.('a, button, label, [role="button"]') ? 'true' : 'false'
-      if (!frame) frame = requestAnimationFrame(tick)
-    }
-    const onLeave = () => (el.dataset.visible = 'false')
-    window.addEventListener('pointermove', onMove, { passive: true })
-    document.documentElement.addEventListener('pointerleave', onLeave)
-    return () => {
-      window.removeEventListener('pointermove', onMove)
-      document.documentElement.removeEventListener('pointerleave', onLeave)
-      cancelAnimationFrame(frame)
-    }
-  }, [enabled])
-
-  if (!enabled) return null
-  return <div ref={ring} aria-hidden="true" data-visible="false" data-active="false" className="cursor-ring" />
 }

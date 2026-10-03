@@ -24,8 +24,8 @@ const styles = {
     descriptor: 'mt-3 text-xs md:text-sm tracking-[0.34em]',
   },
   xl: {
-    name: 'text-[17vw] sm:text-[13vw] lg:text-[7.4vw] 2xl:text-[8.5rem]',
-    descriptor: 'mt-5 text-[2.9vw] sm:text-sm lg:text-base tracking-[0.36em]',
+    name: 'whitespace-nowrap text-[13.5vw] sm:text-[13vw] lg:text-[7.4vw] 2xl:text-[8.5rem]',
+    descriptor: 'mt-3 text-[2.9vw] sm:text-sm lg:mt-5 lg:text-base tracking-[0.36em]',
   },
 }
 

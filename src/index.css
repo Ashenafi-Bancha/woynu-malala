@@ -321,36 +321,6 @@ html.lenis-active {
   animation: curtain 0.85s var(--ease-fashion) both;
 }
 
-/* Mouse follower */
-.cursor-ring {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 80;
-  width: 34px;
-  height: 34px;
-  border: 1px solid #dea052;
-  border-radius: 9999px;
-  pointer-events: none;
-  opacity: 0;
-  transition:
-    opacity 0.3s,
-    width 0.3s var(--ease-fashion),
-    height 0.3s var(--ease-fashion),
-    background-color 0.3s;
-  will-change: transform;
-}
-
-.cursor-ring[data-visible='true'] {
-  opacity: 1;
-}
-
-.cursor-ring[data-active='true'] {
-  width: 64px;
-  height: 64px;
-  background-color: rgba(222, 160, 82, 0.16);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .split-line > span { transform: none; transition: none; }
   .marquee-track { animation: none; }
@@ -438,14 +408,13 @@ a, button, [role='button'], label {
   transform: scaleY(1);
 }
 
-/* Tap / click: an expanding ring, a flash of glow, and sparks */
+/* Tap / click: a flash of glow and sparks (no ring) */
 .tap-burst {
   position: absolute;
   width: 0;
   height: 0;
 }
 
-.tap-burst::before,
 .tap-burst::after {
   content: '';
   position: absolute;
@@ -454,15 +423,7 @@ a, button, [role='button'], label {
   width: 72px;
   height: 72px;
   border-radius: 9999px;
-}
-
-.tap-burst::before {
-  border: 1.5px solid #ebb977;
-  animation: tap-ring 0.6s var(--ease-fashion) both;
-}
-
-.tap-burst::after {
-  background: radial-gradient(circle, rgba(235, 185, 119, 0.55), rgba(222, 160, 82, 0) 68%);
+  background: radial-gradient(circle, rgba(235, 185, 119, 0.5), rgba(222, 160, 82, 0) 68%);
   animation: tap-glow 0.7s ease-out both;
 }
 
@@ -478,11 +439,6 @@ a, button, [role='button'], label {
   animation: tap-spark 0.65s var(--ease-fashion) both;
 }
 
-@keyframes tap-ring {
-  from { transform: scale(0.15); opacity: 0.95; }
-  to { transform: scale(1.25); opacity: 0; }
-}
-
 @keyframes tap-glow {
   from { transform: scale(0.4); opacity: 1; }
   to { transform: scale(2.1); opacity: 0; }
@@ -491,26 +447,6 @@ a, button, [role='button'], label {
 @keyframes tap-spark {
   from { transform: rotate(var(--angle)) translateX(6px) scale(1); opacity: 1; }
   to { transform: rotate(var(--angle)) translateX(var(--reach)) scale(0.2); opacity: 0; }
-}
-
-/* Soft light that trails the mouse */
-.pointer-glow {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 45;
-  width: 560px;
-  height: 560px;
-  border-radius: 9999px;
-  pointer-events: none;
-  opacity: 0;
-  background: radial-gradient(circle, rgba(222, 160, 82, 0.13), rgba(222, 160, 82, 0.04) 45%, transparent 68%);
-  transition: opacity 0.6s;
-  will-change: transform;
-}
-
-.pointer-glow[data-visible='true'] {
-  opacity: 1;
 }
 
 /* Buttons: lean toward the mouse, press in when tapped, a light sweeps across, and a halo glows */
@@ -660,8 +596,50 @@ select:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page-cover, .pointer-glow { display: none; }
+  .page-cover { display: none; }
   .btn-fx { transform: none; }
   .btn-glow::after { animation: none; }
   .btn-fx::before { display: none; }
+}
+
+/* Hero, phones: the gold glow behind the cloth breathes */
+.hero-glow {
+  animation: glow-pulse 3.4s ease-in-out infinite alternate;
+}
+
+/* "Scroll to explore": a small outline with a dot that keeps travelling downward */
+.scroll-cue {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 36px;
+  flex-shrink: 0;
+  border: 1px solid rgba(222, 160, 82, 0.7);
+  border-radius: 9999px;
+  box-shadow: 0 0 16px -2px rgba(222, 160, 82, 0.55);
+}
+
+.scroll-cue::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 9999px;
+  background: #ebb977;
+  box-shadow: 0 0 8px 1px rgba(235, 185, 119, 0.9);
+  animation: scroll-cue 1.7s var(--ease-fashion) infinite;
+}
+
+@keyframes scroll-cue {
+  0% { transform: translateY(0); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translateY(17px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow { animation: none; opacity: 0.35; }
+  .scroll-cue::after { animation: none; opacity: 1; }
 }

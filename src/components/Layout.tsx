@@ -4,7 +4,7 @@ import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router-dom'
 import { Footer } from './Footer'
 import { Interactions } from './Interactions'
 import { Navbar } from './Navbar'
-import { Cursor, ScrollProgress } from './ScrollFx'
+import { ScrollProgress } from './ScrollFx'
 import { brand } from '../content/site'
 import { useI18n } from '../i18n'
 import { hasFinePointer, prefersReducedMotion, whenIdle } from '../lib/device'
@@ -52,7 +52,6 @@ export function Layout() {
     <LazyMotion features={loadMotionFeatures} strict>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <ScrollProgress />
-      <Cursor />
       <Interactions />
       <Navbar />
       {/* A new curtain element per page plays the sweep on every navigation */}
