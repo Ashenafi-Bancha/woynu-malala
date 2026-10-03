@@ -602,11 +602,6 @@ select:focus {
   .btn-fx::before { display: none; }
 }
 
-/* Hero, phones: the gold glow behind the cloth breathes */
-.hero-glow {
-  animation: glow-pulse 3.4s ease-in-out infinite alternate;
-}
-
 /* "Scroll to explore": a small outline with a dot that keeps travelling downward */
 .scroll-cue {
   position: relative;
@@ -640,6 +635,170 @@ select:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-glow { animation: none; opacity: 0.35; }
   .scroll-cue::after { animation: none; opacity: 1; }
+}
+
+/* ------------------------------------------------------------------ hero emblem
+   The logo as a round medallion inside turning rings of red, black and yellow light
+   (the Dinguza colours). Pure CSS: it is painted before any JavaScript runs. */
+
+.hero-emblem-zone {
+  perspective: 1100px;
+}
+
+/* Tilts toward the mouse (the two variables are set from Hero.tsx) */
+.hero-emblem-tilt {
+  height: 88%;
+  aspect-ratio: 1;
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.5s var(--ease-fashion);
+  will-change: transform;
+}
+
+.hero-emblem {
+  --emblem-colours: repeating-conic-gradient(
+    #b3261e 0deg 50deg,
+    #141111 50deg 60deg,
+    #e8c33a 60deg 80deg,
+    #141111 80deg 90deg
+  );
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: emblem-float 6s ease-in-out infinite alternate;
+}
+
+.hero-emblem > span,
+.hero-emblem > img {
+  position: absolute;
+  border-radius: 9999px;
+}
+
+/* The glow: the same colours, blurred, breathing and turning slowly */
+.emblem-halo {
+  inset: 2%;
+  background: var(--emblem-colours);
+  filter: blur(26px) saturate(1.5);
+  animation:
+    emblem-spin 26s linear infinite,
+    emblem-breathe 3.6s ease-in-out infinite alternate;
+}
+
+/* The crisp band of red, black and yellow around the logo */
+.emblem-band {
+  inset: 9%;
+  background: var(--emblem-colours);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
+  animation: emblem-spin 26s linear infinite;
+}
+
+/* A dashed gold ring turning the other way, as on the footer mark */
+.emblem-dash {
+  inset: 1%;
+  border: 1px dashed rgba(235, 185, 119, 0.7);
+  animation: emblem-spin 44s linear infinite reverse;
+}
+
+/* Three points of light circling the emblem */
+.emblem-orbit {
+  inset: 1%;
+  animation: emblem-spin 12s linear infinite;
+}
+
+.emblem-orbit i {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 9999px;
+  background: #ffe2b0;
+  box-shadow: 0 0 14px 3px rgba(235, 185, 119, 0.95);
+  transform-origin: 3.5px calc(var(--orbit-radius) + 3.5px);
+}
+
+.emblem-orbit {
+  container-type: size;
+}
+
+.emblem-orbit i {
+  --orbit-radius: 50cqh;
+}
+
+.emblem-orbit i:nth-child(2) {
+  transform: rotate(120deg);
+  background: #e8c33a;
+}
+
+.emblem-orbit i:nth-child(3) {
+  transform: rotate(240deg);
+  background: #ff6a5a;
+  box-shadow: 0 0 14px 3px rgba(214, 60, 48, 0.95);
+}
+
+.emblem-logo {
+  inset: 14.5%;
+  width: 71%;
+  height: 71%;
+  object-fit: cover;
+  box-shadow:
+    0 0 0 2px rgba(235, 185, 119, 0.85),
+    0 0 0 7px #040303,
+    0 24px 60px -12px rgba(0, 0, 0, 0.9);
+}
+
+/* A band of light passes over the logo every few seconds */
+.emblem-shine {
+  inset: 14.5%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.emblem-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 38%, rgba(255, 244, 220, 0.5) 50%, transparent 62%);
+  transform: translateX(-120%);
+  animation: emblem-shine 5.5s var(--ease-fashion) infinite;
+}
+
+@keyframes emblem-spin {
+  to { rotate: 360deg; }
+}
+
+@keyframes emblem-breathe {
+  from { opacity: 0.45; scale: 0.94; }
+  to { opacity: 0.95; scale: 1.06; }
+}
+
+@keyframes emblem-float {
+  from { transform: translateY(-1.5%); }
+  to { transform: translateY(1.5%); }
+}
+
+@keyframes emblem-shine {
+  0%, 55% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+
+@media (min-width: 1024px) {
+  .hero-emblem-tilt {
+    height: auto;
+    width: min(100%, 72vh, 34rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-emblem,
+  .emblem-halo,
+  .emblem-band,
+  .emblem-dash,
+  .emblem-orbit,
+  .emblem-shine::after {
+    animation: none;
+  }
+  .emblem-halo { opacity: 0.7; }
 }

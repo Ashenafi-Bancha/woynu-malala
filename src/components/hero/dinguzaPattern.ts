@@ -3,10 +3,10 @@
  *
  * The studio told us Dinguza is woven in red, black, and yellow. The order and widths
  * of the stripes below are NOT taken from a real cloth: they are a neutral arrangement
- * so the hero has something to show. Replace `STRIPES` with the real sequence (or swap
+ * so the 3D scenes have something to show. Replace `STRIPES` with the real sequence (or swap
  * the shader's pattern for a photo of real Dinguza cloth) once the designers supply it.
  *
- * Both the 3D cloth and its still fallback read this one list, so they always match.
+ * The 3D ribbons and loom on the inner pages read this one list.
  */
 export type Stripe = { color: string; width: number }
 
@@ -27,17 +27,6 @@ export const STRIPES: Stripe[] = [
 export const REPEATS = 5
 
 const total = STRIPES.reduce((sum, s) => sum + s.width, 0)
-
-/** CSS background for the still fallback. */
-export function stripesCss(): string {
-  let at = 0
-  const stops = STRIPES.map((s) => {
-    const from = (at / total) * 100
-    at += s.width
-    return `${s.color} ${from.toFixed(2)}% ${((at / total) * 100).toFixed(2)}%`
-  })
-  return `repeating-linear-gradient(90deg, ${stops.join(', ')})`
-}
 
 const toVec3 = (hex: string) => {
   const n = parseInt(hex.slice(1), 16)

@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { REPEATS, STRIPES, stripesGlsl } from './dinguzaPattern'
 
-// Shaders shared by the hero cloth and the inner-page scenes.
+// Cloth and dust shaders for the inner-page 3D scenes.
 
 /** Threads across the cloth: one per unit of the stripe pattern, so each thread has one colour. */
 export const THREADS = REPEATS * STRIPES.reduce((sum, s) => sum + s.width, 0)

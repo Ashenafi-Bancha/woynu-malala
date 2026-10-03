@@ -27,6 +27,7 @@
       name="twitter:description"
       content="Traditional Wolaita identity transformed into contemporary fashion."
     />
+    <link rel="preload" as="image" href="/logo-hero.webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Fonts load without blocking the first paint; text shows in a fallback face, then swaps. -->
@@ -45,8 +46,21 @@
         src/components/Hero.tsx and BrandName.tsx.
       -->
       <section class="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink lg:block">
-        <!-- Zone 1: space for the 3D cloth -->
-        <div class="relative mt-16 h-[30svh] shrink-0 lg:absolute lg:inset-0 lg:mt-0 lg:h-auto"></div>
+        <!-- Zone 1: the logo emblem (same markup as HeroEmblem in Hero.tsx) -->
+        <div class="hero-emblem-zone relative mt-16 flex h-[30svh] shrink-0 items-center justify-center lg:absolute lg:inset-y-0 lg:left-[54%] lg:right-[4%] lg:mt-0 lg:h-auto">
+          <div class="hero-emblem-tilt">
+            <div class="h-full w-full">
+            <div class="hero-emblem">
+              <span class="emblem-halo"></span>
+              <span class="emblem-band"></span>
+              <span class="emblem-dash"></span>
+              <span class="emblem-orbit"><i></i><i></i><i></i></span>
+              <img src="/logo-hero.webp" alt="Woynu Malala logo" width="640" height="640" fetchpriority="high" decoding="async" class="emblem-logo" />
+              <span class="emblem-shine"></span>
+            </div>
+            </div>
+          </div>
+        </div>
         <div class="relative mx-auto flex w-full max-w-[1600px] flex-1 flex-col px-5 pb-6 pt-3 md:px-12 lg:grid lg:min-h-[100svh] lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16 lg:pb-16 lg:pt-28">
           <div class="relative z-[4] flex flex-1 flex-col lg:block">
             <div class="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
