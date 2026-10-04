@@ -6,6 +6,7 @@ import { brand } from '../content/site'
 import { useI18n } from '../i18n'
 import { hasFinePointer } from '../lib/device'
 import { loadGsap } from '../lib/gsap'
+import { Backdrop3D } from './Backdrop3D'
 import { BrandName } from './BrandName'
 import { ButtonLink } from './Button'
 import { Emblem } from './Emblem'
@@ -83,9 +84,15 @@ export function Hero() {
         />
       ) : null}
 
-      {/* Zone 1: the logo emblem. Nothing is drawn over it. */}
+      {/* Zone 1: the logo emblem over a 3D scene. Nothing is drawn over it. */}
       <div className="hero-emblem-zone relative mt-16 flex h-[30svh] shrink-0 items-center justify-center lg:absolute lg:inset-y-0 lg:left-[54%] lg:right-[4%] lg:mt-0 lg:h-auto">
-        <div ref={emblem} className="hero-emblem-tilt">
+        {/* The 3D ribbons and gold dust play only inside this zone, behind the logo; the edges fade out */}
+        <Backdrop3D
+          scene="ribbons"
+          overlay={false}
+          className="absolute inset-0 [mask-image:radial-gradient(ellipse_closest-side_at_center,black_55%,transparent_100%)]"
+        />
+        <div ref={emblem} className="hero-emblem-tilt relative">
           {/* The scroll animation moves this wrapper, so it never fights the mouse tilt or the float */}
           <div className="h-full w-full">
             <Emblem className="h-full w-full" />
