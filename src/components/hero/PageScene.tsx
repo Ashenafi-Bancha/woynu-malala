@@ -209,7 +209,7 @@ function Scene({ variant, photos }: { variant: PageSceneVariant; photos: string[
   const born = useRef<number | null>(null)
   const { viewport, camera, gl } = useThree()
   const wide = viewport.aspect > 1.15
-  const dust = useMemo(() => createDust(wide ? 200 : 90, [12, 5, 5]), [wide])
+  const dust = useMemo(() => createDust(wide ? 70 : 34, [12, 5, 5]), [wide])
 
   useEffect(
     () => () => {

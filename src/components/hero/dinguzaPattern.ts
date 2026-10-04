@@ -17,7 +17,7 @@ export const DINGUZA_COLORS = {
 } as const
 
 export const STRIPES: Stripe[] = [
-  { color: DINGUZA_COLORS.red, width: 3 },
+  { color: DINGUZA_COLORS.red, width: 4 },
   { color: DINGUZA_COLORS.black, width: 2 },
   { color: DINGUZA_COLORS.yellow, width: 2 },
   { color: DINGUZA_COLORS.black, width: 1 },

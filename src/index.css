@@ -660,15 +660,15 @@ select:focus {
 
 .hero-emblem {
   --emblem-colours: repeating-conic-gradient(
-    #b3261e 0deg 30deg,
-    #141111 30deg 50deg,
-    #e8c33a 50deg 72deg,
+    #b3261e 0deg 36deg,
+    #141111 36deg 52deg,
+    #e8c33a 52deg 72deg,
     #141111 72deg 90deg
   );
   /* The glow uses a deeper, narrower red so it never floods the logo */
   --emblem-glow: repeating-conic-gradient(
-    #7d1a15 0deg 24deg,
-    #0a0808 24deg 50deg,
+    #96201a 0deg 31deg,
+    #0a0808 31deg 50deg,
     #c9a22e 50deg 70deg,
     #0a0808 70deg 90deg
   );

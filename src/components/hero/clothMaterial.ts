@@ -110,7 +110,7 @@ const dustVertex = /* glsl */ `
     p.x += sin(uTime * 0.25 + aSeed * 40.0) * 0.25;
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mv;
-    gl_PointSize = (10.0 + aSeed * 26.0) * uPixelRatio / -mv.z;
+    gl_PointSize = (7.0 + aSeed * 13.0) * uPixelRatio / -mv.z;
     vAlpha = (0.25 + 0.75 * abs(sin(uTime * 0.8 + aSeed * 30.0))) * smoothstep(4.0, 2.4, abs(p.y));
   }
 `
