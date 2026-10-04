@@ -8,6 +8,7 @@ import { hasFinePointer } from '../lib/device'
 import { loadGsap } from '../lib/gsap'
 import { BrandName } from './BrandName'
 import { ButtonLink } from './Button'
+import { Emblem } from './Emblem'
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.11, delayChildren: 0.05 } } }
 const ease = [0.22, 1, 0.36, 1] as const
@@ -21,35 +22,6 @@ const item = {
 
 /** Phones: the two buttons share one row, so they are set a little tighter */
 const compact = 'max-lg:px-2 max-lg:tracking-[0.14em]'
-
-/**
- * The studio's logo as the hero image: a round medallion inside turning rings of red,
- * black and yellow light. Keep this markup in step with the static copy in index.html.
- */
-function HeroEmblem() {
-  return (
-    <div className="hero-emblem">
-      <span className="emblem-halo" />
-      <span className="emblem-band" />
-      <span className="emblem-dash" />
-      <span className="emblem-orbit">
-        <i />
-        <i />
-        <i />
-      </span>
-      <img
-        src="/logo-hero.webp"
-        alt="Woynu Malala logo"
-        width={640}
-        height={640}
-        fetchPriority="high"
-        decoding="async"
-        className="emblem-logo"
-      />
-      <span className="emblem-shine" />
-    </div>
-  )
-}
 
 export function Hero() {
   const { t } = useI18n()
@@ -116,7 +88,7 @@ export function Hero() {
         <div ref={emblem} className="hero-emblem-tilt">
           {/* The scroll animation moves this wrapper, so it never fights the mouse tilt or the float */}
           <div className="h-full w-full">
-            <HeroEmblem />
+            <Emblem className="h-full w-full" />
           </div>
         </div>
       </div>

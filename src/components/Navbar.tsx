@@ -4,7 +4,7 @@ import { nav } from '../content/site'
 import { LanguageToggle, useI18n } from '../i18n'
 import type { Key } from '../i18n/strings'
 import { BrandName } from './BrandName'
-import { Logo } from './Logo'
+import { Emblem } from './Emblem'
 
 export const navKey: Record<string, Key> = {
   '/': 'nav.home',
@@ -54,7 +54,8 @@ export function Navbar() {
         }`}
       >
         <Link to="/" aria-label={t('brand.name')} className="flex min-w-0 items-center gap-2.5 md:gap-3">
-          <Logo className="h-10 w-10 shrink-0 md:h-12 md:w-12" />
+          {/* Negative margins: the rings and glow reach past the logo without making the header taller */}
+          <Emblem size="sm" className="-my-2 -ml-1.5 h-14 w-14 shrink-0 md:-my-3 md:h-[4.25rem] md:w-[4.25rem]" />
           <BrandName size="sm" descriptor={false} />
         </Link>
         <nav className="hidden items-center gap-5 xl:flex 2xl:gap-8" aria-label="Primary">

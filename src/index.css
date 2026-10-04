@@ -268,24 +268,6 @@ html.lenis-active {
   scroll-behavior: auto;
 }
 
-/* Footer brand mark: two rings turning slowly around the logo */
-@keyframes brand-ring {
-  to { transform: rotate(360deg); }
-}
-
-.brand-ring {
-  animation: brand-ring 36s linear infinite;
-}
-
-.brand-ring-reverse {
-  border-top-color: rgba(222, 160, 82, 0.7);
-  animation: brand-ring 22s linear infinite reverse;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .brand-ring, .brand-ring-reverse { animation: none; }
-}
-
 /* Headings rise out of a mask, line by line */
 .split-line {
   display: block;
@@ -681,9 +663,13 @@ select:focus {
     #e8c33a 60deg 80deg,
     #141111 80deg 90deg
   );
+  /* thickness of the colour band, softness of the glow, size of the orbiting lights, dark gap round the logo */
+  --band: 9px;
+  --blur: 26px;
+  --dot: 7px;
+  --gap: 7px;
   position: relative;
-  width: 100%;
-  height: 100%;
+  flex-shrink: 0;
   animation: emblem-float 6s ease-in-out infinite alternate;
 }
 
@@ -697,7 +683,7 @@ select:focus {
 .emblem-halo {
   inset: 2%;
   background: var(--emblem-colours);
-  filter: blur(26px) saturate(1.5);
+  filter: blur(var(--blur)) saturate(1.5);
   animation:
     emblem-spin 26s linear infinite,
     emblem-breathe 3.6s ease-in-out infinite alternate;
@@ -707,8 +693,8 @@ select:focus {
 .emblem-band {
   inset: 9%;
   background: var(--emblem-colours);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 9px), #000 calc(100% - 8px));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--band)), #000 calc(100% - var(--band) + 1px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--band)), #000 calc(100% - var(--band) + 1px));
   animation: emblem-spin 26s linear infinite;
 }
 
@@ -729,13 +715,13 @@ select:focus {
   position: absolute;
   left: 50%;
   top: 0;
-  width: 7px;
-  height: 7px;
-  margin: -3.5px 0 0 -3.5px;
+  width: var(--dot);
+  height: var(--dot);
+  margin: calc(var(--dot) / -2) 0 0 calc(var(--dot) / -2);
   border-radius: 9999px;
   background: #ffe2b0;
-  box-shadow: 0 0 14px 3px rgba(235, 185, 119, 0.95);
-  transform-origin: 3.5px calc(var(--orbit-radius) + 3.5px);
+  box-shadow: 0 0 calc(var(--dot) * 2) calc(var(--dot) * 0.4) rgba(235, 185, 119, 0.95);
+  transform-origin: calc(var(--dot) / 2) calc(var(--orbit-radius) + var(--dot) / 2);
 }
 
 .emblem-orbit {
@@ -754,7 +740,7 @@ select:focus {
 .emblem-orbit i:nth-child(3) {
   transform: rotate(240deg);
   background: #ff6a5a;
-  box-shadow: 0 0 14px 3px rgba(214, 60, 48, 0.95);
+  box-shadow: 0 0 calc(var(--dot) * 2) calc(var(--dot) * 0.4) rgba(214, 60, 48, 0.95);
 }
 
 .emblem-logo {
@@ -763,8 +749,8 @@ select:focus {
   height: 71%;
   object-fit: cover;
   box-shadow:
-    0 0 0 2px rgba(235, 185, 119, 0.85),
-    0 0 0 7px #040303,
+    0 0 0 max(1px, calc(var(--gap) * 0.3)) rgba(235, 185, 119, 0.85),
+    0 0 0 var(--gap) #040303,
     0 24px 60px -12px rgba(0, 0, 0, 0.9);
 }
 
@@ -782,6 +768,31 @@ select:focus {
   background: linear-gradient(110deg, transparent 38%, rgba(255, 244, 220, 0.5) 50%, transparent 62%);
   transform: translateX(-120%);
   animation: emblem-shine 5.5s var(--ease-fashion) infinite;
+}
+
+/* Footer mark */
+.emblem-md {
+  --band: 5px;
+  --blur: 13px;
+  --dot: 5px;
+  --gap: 4px;
+  animation: none;
+}
+
+/* Header mark: the same emblem at a small size, without the float */
+.emblem-sm {
+  --band: 2.5px;
+  --blur: 6px;
+  --dot: 3px;
+  --gap: 2px;
+  animation: none;
+}
+
+.emblem-md .emblem-logo,
+.emblem-sm .emblem-logo {
+  box-shadow:
+    0 0 0 1px rgba(235, 185, 119, 0.85),
+    0 0 0 var(--gap) #040303;
 }
 
 @keyframes emblem-spin {
