@@ -832,3 +832,38 @@ select:focus {
   }
   .emblem-halo { opacity: 0.7; }
 }
+
+/* A light of red, yellow and gold keeps running round this button's border */
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.btn-border-run {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#040303, #040303) padding-box,
+    conic-gradient(
+        from var(--border-angle),
+        rgba(240, 238, 235, 0.22) 0deg 200deg,
+        #b3261e 250deg,
+        #e8c33a 300deg,
+        #ffe2b0 335deg,
+        rgba(240, 238, 235, 0.22) 360deg
+      )
+      border-box;
+  animation: border-run 3.2s linear infinite;
+}
+
+.btn-border-run:hover {
+  border-color: transparent;
+}
+
+@keyframes border-run {
+  to { --border-angle: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-border-run { animation: none; }
+}

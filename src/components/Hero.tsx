@@ -16,12 +16,12 @@ const item = {
   hidden: { opacity: 0, y: 26 },
   show: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
 }
-// The emblem, the place line and the name are not animated in: index.html already paints
+// The emblem and the name are not animated in: index.html already paints
 // them before any JavaScript runs, so they must stay put when React takes over. The lines
 // below them and the buttons then arrive one after another.
 
-/** Phones: the two buttons share one row, so they are set a little tighter */
-const compact = 'max-lg:px-2 max-lg:tracking-[0.14em]'
+/** The hero shows only the second half of the slogan ("ባህላችንን በውበት!"); the name already stands above it */
+const heroSlogan = brand.amharicSlogan.split('—').pop()!.trim()
 
 export function Hero() {
   const { t } = useI18n()
@@ -102,32 +102,28 @@ export function Hero() {
             className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left"
           >
             {/* Zone 2: who we are */}
-            <p className="text-[11px] uppercase tracking-[0.42em] text-gold">{t('brand.place')}</p>
-            <div className="mt-4 lg:mt-6">
-              <BrandName as="h1" size="xl" align="responsive" />
-            </div>
+            <BrandName as="h1" size="xl" align="responsive" />
             <div className="gold-rule mt-6 w-40 lg:mt-8" />
             <m.p
               variants={item}
               lang="am"
               className="mt-5 font-ethiopic text-2xl font-semibold leading-snug text-gold sm:text-3xl md:text-4xl lg:mt-6"
             >
-              {brand.amharicSlogan}
+              {heroSlogan}
             </m.p>
             <m.p variants={item} className="mt-3 max-w-lg font-serif text-xl italic leading-snug text-ivory/80 md:text-2xl lg:mt-4">
               {t('brand.statement')}
             </m.p>
 
             {/* Zone 3: what to do next */}
-            <m.div variants={item} className="mt-auto grid w-full grid-cols-2 gap-3 pt-7 lg:mt-10 lg:flex lg:w-auto lg:pt-0">
-              <ButtonLink to="/collections" className={compact}>
-                {t('hero.explore')}
-              </ButtonLink>
-              <ButtonLink to="/contact" variant="ghost" className={compact}>
+            {/* Phones: full-width buttons, one under the other */}
+            <m.div variants={item} className="mt-auto flex w-full flex-col gap-3 pt-6 lg:mt-10 lg:w-auto lg:flex-row lg:pt-0">
+              <ButtonLink to="/collections">{t('hero.explore')}</ButtonLink>
+              <ButtonLink to="/contact" variant="ghost" className="btn-border-run">
                 {t('hero.contact')}
               </ButtonLink>
             </m.div>
-            <m.div variants={item} className="mt-5 flex flex-col items-center gap-2 lg:mt-12 lg:flex-row lg:gap-4">
+            <m.div variants={item} className="mt-4 flex flex-col items-center gap-2 lg:mt-12 lg:flex-row lg:gap-4">
               <span aria-hidden="true" className="scroll-cue" />
               <span className="text-[10px] uppercase tracking-[0.34em] text-ivory/60">{t('hero.scroll')}</span>
             </m.div>
