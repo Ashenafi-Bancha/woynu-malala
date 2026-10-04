@@ -660,10 +660,17 @@ select:focus {
 
 .hero-emblem {
   --emblem-colours: repeating-conic-gradient(
-    #b3261e 0deg 50deg,
-    #141111 50deg 60deg,
-    #e8c33a 60deg 80deg,
-    #141111 80deg 90deg
+    #b3261e 0deg 30deg,
+    #141111 30deg 50deg,
+    #e8c33a 50deg 72deg,
+    #141111 72deg 90deg
+  );
+  /* The glow uses a deeper, narrower red so it never floods the logo */
+  --emblem-glow: repeating-conic-gradient(
+    #7d1a15 0deg 24deg,
+    #0a0808 24deg 50deg,
+    #c9a22e 50deg 70deg,
+    #0a0808 70deg 90deg
   );
   /* thickness of the colour band, softness of the glow, size of the orbiting lights, dark gap round the logo */
   --band: 9px;
@@ -684,8 +691,8 @@ select:focus {
 /* The glow: the same colours, blurred, breathing and turning slowly */
 .emblem-halo {
   inset: 2%;
-  background: var(--emblem-colours);
-  filter: blur(var(--blur)) saturate(1.5);
+  background: var(--emblem-glow);
+  filter: blur(var(--blur));
   animation:
     emblem-spin 26s linear infinite,
     emblem-breathe 3.6s ease-in-out infinite alternate;
@@ -802,8 +809,8 @@ select:focus {
 }
 
 @keyframes emblem-breathe {
-  from { opacity: 0.45; scale: 0.94; }
-  to { opacity: 0.95; scale: 1.06; }
+  from { opacity: 0.4; scale: 0.94; }
+  to { opacity: 0.8; scale: 1.05; }
 }
 
 @keyframes emblem-float {
