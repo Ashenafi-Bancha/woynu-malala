@@ -3,11 +3,11 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
 const styles = {
   gold:
-    'btn-fx btn-glow inline-flex min-h-11 items-center justify-center text-center border border-gold bg-gold px-7 py-3 text-[11px] uppercase tracking-[0.28em] text-ink hover:bg-gold-bright hover:border-gold-bright',
+    'btn-fx btn-glow inline-flex min-h-11 items-center justify-center rounded-xl text-center border border-gold bg-gold px-7 py-3 text-[11px] uppercase tracking-[0.28em] text-ink hover:bg-gold-bright hover:border-gold-bright',
   ghost:
-    'btn-fx inline-flex min-h-11 items-center justify-center text-center border border-ivory/35 bg-transparent px-7 py-3 text-[11px] uppercase tracking-[0.28em] text-ivory hover:border-gold hover:text-gold',
+    'btn-fx inline-flex min-h-11 items-center justify-center rounded-xl text-center border border-ivory/35 bg-transparent px-7 py-3 text-[11px] uppercase tracking-[0.28em] text-ivory hover:border-gold hover:text-gold',
   ink:
-    'btn-fx inline-flex min-h-11 items-center justify-center text-center border border-ink bg-ink px-7 py-3 text-[11px] uppercase tracking-[0.28em] text-ivory hover:bg-ink-soft',
+    'btn-fx inline-flex min-h-11 items-center justify-center rounded-xl text-center border border-ink bg-ink px-7 py-3 text-[11px] uppercase tracking-[0.28em] text-ivory hover:bg-ink-soft',
 }
 
 type Variant = keyof typeof styles
