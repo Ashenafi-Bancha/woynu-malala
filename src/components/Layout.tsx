@@ -54,7 +54,7 @@ export function Layout() {
       <ScrollProgress />
       <Interactions />
       <Navbar />
-      {/* A new curtain element per page plays the sweep on every navigation */}
+      {/* A new veil element per page plays the fade-in on every navigation */}
       <div key={`curtain-${pathname}`} aria-hidden="true" className="page-curtain" />
       <main key={pathname} className="page-enter relative min-h-screen">
         {pathname !== '/' ? (

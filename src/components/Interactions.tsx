@@ -6,11 +6,11 @@ import { hasFinePointer, prefersReducedMotion } from '../lib/device'
 // Site-wide interaction effects, shared by phones and computers:
 //   – a brief glow and sparks wherever the visitor taps or clicks
 //   – buttons that lean toward the mouse (computers)
-//   – a curtain that closes over the page before a link opens the next one
+//   – a soft fade from one page to the next
 //   – a glowing "back to top" button that fills as the page is scrolled
 
 const SPARKS = 7
-const COVER_MS = 420
+const COVER_MS = 260
 
 /** Glow + sparks at the point of every tap or click. */
 function useTapBurst(layer: React.RefObject<HTMLDivElement | null>) {
@@ -71,14 +71,14 @@ function useMagneticButtons() {
 }
 
 /**
- * Page-to-page transition. A click on an internal link first closes an amber curtain over
- * the page, then opens the new page; the curtain in Layout then sweeps away to reveal it.
+ * Page-to-page transition. A click on an internal link first fades the page out to the dark
+ * page colour, then opens the new page; the veil in Layout then fades away to reveal it.
  */
 function usePageCover(cover: React.RefObject<HTMLDivElement | null>) {
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
-  // The new page has arrived: drop the cover at once (Layout's curtain is already in its place)
+  // The new page has arrived: drop the cover at once (Layout's veil is already in its place)
   useEffect(() => {
     const el = cover.current
     if (!el) return

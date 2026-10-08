@@ -305,10 +305,10 @@ html.lenis-active {
   animation-direction: reverse;
 }
 
-/* Page change: an amber curtain sweeps up and away */
-@keyframes curtain {
-  0% { transform: scaleY(1); }
-  100% { transform: scaleY(0); }
+/* Page change, part 2: the new page fades in from the dark page colour */
+@keyframes page-veil {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 .page-curtain {
@@ -316,10 +316,9 @@ html.lenis-active {
   inset: 0;
   z-index: 55;
   pointer-events: none;
-  transform-origin: 50% 0;
-  transform: scaleY(0);
-  background: linear-gradient(180deg, #dea052, #a8691f);
-  animation: curtain 0.85s var(--ease-fashion) both;
+  opacity: 0;
+  background: #040303;
+  animation: page-veil 0.55s ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -393,20 +392,20 @@ a, button, [role='button'], label {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Page change, part 1: the curtain closes upward over the old page (part 2 is .page-curtain) */
+/* Page change, part 1: the old page fades into the dark page colour (part 2 is .page-curtain).
+   No colour and no sweep: one page simply dissolves into the next. */
 .page-cover {
   position: fixed;
   inset: 0;
   z-index: 56;
   pointer-events: none;
-  transform: scaleY(0);
-  transform-origin: 50% 100%;
-  background: linear-gradient(180deg, #dea052, #a8691f);
-  transition: transform 0.42s var(--ease-fashion);
+  opacity: 0;
+  background: #040303;
+  transition: opacity 0.26s ease-in;
 }
 
 .page-cover.is-on {
-  transform: scaleY(1);
+  opacity: 1;
 }
 
 /* Tap / click: a flash of glow and sparks (no ring) */
