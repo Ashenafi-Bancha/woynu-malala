@@ -121,7 +121,7 @@ function usePageCover(cover: React.RefObject<HTMLDivElement | null>) {
 }
 
 /**
- * Dinguza borders (`.dz-frame`, `.btn-border-run`) travel only while they are on screen,
+ * Dinguza borders (`.dz-frame`) travel only while they are on screen,
  * so a page full of framed cards costs nothing for the ones out of view.
  */
 function useLiveBorders() {
@@ -133,7 +133,7 @@ function useLiveBorders() {
     })
     const seen = new WeakSet<Element>()
     const scan = () => {
-      document.querySelectorAll('.dz-frame, .btn-border-run').forEach((el) => {
+      document.querySelectorAll('.dz-frame').forEach((el) => {
         if (seen.has(el)) return
         seen.add(el)
         io.observe(el)

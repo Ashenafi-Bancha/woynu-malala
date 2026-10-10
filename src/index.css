@@ -1064,8 +1064,8 @@ nav[aria-label='Primary'] a::after {
 }
 
 /* ------------------------------------------------------------------ Dinguza borders
-   The stepped Dinguza motif runs round the edge of cards, photo frames and the outlined
-   button, and keeps travelling clockwise. `--dz` is the thickness of the border. */
+   The stepped Dinguza motif runs round the edge of cards and photo frames, and keeps
+   travelling clockwise. `--dz` is the thickness of the border. */
 :root {
   --dz-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20' viewBox='0 0 40 20'%3E%3Crect width='40' height='20' fill='%23b3261e'/%3E%3Crect width='40' height='1.6' fill='%23e8c33a'/%3E%3Crect y='18.4' width='40' height='1.6' fill='%23e8c33a'/%3E%3Cpath d='M-3 8H10V5H30V8H43V12H30V15H10V12H-3Z' fill='%23141111' stroke='%23e8c33a' stroke-width='1.3'/%3E%3C/svg%3E");
   --dz-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='40' viewBox='0 0 20 40'%3E%3Cg transform='translate%2820 0%29 rotate%2890%29'%3E%3Crect width='40' height='20' fill='%23b3261e'/%3E%3Crect width='40' height='1.6' fill='%23e8c33a'/%3E%3Crect y='18.4' width='40' height='1.6' fill='%23e8c33a'/%3E%3Cpath d='M-3 8H10V5H30V8H43V12H30V15H10V12H-3Z' fill='%23141111' stroke='%23e8c33a' stroke-width='1.3'/%3E%3C/g%3E%3C/svg%3E");
@@ -1092,8 +1092,7 @@ nav[aria-label='Primary'] a::after {
 }
 
 /* Borders travel only while they are on screen: Interactions.tsx adds this class */
-.dz-frame.dz-live,
-.btn-border-run.dz-live {
+.dz-frame.dz-live {
   animation-play-state: running;
 }
 
@@ -1108,42 +1107,35 @@ nav[aria-label='Primary'] a::after {
   }
 }
 
-/* The outlined button: the same border, around a dark fill */
+/* The outlined button: a light of red, yellow and gold keeps running round its border */
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
 .btn-border-run {
-  --dz: 6px;
-  border: var(--dz) solid transparent;
-  background-image: linear-gradient(#040303, #040303), var(--dz-h), var(--dz-h), var(--dz-v), var(--dz-v);
-  background-size:
-    auto,
-    auto var(--dz),
-    auto var(--dz),
-    var(--dz) auto,
-    var(--dz) auto;
-  background-repeat: no-repeat, repeat-x, repeat-x, repeat-y, repeat-y;
-  background-position:
-    0 0,
-    0 0,
-    0 100%,
-    0 0,
-    100% 0;
-  background-origin: padding-box, border-box, border-box, border-box, border-box;
-  background-clip: padding-box, border-box, border-box, border-box, border-box;
-  animation: dz-march-fill 2s linear infinite paused;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#040303, #040303) padding-box,
+    conic-gradient(
+        from var(--border-angle),
+        rgba(240, 238, 235, 0.22) 0deg 200deg,
+        #b3261e 250deg,
+        #e8c33a 300deg,
+        #ffe2b0 335deg,
+        rgba(240, 238, 235, 0.22) 360deg
+      )
+      border-box;
+  animation: border-run 3.2s linear infinite;
 }
 
 .btn-border-run:hover {
   border-color: transparent;
 }
 
-@keyframes dz-march-fill {
-  to {
-    background-position:
-      0 0,
-      calc(var(--dz) * 2) 0,
-      calc(var(--dz) * -2) 100%,
-      0 calc(var(--dz) * -2),
-      100% calc(var(--dz) * 2);
-  }
+@keyframes border-run {
+  to { --border-angle: 360deg; }
 }
 
 @media (prefers-reduced-motion: reduce) {
