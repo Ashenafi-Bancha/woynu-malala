@@ -1,4 +1,3 @@
-import { pageImages } from '../content/media'
 import { ProcessPinned } from '../components/ProcessPinned'
 import { PageHeader } from '../components/PageHeader'
 import { Seo } from '../components/Seo'
@@ -17,7 +16,6 @@ export function CraftsmanshipPage() {
         kicker={t('craft.kicker')}
         title={t('craft.title')}
         intro={t('craft.intro')}
-        media={pageImages.craftHeader}
         scene="loom"
       />
       <ProcessPinned />

@@ -1,4 +1,3 @@
-import { pageImages } from '../content/media'
 import { cultureTopics } from '../content/site'
 import { PageHeader } from '../components/PageHeader'
 import { PlaceholderImage } from '../components/PlaceholderImage'
@@ -23,7 +22,6 @@ export function CulturePage() {
         kicker={t('culture.kicker')}
         title={c('The culture behind the design')}
         intro={t('culture.intro')}
-        media={pageImages.cultureHeader}
         scene="ring"
         photos={topicPhotos}
       />

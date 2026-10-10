@@ -16,7 +16,6 @@ export function StoryPage() {
         kicker={t('story.kicker')}
         title={t('story.title')}
         intro={t('story.intro')}
-        media={pageImages.storyHeader}
       >
         <p className="mt-6 text-sm text-ivory/60">
           {t('story.designer')}: {story.designer}

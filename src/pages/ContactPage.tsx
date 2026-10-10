@@ -1,5 +1,4 @@
 import { useState, type ReactNode } from 'react'
-import { pageImages } from '../content/media'
 import { mapEmbedUrl, openingHours, phoneDisplay, phoneInternational, social } from '../content/site'
 import { Button, ButtonLink } from '../components/Button'
 import { OrderForm } from '../components/OrderForm'
@@ -44,7 +43,6 @@ export function ContactPage() {
         kicker={t('contact.kicker')}
         title={t('home.contactTitle')}
         intro={t('home.contactText')}
-        media={pageImages.contactHeader}
         scene="waves"
       >
         <div className="mt-10 flex flex-wrap gap-3">
