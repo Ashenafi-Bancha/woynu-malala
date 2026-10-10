@@ -130,8 +130,8 @@ export function Hero() {
             {/* Phones: full-width buttons, one under the other */}
             <m.div variants={item} className="mt-auto flex w-full flex-col gap-3 pt-6 lg:mt-10 lg:w-auto lg:flex-row lg:pt-0">
               <ButtonLink to="/collections">{t('hero.explore')}</ButtonLink>
-              <ButtonLink to="/contact" variant="ghost" className="btn-border-run">
-                {t('hero.contact')}
+              <ButtonLink to="/order" variant="ghost" className="btn-border-run">
+                {t('buy.now')}
               </ButtonLink>
             </m.div>
             <m.div variants={item} className="mt-4 flex flex-col items-center gap-2 lg:mt-12 lg:flex-row lg:gap-4">

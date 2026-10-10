@@ -6,12 +6,10 @@ import { useI18n } from '../i18n'
 export type GalleryPhoto = { src: string; alt: string }
 
 /**
- * Horizontal, swipeable photo row with a lightbox. The row uses the browser's own
- * scrolling (with snap points), so it stays smooth on phones.
+ * Photo grid with a lightbox. Every photo is on screen in rows; nothing scrolls sideways.
  */
 export function Gallery({ photos }: { photos: GalleryPhoto[] }) {
   const { t } = useI18n()
-  const row = useRef<HTMLUListElement>(null)
   const opener = useRef<HTMLElement | null>(null)
   const closeButton = useRef<HTMLButtonElement>(null)
   const [open, setOpen] = useState<number | null>(null)
@@ -47,23 +45,15 @@ export function Gallery({ photos }: { photos: GalleryPhoto[] }) {
     if (!isOpen) opener.current?.focus()
   }, [isOpen])
 
-  const scrollRow = (dir: 1 | -1) => {
-    const el = row.current
-    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' })
-  }
-
   const photo = open === null ? null : photos[open]
   const arrow =
     'grid h-12 w-12 place-items-center rounded-full border border-ivory/30 bg-ink/70 text-ivory transition hover:border-gold hover:text-gold'
 
   return (
     <div className="relative">
-      <ul
-        ref={row}
-        className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 [scrollbar-width:none] md:-mx-10 md:gap-6 md:px-10"
-      >
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-5 lg:grid-cols-4">
         {photos.map((p, i) => (
-          <li key={p.src} className="w-[62vw] max-w-[17rem] shrink-0 snap-center sm:w-64">
+          <li key={p.src}>
             <button
               type="button"
               onClick={(e) => {
@@ -85,18 +75,6 @@ export function Gallery({ photos }: { photos: GalleryPhoto[] }) {
           </li>
         ))}
       </ul>
-
-      <div className="mt-6 flex items-center justify-between">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-ivory/45">{t('gallery.hint')}</p>
-        <div className="hidden gap-3 md:flex">
-          <button type="button" onClick={() => scrollRow(-1)} aria-label={t('gallery.prev')} className={arrow}>
-            ←
-          </button>
-          <button type="button" onClick={() => scrollRow(1)} aria-label={t('gallery.next')} className={arrow}>
-            →
-          </button>
-        </div>
-      </div>
 
       <AnimatePresence>
         {photo ? (

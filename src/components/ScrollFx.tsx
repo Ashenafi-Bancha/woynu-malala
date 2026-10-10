@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import type { Collection } from '../content/types'
 import { prefersReducedMotion } from '../lib/device'
 import { loadGsap } from '../lib/gsap'
-import { CollectionCard, CollectionGrid } from './CollectionCard'
+import { CollectionGrid } from './CollectionCard'
 
 /** Thin woven line (red, black, yellow) across the top of the screen that fills as the page is scrolled. */
 export function ScrollProgress() {
@@ -99,79 +99,12 @@ export function ScrubText({ text, className = '' }: { text: string; className?: 
   )
 }
 
-const canPinSideways = () =>
-  typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches && !prefersReducedMotion()
-
-/**
- * Collections as a pinned sideways scroll: the page holds still and the cards travel
- * across. Phones, tablets and reduced-motion users get the normal grid.
- */
+/** The collections under their heading, all visible at once in a grid that wraps into rows. */
 export function HorizontalCollections({ collections, heading }: { collections: Collection[]; heading: ReactNode }) {
-  const [sideways] = useState(canPinSideways)
-  const section = useRef<HTMLElement>(null)
-  const track = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!sideways || !section.current) return
-    let kill = () => {}
-    let cancelled = false
-    const io = new IntersectionObserver(
-      async ([entry]) => {
-        if (!entry.isIntersecting) return
-        io.disconnect()
-        const { gsap } = await loadGsap()
-        if (cancelled || !section.current || !track.current) return
-        const distance = () => Math.max(0, (track.current?.scrollWidth ?? 0) - window.innerWidth)
-        const tween = gsap.to(track.current, {
-          x: () => -distance(),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: section.current,
-            start: 'top top',
-            end: () => `+=${distance()}`,
-            pin: true,
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-            anticipatePin: 1,
-          },
-        })
-        kill = () => {
-          tween.scrollTrigger?.kill()
-          tween.kill()
-        }
-      },
-      { rootMargin: '800px 0px' },
-    )
-    io.observe(section.current)
-    return () => {
-      cancelled = true
-      io.disconnect()
-      kill()
-    }
-  }, [sideways])
-
-  if (!sideways) {
-    return (
-      <section className="bg-ink">
-        <div className="px-5 pb-12 pt-20 md:px-10 md:pb-16 md:pt-28">{heading}</div>
-        <CollectionGrid collections={collections} />
-      </section>
-    )
-  }
-
   return (
-    <section ref={section} className="relative flex h-screen flex-col justify-center overflow-hidden bg-ink">
-      <div className="px-10 pb-8 pt-24">{heading}</div>
-      <div ref={track} className="flex w-max gap-10 px-10 pb-6 will-change-transform">
-        {collections.map((c, i) => (
-          // Cards are 4:5, so their width is capped by the height left under the heading
-          <div key={c.id} className="shrink-0" style={{ width: 'min(27vw, 24rem, calc((100vh - 21rem) * 0.8))' }}>
-            <CollectionCard collection={c} index={i} />
-          </div>
-        ))}
-        {/* Breathing room so the last card can reach the middle of the screen */}
-        <div aria-hidden="true" className="w-[20vw] shrink-0" />
-      </div>
+    <section className="bg-ink">
+      <div className="px-5 pb-12 pt-20 md:px-10 md:pb-16 md:pt-28">{heading}</div>
+      <CollectionGrid collections={collections} />
     </section>
   )
 }

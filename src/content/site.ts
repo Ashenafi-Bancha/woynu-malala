@@ -38,6 +38,7 @@ export const nav = [
 
 export const footerNav = [
   ...nav,
+  { to: '/order', label: 'Order' },
   { to: '/craftsmanship', label: 'Craftsmanship' },
 ]
 

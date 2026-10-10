@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useI18n } from '../i18n'
 import { hasFinePointer, prefersReducedMotion } from '../lib/device'
 
@@ -151,6 +151,7 @@ function useLiveBorders() {
 /** Round button, bottom right: its gold ring fills with scroll progress; tap to glide to the top. */
 function BackToTop() {
   const { t } = useI18n()
+  const { pathname } = useLocation()
   const ring = useRef<SVGCircleElement>(null)
   const [shown, setShown] = useState(false)
 
@@ -175,6 +176,19 @@ function BackToTop() {
   }, [])
 
   return (
+    <>
+      {/* Phones: ordering stays one tap away while scrolling (the header button is hidden there) */}
+      {pathname !== '/order' ? (
+        <Link
+          to="/order"
+          tabIndex={shown ? 0 : -1}
+          className={`to-top fixed bottom-5 left-4 z-40 inline-flex min-h-12 items-center rounded-full border border-gold bg-gold px-6 text-[11px] font-medium uppercase tracking-[0.24em] text-ink transition duration-500 sm:hidden ${
+            shown ? 'opacity-100' : 'pointer-events-none translate-y-6 opacity-0'
+          }`}
+        >
+          {t('buy.now')}
+        </Link>
+      ) : null}
     <button
       type="button"
       aria-label={t('common.toTop')}
@@ -204,6 +218,7 @@ function BackToTop() {
         <path d="M12 19V5m0 0-6 6m6-6 6 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </button>
+    </>
   )
 }
 

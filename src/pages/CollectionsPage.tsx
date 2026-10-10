@@ -35,11 +35,11 @@ export function CollectionsPage() {
         </div>
       </Reveal>
 
-      {/* Category filter: a swipeable row on phones */}
+      {/* Category filter: the chips wrap onto more lines when they do not fit */}
       <div
         role="group"
         aria-label={t('collections.filter')}
-        className="relative -mx-0 mb-10 flex gap-2 overflow-x-auto px-5 pb-2 [scrollbar-width:none] md:mb-14 md:flex-wrap md:px-10"
+        className="relative mb-10 flex flex-wrap gap-2 px-5 md:mb-14 md:px-10"
       >
         {collectionFilters.map((f) => {
           const active = f === filter
@@ -49,7 +49,7 @@ export function CollectionsPage() {
               type="button"
               aria-pressed={active}
               onClick={() => setFilter(f)}
-              className={`min-h-11 shrink-0 border px-5 text-[11px] uppercase tracking-[0.24em] transition ${
+              className={`min-h-11 border px-5 text-[11px] uppercase tracking-[0.24em] transition ${
                 active ? 'border-gold bg-gold text-ink' : 'border-ivory/25 text-ivory/80 hover:border-gold hover:text-gold'
               }`}
             >

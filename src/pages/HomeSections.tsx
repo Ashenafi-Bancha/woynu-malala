@@ -19,10 +19,9 @@ import { ThreadDivider } from '../components/Tricolour'
 import { useI18n } from '../i18n'
 import { useAiText } from '../woynu-ai/strings'
 
-/** Swipeable row on phones, grid from lg up. */
-const snapRow =
-  '-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-6 [scrollbar-width:none] md:-mx-10 md:px-10 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-8 lg:overflow-visible lg:px-0'
-const snapItem = 'w-[78vw] max-w-sm shrink-0 snap-center lg:w-auto lg:max-w-none'
+/** Cards sit in rows that wrap: one column on phones, two on tablets, three on desktop. Nothing scrolls sideways. */
+const snapRow = 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8'
+const snapItem = ''
 
 const cultureTeasers = ['Traditional clothing', 'Patterns', 'Colors', 'Modern interpretation']
 
@@ -77,7 +76,7 @@ export default function HomeSections() {
 
       <ThreadDivider />
 
-      {/* Collections: pinned sideways scroll on desktop, grid elsewhere */}
+      {/* Collections: all of them in a grid */}
       <HorizontalCollections
         collections={collections.filter((col) => col.published)}
         heading={
@@ -300,7 +299,10 @@ export default function HomeSections() {
             {phoneDisplay}
           </a>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <ButtonLink to={social.phone.href}>{t('contact.callUs')}</ButtonLink>
+            <ButtonLink to="/order">{t('buy.now')}</ButtonLink>
+            <ButtonLink to={social.phone.href} variant="ghost">
+              {t('contact.callUs')}
+            </ButtonLink>
             <ButtonLink to={social.whatsapp.href} variant="ghost">
               {t('contact.whatsapp')}
             </ButtonLink>

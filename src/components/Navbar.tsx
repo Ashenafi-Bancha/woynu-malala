@@ -4,6 +4,7 @@ import { nav } from '../content/site'
 import { LanguageToggle, useI18n } from '../i18n'
 import type { Key } from '../i18n/strings'
 import { BrandName } from './BrandName'
+import { ButtonLink } from './Button'
 import { Emblem } from './Emblem'
 
 export const navKey: Record<string, Key> = {
@@ -17,6 +18,7 @@ export const navKey: Record<string, Key> = {
   '/contact': 'nav.contact',
   '/craftsmanship': 'nav.craftsmanship',
   '/woynu-ai': 'nav.woynuAi',
+  '/order': 'nav.order',
 }
 
 export function Navbar() {
@@ -58,14 +60,14 @@ export function Navbar() {
           <Emblem size="sm" className="-my-2 -ml-1.5 h-14 w-14 shrink-0 md:-my-3 md:h-[4.25rem] md:w-[4.25rem]" />
           <BrandName size="sm" descriptor={false} />
         </Link>
-        <nav className="hidden items-center gap-5 xl:flex 2xl:gap-8" aria-label="Primary">
+        <nav className="hidden items-center gap-3.5 xl:flex 2xl:gap-7" aria-label="Primary">
           {nav.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               end={item.to === '/'}
               className={({ isActive }) =>
-                `whitespace-nowrap text-[11px] uppercase tracking-[0.28em] transition ${
+                `whitespace-nowrap text-[11px] uppercase tracking-[0.18em] transition 2xl:tracking-[0.26em] ${
                   isActive ? 'text-gold' : 'text-ivory/80 hover:text-gold'
                 }`
               }
@@ -75,6 +77,12 @@ export function Navbar() {
           ))}
         </nav>
         <div className="flex shrink-0 items-center gap-2 md:gap-4">
+          {/* The order button is always one tap away; on small phones it lives in the menu and the floating button */}
+          <div className="hidden sm:block">
+            <ButtonLink to="/order" className="px-5">
+              {t('buy.now')}
+            </ButtonLink>
+          </div>
           {/* Always visible so phone users can switch language without opening the menu */}
           <LanguageToggle />
           <button
@@ -94,6 +102,9 @@ export function Navbar() {
           data-lenis-prevent
           className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink px-6 pb-12 pt-24 xl:hidden"
         >
+          <ButtonLink to="/order" className="mb-6 w-full">
+            {t('buy.now')}
+          </ButtonLink>
           <nav className="flex flex-col" aria-label="Mobile">
             {[...nav, { to: '/craftsmanship', label: 'Craftsmanship' }].map((item, i) => (
               <NavLink

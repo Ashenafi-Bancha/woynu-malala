@@ -34,9 +34,12 @@ export function CollectionDetailPage() {
         description={collection.intro}
       />
       <PageHeader kicker={kicker} title={c(collection.title)} intro={collection.intro} media={collection.cover}>
+        <div className="mt-8">
+          <ButtonLink to={`/order?collection=${collection.slug}`}>{t('buy.fromCollection')}</ButtonLink>
+        </div>
         <Link
           to="/collections"
-          className="mt-8 inline-flex min-h-11 items-center gap-3 text-[11px] uppercase tracking-[0.3em] text-ivory/60 hover:text-gold"
+          className="mt-6 inline-flex min-h-11 items-center gap-3 text-[11px] uppercase tracking-[0.3em] text-ivory/60 hover:text-gold"
         >
           <span aria-hidden="true">←</span> {t('collections.back')}
         </Link>
@@ -63,8 +66,11 @@ export function CollectionDetailPage() {
               </Tilt3D>
               <p className="mt-6 text-sm leading-7 text-ivory/75">{design.description}</p>
               <p className="mt-2 text-sm italic text-ivory/55">{design.culturalNote}</p>
-              <div className="mt-6">
-                <ButtonLink to="/custom">{t('collections.inquire')}</ButtonLink>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <ButtonLink to={`/order?collection=${collection.slug}&design=${design.id}`}>{t('buy.thisDesign')}</ButtonLink>
+                <ButtonLink to="/custom" variant="ghost">
+                  {t('collections.inquire')}
+                </ButtonLink>
               </div>
             </Reveal>
           ))}

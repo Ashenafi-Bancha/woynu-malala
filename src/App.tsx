@@ -30,6 +30,7 @@ const JournalArticlePage = lazy(() =>
 const WoynuAIPage = lazy(() =>
   import('./pages/WoynuAIPage').then((m) => ({ default: m.WoynuAIPage })),
 )
+const OrderPage = lazy(() => import('./pages/OrderPage').then((m) => ({ default: m.OrderPage })))
 const ContactPage = lazy(() =>
   import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })),
 )
@@ -56,6 +57,7 @@ const router = createBrowserRouter([
       { path: 'journal', element: <JournalPage /> },
       { path: 'journal/:slug', element: <JournalArticlePage /> },
       { path: 'woynu-ai', element: <WoynuAIPage /> },
+      { path: 'order', element: <OrderPage /> },
       { path: 'contact', element: <ContactPage /> },
     ],
   },
