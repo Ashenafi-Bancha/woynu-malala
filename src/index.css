@@ -218,17 +218,68 @@ html[lang='am'] .leading-\[0\.95\] {
   line-height: 1.2;
 }
 
-/* Woynu AI: rectangular tiles in red, yellow and black light up in a travelling wave */
+/* Woynu AI: the Dinguza pattern as tiles that light up in a travelling wave, as if the
+   design were being generated, with a scan line and viewfinder corners */
 @keyframes weave-tile {
-  0%, 100% { opacity: 0.22; transform: scale(0.86); }
-  45%, 60% { opacity: 1; transform: scale(1); }
+  0%, 100% { opacity: 0.28; }
+  40%, 65% { opacity: 1; }
 }
 
 .weave-tile {
   display: block;
   /* the outline keeps the black tiles readable on the dark panel */
-  box-shadow: inset 0 0 0 1px rgba(240, 238, 235, 0.16);
-  animation: weave-tile 3.2s ease-in-out infinite;
+  box-shadow: inset 0 0 0 1px rgba(240, 238, 235, 0.14);
+}
+
+.weave-row {
+  animation: weave-tile 3.4s ease-in-out infinite;
+}
+
+.weave-panel {
+  padding: 12px;
+}
+
+/* the caller may position the panel itself (e.g. `absolute`) */
+.weave-panel:not(.absolute) {
+  position: relative;
+}
+
+/* viewfinder corners */
+.weave-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  --corner: #ebb977;
+  background:
+    linear-gradient(var(--corner), var(--corner)) 0 0 / 18px 1.5px,
+    linear-gradient(var(--corner), var(--corner)) 0 0 / 1.5px 18px,
+    linear-gradient(var(--corner), var(--corner)) 100% 0 / 18px 1.5px,
+    linear-gradient(var(--corner), var(--corner)) 100% 0 / 1.5px 18px,
+    linear-gradient(var(--corner), var(--corner)) 0 100% / 18px 1.5px,
+    linear-gradient(var(--corner), var(--corner)) 0 100% / 1.5px 18px,
+    linear-gradient(var(--corner), var(--corner)) 100% 100% / 18px 1.5px,
+    linear-gradient(var(--corner), var(--corner)) 100% 100% / 1.5px 18px;
+  background-repeat: no-repeat;
+}
+
+/* scan line */
+.weave-panel::after {
+  content: '';
+  position: absolute;
+  inset-inline: 6px;
+  top: 0;
+  height: 26%;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(255, 236, 190, 0.16) 80%, rgba(255, 244, 214, 0.95) 98%, transparent);
+  animation: weave-scan 3.4s var(--ease-fashion) infinite;
+}
+
+@keyframes weave-scan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translateY(385%); opacity: 0; }
 }
 
 /* "Coming soon" label */
@@ -259,7 +310,8 @@ html[lang='am'] .leading-\[0\.95\] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .weave-tile { animation: none; }
+  .weave-row { animation: none; }
+  .weave-panel::after { display: none; }
   .soon-badge::before { animation: none; }
 }
 
@@ -837,41 +889,6 @@ select:focus {
   .emblem-halo { opacity: 0.7; }
 }
 
-/* A light of red, yellow and gold keeps running round this button's border */
-@property --border-angle {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
-
-.btn-border-run {
-  border: 2px solid transparent;
-  background:
-    linear-gradient(#040303, #040303) padding-box,
-    conic-gradient(
-        from var(--border-angle),
-        rgba(240, 238, 235, 0.22) 0deg 200deg,
-        #b3261e 250deg,
-        #e8c33a 300deg,
-        #ffe2b0 335deg,
-        rgba(240, 238, 235, 0.22) 360deg
-      )
-      border-box;
-  animation: border-run 3.2s linear infinite;
-}
-
-.btn-border-run:hover {
-  border-color: transparent;
-}
-
-@keyframes border-run {
-  to { --border-angle: 360deg; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .btn-border-run { animation: none; }
-}
-
 /* ------------------------------------------------------------------ tricolour micro-animations
    Very small accents in the three Dinguza colours (red, black, yellow). */
 
@@ -1042,6 +1059,96 @@ nav[aria-label='Primary'] a::after {
 @media (prefers-reduced-motion: reduce) {
   .tri-dots i,
   .thread-divider::after {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ Dinguza borders
+   The stepped Dinguza motif runs round the edge of cards, photo frames and the outlined
+   button, and keeps travelling clockwise. `--dz` is the thickness of the border. */
+:root {
+  --dz-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20' viewBox='0 0 40 20'%3E%3Crect width='40' height='20' fill='%23b3261e'/%3E%3Crect width='40' height='1.6' fill='%23e8c33a'/%3E%3Crect y='18.4' width='40' height='1.6' fill='%23e8c33a'/%3E%3Cpath d='M-3 8H10V5H30V8H43V12H30V15H10V12H-3Z' fill='%23141111' stroke='%23e8c33a' stroke-width='1.3'/%3E%3C/svg%3E");
+  --dz-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='40' viewBox='0 0 20 40'%3E%3Cg transform='translate%2820 0%29 rotate%2890%29'%3E%3Crect width='40' height='20' fill='%23b3261e'/%3E%3Crect width='40' height='1.6' fill='%23e8c33a'/%3E%3Crect y='18.4' width='40' height='1.6' fill='%23e8c33a'/%3E%3Cpath d='M-3 8H10V5H30V8H43V12H30V15H10V12H-3Z' fill='%23141111' stroke='%23e8c33a' stroke-width='1.3'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.dz-frame {
+  --dz: 9px;
+  border: var(--dz) solid transparent;
+  background-image: var(--dz-h), var(--dz-h), var(--dz-v), var(--dz-v);
+  background-size:
+    auto var(--dz),
+    auto var(--dz),
+    var(--dz) auto,
+    var(--dz) auto;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-position:
+    0 0,
+    0 100%,
+    0 0,
+    100% 0;
+  background-origin: border-box;
+  background-clip: border-box;
+  animation: dz-march 2.4s linear infinite paused;
+}
+
+/* Borders travel only while they are on screen: Interactions.tsx adds this class */
+.dz-frame.dz-live,
+.btn-border-run.dz-live {
+  animation-play-state: running;
+}
+
+/* one tile is twice as long as the border is thick: moving by that much loops seamlessly */
+@keyframes dz-march {
+  to {
+    background-position:
+      calc(var(--dz) * 2) 0,
+      calc(var(--dz) * -2) 100%,
+      0 calc(var(--dz) * -2),
+      100% calc(var(--dz) * 2);
+  }
+}
+
+/* The outlined button: the same border, around a dark fill */
+.btn-border-run {
+  --dz: 6px;
+  border: var(--dz) solid transparent;
+  background-image: linear-gradient(#040303, #040303), var(--dz-h), var(--dz-h), var(--dz-v), var(--dz-v);
+  background-size:
+    auto,
+    auto var(--dz),
+    auto var(--dz),
+    var(--dz) auto,
+    var(--dz) auto;
+  background-repeat: no-repeat, repeat-x, repeat-x, repeat-y, repeat-y;
+  background-position:
+    0 0,
+    0 0,
+    0 100%,
+    0 0,
+    100% 0;
+  background-origin: padding-box, border-box, border-box, border-box, border-box;
+  background-clip: padding-box, border-box, border-box, border-box, border-box;
+  animation: dz-march-fill 2s linear infinite paused;
+}
+
+.btn-border-run:hover {
+  border-color: transparent;
+}
+
+@keyframes dz-march-fill {
+  to {
+    background-position:
+      0 0,
+      calc(var(--dz) * 2) 0,
+      calc(var(--dz) * -2) 100%,
+      0 calc(var(--dz) * -2),
+      100% calc(var(--dz) * 2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dz-frame,
+  .btn-border-run {
     animation: none;
   }
 }

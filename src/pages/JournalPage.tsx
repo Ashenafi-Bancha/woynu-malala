@@ -19,7 +19,7 @@ export function JournalPage() {
           <Reveal key={post.id} tilt delay={(i % 3) * 100}>
             <Link to={`/journal/${post.slug}`} className="group block">
               <Tilt3D className="aspect-[4/5] w-full" max={9}>
-                <div aria-hidden="true" className="absolute inset-0 translate-x-3 translate-y-3 border border-gold/25" style={depth(-30)} />
+                <div aria-hidden="true" className="dz-frame absolute inset-0 translate-x-3 translate-y-3" style={depth(-30)} />
                 <div className="absolute inset-0 overflow-hidden shadow-[0_40px_80px_-30px_rgba(0,0,0,0.95)]">
                   <PlaceholderImage media={post.cover} className="absolute inset-0 h-full w-full" showCaption={false} />
                   <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/25 to-transparent" />

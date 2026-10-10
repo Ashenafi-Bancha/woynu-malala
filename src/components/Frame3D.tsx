@@ -11,11 +11,11 @@ type Frame3DProps = {
   priority?: boolean
 }
 
-/** A photo in a floating gold frame that tilts toward the pointer. */
+/** A photo in a floating Dinguza-pattern frame that tilts toward the pointer. */
 export function Frame3D({ media, className = 'aspect-[4/5] w-full', max = 8, caption, priority }: Frame3DProps) {
   return (
     <Tilt3D max={max} className={className}>
-      <div aria-hidden="true" className="absolute -inset-4 border border-gold/35" style={depth(-45)} />
+      <div aria-hidden="true" className="dz-frame absolute -inset-4" style={depth(-45)} />
       <div
         aria-hidden="true"
         className="absolute inset-0 translate-x-6 translate-y-6 bg-gold/10 blur-2xl"

@@ -72,7 +72,7 @@ export function StyleResult({ result, onGenerateAgain, onChangePreferences, onRe
       <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
         <Reveal tilt className="mx-auto w-full max-w-md lg:sticky lg:top-28">
           <Tilt3D className="aspect-[2/3] w-full" max={7}>
-            <div aria-hidden="true" className="absolute -inset-4 border border-gold/35" style={depth(-45)} />
+            <div aria-hidden="true" className="dz-frame absolute -inset-4" style={depth(-45)} />
             <figure className="absolute inset-0 overflow-hidden bg-ink-soft shadow-[0_50px_100px_-30px_rgba(0,0,0,0.9)]">
               <img src={design.imageUrl} alt={`${design.alt} — ${title}`} className="h-full w-full object-cover" />
             </figure>

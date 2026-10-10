@@ -120,6 +120,34 @@ function usePageCover(cover: React.RefObject<HTMLDivElement | null>) {
   }, [navigate, cover])
 }
 
+/**
+ * Dinguza borders (`.dz-frame`, `.btn-border-run`) travel only while they are on screen,
+ * so a page full of framed cards costs nothing for the ones out of view.
+ */
+function useLiveBorders() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    if (prefersReducedMotion()) return
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) entry.target.classList.toggle('dz-live', entry.isIntersecting)
+    })
+    const seen = new WeakSet<Element>()
+    const scan = () => {
+      document.querySelectorAll('.dz-frame, .btn-border-run').forEach((el) => {
+        if (seen.has(el)) return
+        seen.add(el)
+        io.observe(el)
+      })
+    }
+    // Sections arrive a little after the page does, so look again a few times
+    const timers = [300, 1500, 4000, 8000].map((ms) => window.setTimeout(scan, ms))
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer))
+      io.disconnect()
+    }
+  }, [pathname])
+}
+
 /** Round button, bottom right: its gold ring fills with scroll progress; tap to glide to the top. */
 function BackToTop() {
   const { t } = useI18n()
@@ -185,6 +213,7 @@ export function Interactions() {
   useTapBurst(layer)
   useMagneticButtons()
   usePageCover(cover)
+  useLiveBorders()
 
   return (
     <>

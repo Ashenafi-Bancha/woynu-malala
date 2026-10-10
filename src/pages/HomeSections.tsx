@@ -109,7 +109,7 @@ export default function HomeSections() {
           </Reveal>
           <Reveal tilt delay={120} className="mx-auto w-full max-w-sm">
             <Tilt3D className="aspect-[4/5] w-full" max={10}>
-              <div aria-hidden="true" className="absolute -inset-4 border border-gold/35" style={depth(-40)} />
+              <div aria-hidden="true" className="dz-frame absolute -inset-4" style={depth(-40)} />
               <div className="absolute inset-0 overflow-hidden bg-ink shadow-[0_50px_100px_-30px_rgba(0,0,0,0.9)]">
                 <WeaveTiles className="absolute inset-x-6 bottom-6 top-20" />
               </div>

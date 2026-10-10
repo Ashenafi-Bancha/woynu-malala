@@ -82,7 +82,7 @@ export function ProcessPinned() {
         </div>
 
         <div className="relative mx-auto aspect-[4/5] w-full max-w-md">
-          <div aria-hidden="true" className="absolute -inset-4 border border-gold/30" />
+          <div aria-hidden="true" className="dz-frame absolute -inset-4" />
           {craftSteps.map((step, i) => (
             <div
               key={step.id}

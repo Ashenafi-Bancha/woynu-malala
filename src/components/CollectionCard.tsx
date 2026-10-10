@@ -16,10 +16,10 @@ export function CollectionCard({ collection, index }: { collection: Collection; 
       aria-label={`${title} — ${t('collections.view')}`}
     >
       <Tilt3D max={9} className="aspect-[4/5] w-full">
-        {/* Back layer: offset gold frame gives the card visible depth */}
+        {/* Back layer: an offset frame in the Dinguza pattern gives the card visible depth */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 translate-x-3 translate-y-3 border border-gold/25 transition duration-700 group-hover:translate-x-5 group-hover:translate-y-5"
+          className="dz-frame absolute inset-0 translate-x-3 translate-y-3 transition duration-700 group-hover:translate-x-5 group-hover:translate-y-5"
           style={depth(-30)}
         />
         <div className="glow-card absolute inset-0 overflow-hidden bg-ink-soft shadow-[0_40px_80px_-30px_rgba(0,0,0,0.95)]">
