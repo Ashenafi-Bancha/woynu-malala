@@ -84,14 +84,18 @@ export function Hero() {
         />
       ) : null}
 
-      {/* Zone 1: the logo emblem over a 3D scene. Nothing is drawn over it. */}
+      {/* The 3D ribbons and gold dust. Phones: only in the logo zone, fading out at its edges.
+          Desktop: across the whole hero, behind the text as well, melting into the page below. */}
+      <Backdrop3D
+        scene="ribbons"
+        overlay={false}
+        className="absolute inset-x-0 top-16 h-[30svh] [mask-image:radial-gradient(ellipse_closest-side_at_center,black_55%,transparent_100%)] lg:inset-0 lg:h-auto lg:[mask-image:linear-gradient(to_bottom,black_72%,transparent)]"
+      />
+      {/* Desktop: a soft shade on the left keeps the name and slogan easy to read over the ribbons */}
+      <div aria-hidden="true" className="absolute inset-0 hidden bg-linear-to-r from-ink/80 via-ink/50 to-transparent lg:block" />
+
+      {/* Zone 1: the logo emblem. Nothing is drawn over it. */}
       <div className="hero-emblem-zone relative mt-16 flex h-[30svh] shrink-0 items-center justify-center lg:absolute lg:inset-y-0 lg:left-[54%] lg:right-[4%] lg:mt-0 lg:h-auto">
-        {/* The 3D ribbons and gold dust play only inside this zone, behind the logo; the edges fade out */}
-        <Backdrop3D
-          scene="ribbons"
-          overlay={false}
-          className="absolute inset-0 [mask-image:radial-gradient(ellipse_closest-side_at_center,black_55%,transparent_100%)]"
-        />
         <div ref={emblem} className="hero-emblem-tilt relative">
           {/* The scroll animation moves this wrapper, so it never fights the mouse tilt or the float */}
           <div className="h-full w-full">
