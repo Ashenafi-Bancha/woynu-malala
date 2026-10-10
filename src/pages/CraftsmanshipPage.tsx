@@ -16,7 +16,6 @@ export function CraftsmanshipPage() {
         kicker={t('craft.kicker')}
         title={t('craft.title')}
         intro={t('craft.intro')}
-        scene="loom"
       />
       <ProcessPinned />
     </div>

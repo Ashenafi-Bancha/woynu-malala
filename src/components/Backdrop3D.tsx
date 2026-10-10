@@ -2,12 +2,11 @@ import { Component, lazy, Suspense, useEffect, useRef, useState, type ReactNode 
 import { canRender3D, hasFinePointer, remember3DFallback, whenIdle } from '../lib/device'
 import type { PageSceneVariant } from './hero/PageScene'
 
-// three.js, React Three Fiber and Vanta live in their own chunks, fetched only on
-// capable devices once the page is idle.
+// three.js and React Three Fiber live in their own chunk, fetched only on capable
+// devices once the page is idle.
 const PageScene = lazy(() => import('./hero/PageScene'))
-const VantaWaves = lazy(() => import('./hero/VantaWaves'))
 
-export type BackdropScene = PageSceneVariant | 'waves'
+export type BackdropScene = PageSceneVariant
 
 /** If WebGL fails to start (or the 3D chunk fails to load), show nothing instead of crashing. */
 export class SceneBoundary extends Component<{ onError: () => void; children: ReactNode }, { failed: boolean }> {
@@ -98,11 +97,7 @@ export function Backdrop3D({ scene = 'ribbons', photos, className = 'absolute in
         <div className={`absolute inset-0 transition-opacity duration-1000 ${ready ? 'opacity-100' : 'opacity-0'}`}>
           <SceneBoundary onError={tooSlow}>
             <Suspense fallback={null}>
-              {scene === 'waves' ? (
-                <VantaWaves onReady={() => setReady(true)} />
-              ) : (
-                <PageScene variant={scene} photos={photos} active={active} onReady={() => setReady(true)} onTooSlow={tooSlow} />
-              )}
+              <PageScene variant={scene} photos={photos} active={active} onReady={() => setReady(true)} onTooSlow={tooSlow} />
             </Suspense>
           </SceneBoundary>
         </div>
@@ -114,6 +109,24 @@ export function Backdrop3D({ scene = 'ribbons', photos, className = 'absolute in
           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-b from-transparent to-ink" />
         </>
       ) : null}
+    </div>
+  )
+}
+
+/**
+ * The 3D Dinguza ribbons in a band of their own at the top of a page, under the site
+ * header. Nothing is drawn over it: the page's title, text and photos start below.
+ * Same height as the logo zone of the home hero on phones.
+ */
+export function DinguzaBand({ flush = false }: { flush?: boolean }) {
+  return (
+    // `flush`: the page already leaves room for the fixed site header
+    <div aria-hidden="true" className={`relative h-[30svh] lg:h-[34vh] ${flush ? '' : 'mt-16 lg:mt-20'}`}>
+      <Backdrop3D
+        scene="ribbons"
+        overlay={false}
+        className="absolute inset-0 [mask-image:radial-gradient(ellipse_closest-side_at_center,black_55%,transparent_100%)]"
+      />
     </div>
   )
 }

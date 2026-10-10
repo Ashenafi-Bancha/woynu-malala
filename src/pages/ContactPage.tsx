@@ -43,7 +43,6 @@ export function ContactPage() {
         kicker={t('contact.kicker')}
         title={t('home.contactTitle')}
         intro={t('home.contactText')}
-        scene="waves"
       >
         <div className="mt-10 flex flex-wrap gap-3">
           <ButtonLink to={social.phone.href}>{t('contact.callUs')}</ButtonLink>

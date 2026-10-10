@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import type { MediaAsset } from '../content/types'
-import { Backdrop3D, type BackdropScene } from './Backdrop3D'
+import { DinguzaBand } from './Backdrop3D'
 import { Frame3D } from './Frame3D'
 import { SplitTitle, headingClass } from './SplitTitle'
 import { Reveal } from './Reveal'
@@ -12,23 +12,18 @@ type PageHeaderProps = {
   intro?: ReactNode
   media?: MediaAsset
   mediaCaption?: string
-  /** Which 3D scene plays behind the header */
-  scene?: BackdropScene
-  /** Image URLs for the `ring` scene */
-  photos?: string[]
   children?: ReactNode
 }
 
-/** Shared opening for inner pages: large italic title over a living 3D scene, with an optional framed photo. */
-export function PageHeader({ kicker, title, intro, media, mediaCaption, scene = 'ribbons', photos, children }: PageHeaderProps) {
+/**
+ * Shared opening for inner pages: the 3D Dinguza ribbons in a band of their own, then the
+ * large italic title (with an optional framed photo) below it.
+ */
+export function PageHeader({ kicker, title, intro, media, mediaCaption, children }: PageHeaderProps) {
   return (
-    // Without a photo the header keeps a generous height, so the 3D scene has room to play
-    <header
-      className={`relative overflow-hidden px-5 pb-16 pt-28 md:px-12 md:pb-28 md:pt-40 ${
-        media ? '' : 'flex min-h-[27rem] flex-col justify-center lg:min-h-[40rem]'
-      }`}
-    >
-      <Backdrop3D scene={scene} photos={photos} />
+    <header className="relative overflow-hidden">
+      <DinguzaBand />
+      <div className="relative px-5 pb-16 pt-6 md:px-12 md:pb-24 md:pt-8">
       <div
         aria-hidden="true"
         className="float-3d pointer-events-none absolute -left-40 top-10 hidden h-[55vh] w-[55vw] rounded-full bg-gold/10 blur-[140px] md:block"
@@ -61,6 +56,7 @@ export function PageHeader({ kicker, title, intro, media, mediaCaption, scene = 
             <Frame3D media={media} caption={mediaCaption} priority />
           </Reveal>
         ) : null}
+      </div>
       </div>
     </header>
   )

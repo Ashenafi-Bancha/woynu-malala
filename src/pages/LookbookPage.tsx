@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { looks } from '../content/site'
-import { Backdrop3D } from '../components/Backdrop3D'
+import { DinguzaBand } from '../components/Backdrop3D'
 import { Seo } from '../components/Seo'
 import { SplitTitle, headingClass } from '../components/SplitTitle'
 import { useI18n } from '../i18n'
@@ -107,11 +107,11 @@ export function LookbookPage() {
           style={{ opacity: i === index ? 0.35 : 0 }}
         />
       ))}
-      <Backdrop3D scene="ribbons" overlay={false} />
       <div className="absolute inset-0 bg-linear-to-b from-ink/80 via-ink/40 to-ink" />
 
       <div className="relative z-[2] flex min-h-[calc(100svh-5rem)] flex-col">
-        <header className="px-5 pt-10 text-center md:px-12">
+        <DinguzaBand flush />
+        <header className="px-5 pt-4 text-center md:px-12">
           <p className="text-[11px] uppercase tracking-[0.4em] text-gold">{t('lookbook.kicker')}</p>
           <h1 className={`mt-3 ${headingClass} text-5xl md:text-7xl`}>
             <SplitTitle text={t('lookbook.title')} />
