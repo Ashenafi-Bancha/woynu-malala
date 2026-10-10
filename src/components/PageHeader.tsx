@@ -4,6 +4,7 @@ import { Backdrop3D, type BackdropScene } from './Backdrop3D'
 import { Frame3D } from './Frame3D'
 import { SplitTitle, headingClass } from './SplitTitle'
 import { Reveal } from './Reveal'
+import { TriDots } from './Tricolour'
 
 type PageHeaderProps = {
   kicker: string
@@ -40,7 +41,10 @@ export function PageHeader({ kicker, title, intro, media, mediaCaption, scene = 
         className={`relative mx-auto grid w-full max-w-[1500px] items-center gap-16 ${media ? 'lg:grid-cols-[1.2fr_1fr]' : ''}`}
       >
         <Reveal>
-          <p className="text-[11px] uppercase tracking-[0.4em] text-gold">{kicker}</p>
+          <p className="text-[11px] uppercase tracking-[0.4em] text-gold">
+            <TriDots />
+            {kicker}
+          </p>
           <h1 className={`mt-5 ${headingClass} text-5xl sm:text-6xl md:text-8xl`}>
             {typeof title === 'string' ? <SplitTitle text={title} /> : title}
           </h1>

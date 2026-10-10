@@ -207,6 +207,7 @@ function Scene({ variant, photos }: { variant: PageSceneVariant; photos: string[
   const eased = useRef({ x: 0, y: 0 })
   const opacity = useRef(0)
   const born = useRef<number | null>(null)
+  const scrolled = useRef(0)
   const { viewport, camera, gl } = useThree()
   const wide = viewport.aspect > 1.15
   const dust = useMemo(() => createDust(wide ? 70 : 34, [12, 5, 5]), [wide])
@@ -241,14 +242,24 @@ function Scene({ variant, photos }: { variant: PageSceneVariant; photos: string[
     dust.material.uniforms.uOpacity.value = opacity.current
     dust.material.uniforms.uPixelRatio.value = gl.getPixelRatio() * 16
 
+    // Scroll: -1 when the scene is a screen below the middle of the window, +1 a screen above.
+    // The scene drifts, turns and the camera pushes in as the page moves past it.
+    const box = gl.domElement.getBoundingClientRect()
+    const target = THREE.MathUtils.clamp((window.innerHeight / 2 - (box.top + box.height / 2)) / window.innerHeight, -1, 1)
+    scrolled.current += (target - scrolled.current) * Math.min(1, delta * 5)
+    const s = scrolled.current
+
     if (group.current) {
       // Ribbons span the whole header; the loom and the ring sit beside the title on wide screens
       group.current.position.x = wide && variant !== 'ribbons' ? viewport.width * 0.24 : 0
-      group.current.rotation.y = Math.sin(now * 0.2) * 0.12 + eased.current.x * 0.22
+      group.current.position.y = s * 0.7
+      group.current.rotation.y = Math.sin(now * 0.2) * 0.12 + eased.current.x * 0.22 + s * 0.35
       group.current.rotation.x = -eased.current.y * 0.1
+      group.current.rotation.z = s * 0.16
     }
     camera.position.x += (eased.current.x * 0.3 - camera.position.x) * k
     camera.position.y += (eased.current.y * 0.18 - camera.position.y) * k
+    camera.position.z = 6 - Math.abs(s) * 1.1
     camera.lookAt(0, 0, 0)
   })
 

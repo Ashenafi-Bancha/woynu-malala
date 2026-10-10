@@ -43,13 +43,26 @@ export function Backdrop3D({ scene = 'ribbons', photos, className = 'absolute in
   const [ready, setReady] = useState(false)
   const [active, setActive] = useState(true)
 
+  // Start once the page is idle AND the scene is near the screen, so scenes further down
+  // the page cost nothing until the visitor gets close to them.
   useEffect(() => {
-    if (!canRender3D()) return
+    const el = box.current
+    if (!el || !canRender3D()) return
     let timer = 0
-    const cancelIdle = whenIdle(() => {
-      timer = window.setTimeout(() => setUse3D(true), hasFinePointer() ? 150 : 1200)
-    })
+    let cancelIdle = () => {}
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        io.disconnect()
+        cancelIdle = whenIdle(() => {
+          timer = window.setTimeout(() => setUse3D(true), hasFinePointer() ? 150 : 1200)
+        })
+      },
+      { rootMargin: '500px 0px' },
+    )
+    io.observe(el)
     return () => {
+      io.disconnect()
       cancelIdle()
       window.clearTimeout(timer)
     }

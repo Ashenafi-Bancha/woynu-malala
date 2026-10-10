@@ -875,3 +875,196 @@ select:focus {
 @media (prefers-reduced-motion: reduce) {
   .btn-border-run { animation: none; }
 }
+
+/* ------------------------------------------------------------------ tricolour micro-animations
+   Very small accents in the three Dinguza colours (red, black, yellow). */
+
+/* Three tiny squares that hop one after another, in front of section labels */
+.tri-dots {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 3px;
+  margin-right: 0.9em;
+  vertical-align: middle;
+}
+
+.tri-dots i {
+  display: block;
+  width: 5px;
+  height: 5px;
+  background: #b3261e;
+  animation: tri-hop 1.8s var(--ease-fashion) infinite;
+}
+
+.tri-dots i:nth-child(2) {
+  background: #141111;
+  /* a hairline keeps the black square visible on dark sections */
+  box-shadow: 0 0 0 1px rgba(240, 238, 235, 0.45);
+  animation-delay: 0.15s;
+}
+
+.tri-dots i:nth-child(3) {
+  background: #e8c33a;
+  animation-delay: 0.3s;
+}
+
+@keyframes tri-hop {
+  0%, 55%, 100% { transform: translateY(0) rotate(0deg); }
+  20% { transform: translateY(-4px) rotate(45deg); }
+}
+
+/* A woven band between sections: red, black and yellow threads draw across as it scrolls
+   into view, and a small light keeps travelling along it */
+.thread-divider {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  overflow: hidden;
+  background: #f0eeeb;
+  padding-block: 3px;
+}
+
+.thread-divider i {
+  display: block;
+  height: 2px;
+  background: #b3261e;
+  transform-origin: 0 50%;
+}
+
+.thread-divider i:nth-child(2) {
+  background: #141111;
+  transform-origin: 100% 50%;
+}
+
+.thread-divider i:nth-child(3) {
+  background: #e8c33a;
+}
+
+.thread-divider::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 90px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+  animation: thread-shuttle 4.5s var(--ease-fashion) infinite;
+}
+
+@keyframes thread-shuttle {
+  from { transform: translateX(-100px); }
+  to { transform: translateX(100vw); }
+}
+
+@keyframes thread-draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Scroll progress line at the top: woven in the three colours */
+.progress-weave {
+  background: repeating-linear-gradient(90deg, #b3261e 0 26px, #141111 26px 32px, #e8c33a 32px 50px, #141111 50px 56px);
+}
+
+/* Header links: the underline is a tiny tricolour thread */
+nav[aria-label='Primary'] a::after {
+  height: 2px;
+  background: linear-gradient(90deg, #b3261e 0 40%, #141111 40% 60%, #e8c33a 60% 100%);
+  box-shadow: 0 0 10px 0 rgba(232, 195, 58, 0.55);
+}
+
+/* Tap sparks fly out in the three colours */
+.tap-burst i:nth-child(3n + 1) {
+  background: #ff5a4a;
+  box-shadow: 0 0 8px 1px rgba(214, 60, 48, 0.9);
+}
+
+.tap-burst i:nth-child(3n + 2) {
+  background: #e8c33a;
+  box-shadow: 0 0 8px 1px rgba(232, 195, 58, 0.9);
+}
+
+.tap-burst i:nth-child(3n) {
+  background: #141111;
+  box-shadow: 0 0 0 1px rgba(235, 185, 119, 0.9);
+}
+
+/* Cards: three small colour ticks slide in at the corner on hover or press */
+.glow-card::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  z-index: 5;
+  width: 34px;
+  height: 4px;
+  background: linear-gradient(90deg, #b3261e 0 10px, transparent 10px 12px, #141111 12px 22px, transparent 22px 24px, #e8c33a 24px 34px);
+  outline: 1px solid rgba(240, 238, 235, 0.25);
+  outline-offset: 1px;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition:
+    opacity 0.4s,
+    transform 0.5s var(--ease-fashion);
+}
+
+.group:hover .glow-card::after,
+.group:active .glow-card::after {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------------------------------------------ scroll transitions
+   Home page: every section opens out from a rounded card as it scrolls in, and dims as it
+   leaves, so one section hands over to the next. Driven by the scroll position itself
+   (no JavaScript); browsers without scroll-driven animations simply show the sections. */
+@keyframes scene-in {
+  from {
+    opacity: 0.2;
+    clip-path: inset(9% 6% 0 6% round 30px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round 0px);
+  }
+}
+
+@keyframes scene-out {
+  to { opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* `backwards` / `forwards` only: while a section is being read, nothing is applied to it */
+    main > section:not(:first-of-type) {
+      animation:
+        scene-in linear backwards,
+        scene-out linear forwards;
+      animation-timeline: view(), view();
+      animation-range:
+        entry 0% entry 60%,
+        exit 55% exit 100%;
+    }
+
+    .thread-divider i {
+      animation: thread-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+
+    .thread-divider i:nth-child(2) {
+      animation-range: entry 20% cover 55%;
+    }
+
+    .thread-divider i:nth-child(3) {
+      animation-range: entry 40% cover 65%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tri-dots i,
+  .thread-divider::after {
+    animation: none;
+  }
+}

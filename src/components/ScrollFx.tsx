@@ -4,7 +4,7 @@ import { prefersReducedMotion } from '../lib/device'
 import { loadGsap } from '../lib/gsap'
 import { CollectionCard, CollectionGrid } from './CollectionCard'
 
-/** Thin amber line across the top of the screen that fills as the page is scrolled. */
+/** Thin woven line (red, black, yellow) across the top of the screen that fills as the page is scrolled. */
 export function ScrollProgress() {
   const bar = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -28,7 +28,7 @@ export function ScrollProgress() {
   }, [])
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px]">
-      <div ref={bar} className="h-full origin-left scale-x-0 bg-linear-to-r from-gold via-gold-bright to-gold" />
+      <div ref={bar} className="progress-weave h-full origin-left scale-x-0" />
     </div>
   )
 }

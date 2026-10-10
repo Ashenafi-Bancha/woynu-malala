@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { pageImages } from '../content/media'
 import { brand, collections, facebookPhotos, journal, occasions, phoneDisplay, social } from '../content/site'
+import { Backdrop3D } from '../components/Backdrop3D'
 import { ButtonLink } from '../components/Button'
 import { CraftsmanshipTimeline } from '../components/CraftsmanshipTimeline'
 import { CustomDesignForm } from '../components/CustomDesignForm'
@@ -14,6 +15,7 @@ import { Testimonials } from '../components/Testimonials'
 import { WeaveTiles } from '../components/woynu-ai/WeaveTiles'
 import { SplitTitle, headingClass } from '../components/SplitTitle'
 import { Tilt3D, depth } from '../components/Tilt3D'
+import { ThreadDivider } from '../components/Tricolour'
 import { useI18n } from '../i18n'
 import { useAiText } from '../woynu-ai/strings'
 
@@ -73,6 +75,8 @@ export default function HomeSections() {
         </div>
       </section>
 
+      <ThreadDivider />
+
       {/* Collections: pinned sideways scroll on desktop, grid elsewhere */}
       <HorizontalCollections
         collections={collections.filter((col) => col.published)}
@@ -119,6 +123,8 @@ export default function HomeSections() {
           </Reveal>
         </div>
       </section>
+
+      <ThreadDivider />
 
       {/* Statement */}
       <section className="relative min-h-[70vh] overflow-hidden">
@@ -201,6 +207,8 @@ export default function HomeSections() {
         </div>
       </section>
 
+      <ThreadDivider />
+
       {/* Seen & worn */}
       <section className="overflow-hidden bg-ink px-5 py-20 md:px-10 md:py-28">
         <Reveal>
@@ -246,6 +254,8 @@ export default function HomeSections() {
         </div>
       </section>
 
+      <ThreadDivider />
+
       {/* Custom design */}
       <section className="grid lg:grid-cols-2">
         <div className="bg-ivory px-6 py-20 text-ink md:px-14">
@@ -266,7 +276,13 @@ export default function HomeSections() {
       </section>
 
       {/* Contact */}
-      <section className="relative overflow-hidden bg-ink px-5 py-24 text-center md:px-10 md:py-32">
+      <section className="relative isolate overflow-hidden bg-ink px-5 py-24 text-center md:px-10 md:py-32">
+        {/* 3D ribbons drift behind the closing invitation */}
+        <Backdrop3D
+          scene="ribbons"
+          overlay={false}
+          className="absolute inset-0 -z-10 opacity-40 lg:opacity-60 [mask-image:linear-gradient(to_bottom,transparent,black_28%,black_72%,transparent)]"
+        />
         <div
           aria-hidden="true"
           className="float-3d pointer-events-none absolute left-1/2 top-1/2 hidden h-[50vh] w-[60vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-[130px] md:block"

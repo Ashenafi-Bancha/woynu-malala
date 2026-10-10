@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { SplitTitle, headingClass } from './SplitTitle'
+import { TriDots } from './Tricolour'
 
 type Props = {
   kicker?: string
@@ -24,6 +25,7 @@ export function SectionHeading({
         <p
           className={`mb-4 text-[11px] uppercase tracking-[0.38em] ${light ? 'text-amber-deep' : 'text-gold'}`}
         >
+          <TriDots />
           {kicker}
         </p>
       ) : null}
