@@ -592,10 +592,22 @@ const facebookPreviews = [
 ]
 
 /** "Seen & worn" gallery: studio photos in images/gallery/01…08 replace the Facebook previews. */
-export const facebookPhotos = facebookPreviews.map((photo, i) => ({
-  ...photo,
-  src: imageFor(`gallery/${pad2(i + 1)}`) ?? photo.src,
-}))
+/** What each photo in images/gallery/ shows (alt text), in file order 01…08. */
+const galleryAlts = [
+  'A woman in the Woynu Malala studio wearing a white dress with a Dinguza skirt',
+  'A woman in a white dress with Dinguza trim at a venue decorated with flowers and leaves',
+  'A long line of women in white dresses with Dinguza sashes at an outdoor celebration',
+  'Elders in Dinguza suits and white shawls holding staffs',
+  'Men in Dinguza suits and hats standing in a row outdoors',
+  'Close view of a Dinguza skirt in red, black and yellow bands',
+  'Women in white dresses with Dinguza sashes standing in a row',
+  'Men in Dinguza suits, hats and scarves at an outdoor gathering',
+]
+
+export const facebookPhotos = facebookPreviews.map((photo, i) => {
+  const src = imageFor(`gallery/${pad2(i + 1)}`)
+  return src ? { src, alt: galleryAlts[i] ?? photo.alt } : photo
+})
 
 // ---------------------------------------------------------------------------
 // Studio photos: any file saved in src/assets/images/ with the names below
