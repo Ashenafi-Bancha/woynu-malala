@@ -134,12 +134,19 @@ export function Hero() {
                 {t('buy.now')}
               </ButtonLink>
             </m.div>
-            <m.div variants={item} className="mt-4 flex flex-col items-center gap-2 lg:mt-12 lg:flex-row lg:gap-4">
+            {/* Phones: the scroll cue sits under the buttons (desktop has its own, centred below) */}
+            <m.div variants={item} className="mt-4 flex flex-col items-center gap-2 lg:hidden">
               <span aria-hidden="true" className="scroll-cue" />
               <span className="text-[10px] uppercase tracking-[0.34em] text-ivory/60">{t('hero.scroll')}</span>
             </m.div>
           </m.div>
         </div>
+      </div>
+
+      {/* Desktop: the scroll cue is centred at the bottom of the hero */}
+      <div className="absolute bottom-8 left-1/2 z-[4] hidden -translate-x-1/2 flex-col items-center gap-3 lg:flex">
+        <span aria-hidden="true" className="scroll-cue" />
+        <span className="text-[10px] uppercase tracking-[0.34em] text-ivory/60">{t('hero.scroll')}</span>
       </div>
     </section>
   )
