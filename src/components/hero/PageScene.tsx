@@ -3,7 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { CLOTH_GEOMETRY, createClothMaterial, createDust } from './clothMaterial'
-import { stripesGlsl } from './dinguzaPattern'
+import { dinguzaGlsl } from './dinguzaPattern'
 
 // 3D backdrops for the inner pages. Every scene loops for ever (nothing plays once and stops):
 //   ribbons – lengths of Dinguza cloth twisting through the air
@@ -39,11 +39,11 @@ const ribbonFragment = /* glsl */ `
   varying vec2 vUv;
   varying vec3 vView;
 
-  ${stripesGlsl()}
+  ${dinguzaGlsl()}
 
   void main() {
-    // One run of the stripe pattern across the width of the band
-    vec3 color = stripeColor(vUv.y * 0.4);
+    // One set of Dinguza bands across the width; the stepped motif repeats along the length
+    vec3 color = dinguza(vUv.y, vUv.x * 30.0);
     // Woven texture
     color *= 0.86 + 0.14 * sin(vUv.x * 2600.0) * sin(vUv.y * 90.0);
 
@@ -61,9 +61,9 @@ const ribbonFragment = /* glsl */ `
 `
 
 const RIBBONS = [
-  { y: 0.9, z: -0.6, phase: 0, speed: 1, width: 0.62, tilt: -0.1 },
-  { y: -0.2, z: 0.4, phase: 2.4, speed: 0.8, width: 0.46, tilt: 0.06 },
-  { y: -1.1, z: -1.2, phase: 4.6, speed: 1.15, width: 0.54, tilt: -0.04 },
+  { y: 0.9, z: -0.6, phase: 0, speed: 1, width: 0.92, tilt: -0.1 },
+  { y: -0.2, z: 0.4, phase: 2.4, speed: 0.8, width: 0.7, tilt: 0.06 },
+  { y: -1.1, z: -1.2, phase: 4.6, speed: 1.15, width: 0.8, tilt: -0.04 },
 ]
 
 function Ribbons({ opacity }: { opacity: { current: number } }) {
@@ -94,7 +94,7 @@ function Ribbons({ opacity }: { opacity: { current: number } }) {
     <>
       {RIBBONS.map((r, i) => (
         <mesh key={i} material={materials[i]} position={[0, r.y, r.z]} rotation={[0, 0, r.tilt]}>
-          <planeGeometry args={[13, r.width, 180, 6]} />
+          <planeGeometry args={[13, r.width, 180, 8]} />
         </mesh>
       ))}
     </>

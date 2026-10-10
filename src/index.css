@@ -659,17 +659,17 @@ select:focus {
 
 .hero-emblem {
   --emblem-colours: repeating-conic-gradient(
-    #b3261e 0deg 36deg,
-    #141111 36deg 52deg,
-    #e8c33a 52deg 72deg,
-    #141111 72deg 90deg
+    #b3261e 0deg 42deg,
+    #e8c33a 42deg 46deg,
+    #141111 46deg 86deg,
+    #e8c33a 86deg 90deg
   );
   /* The glow uses a deeper, narrower red so it never floods the logo */
   --emblem-glow: repeating-conic-gradient(
-    #96201a 0deg 31deg,
-    #0a0808 31deg 50deg,
-    #c9a22e 50deg 70deg,
-    #0a0808 70deg 90deg
+    #96201a 0deg 38deg,
+    #c9a22e 38deg 46deg,
+    #0a0808 46deg 84deg,
+    #c9a22e 84deg 90deg
   );
   /* thickness of the colour band, softness of the glow, size of the orbiting lights, dark gap round the logo */
   --band: 9px;
@@ -914,31 +914,20 @@ select:focus {
   20% { transform: translateY(-4px) rotate(45deg); }
 }
 
-/* A woven band between sections: red, black and yellow threads draw across as it scrolls
-   into view, and a small light keeps travelling along it */
+/* A band of the Dinguza pattern between sections: it draws across as it scrolls into view,
+   and a small light keeps travelling along it */
 .thread-divider {
   position: relative;
-  display: grid;
-  gap: 2px;
+  height: 34px;
   overflow: hidden;
-  background: #f0eeeb;
-  padding-block: 3px;
+  background: #141111;
 }
 
 .thread-divider i {
-  display: block;
-  height: 2px;
-  background: #b3261e;
-  transform-origin: 0 50%;
-}
-
-.thread-divider i:nth-child(2) {
-  background: #141111;
-  transform-origin: 100% 50%;
-}
-
-.thread-divider i:nth-child(3) {
-  background: #e8c33a;
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
 }
 
 .thread-divider::after {
@@ -946,9 +935,9 @@ select:focus {
   position: absolute;
   inset-block: 0;
   left: 0;
-  width: 90px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
-  animation: thread-shuttle 4.5s var(--ease-fashion) infinite;
+  width: 110px;
+  background: linear-gradient(90deg, transparent, rgba(255, 244, 214, 0.55), transparent);
+  animation: thread-shuttle 5s var(--ease-fashion) infinite;
 }
 
 @keyframes thread-shuttle {
@@ -957,19 +946,19 @@ select:focus {
 }
 
 @keyframes thread-draw {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
 }
 
 /* Scroll progress line at the top: woven in the three colours */
 .progress-weave {
-  background: repeating-linear-gradient(90deg, #b3261e 0 26px, #141111 26px 32px, #e8c33a 32px 50px, #141111 50px 56px);
+  background: repeating-linear-gradient(90deg, #b3261e 0 30px, #e8c33a 30px 33px, #141111 33px 55px, #e8c33a 55px 58px);
 }
 
 /* Header links: the underline is a tiny tricolour thread */
 nav[aria-label='Primary'] a::after {
   height: 2px;
-  background: linear-gradient(90deg, #b3261e 0 40%, #141111 40% 60%, #e8c33a 60% 100%);
+  background: linear-gradient(90deg, #b3261e 0 46%, #e8c33a 46% 54%, #141111 54% 100%);
   box-shadow: 0 0 10px 0 rgba(232, 195, 58, 0.55);
 }
 
@@ -1049,15 +1038,7 @@ nav[aria-label='Primary'] a::after {
     .thread-divider i {
       animation: thread-draw linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 45%;
-    }
-
-    .thread-divider i:nth-child(2) {
-      animation-range: entry 20% cover 55%;
-    }
-
-    .thread-divider i:nth-child(3) {
-      animation-range: entry 40% cover 65%;
+      animation-range: entry 0% cover 50%;
     }
   }
 }

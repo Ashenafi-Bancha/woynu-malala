@@ -2,6 +2,7 @@ import { LazyMotion } from 'motion/react'
 import { Suspense, useEffect } from 'react'
 import { Link, Outlet, ScrollRestoration, useLocation } from 'react-router-dom'
 import { Footer } from './Footer'
+import { ThreadDivider } from './Tricolour'
 import { Interactions } from './Interactions'
 import { Navbar } from './Navbar'
 import { ScrollProgress } from './ScrollFx'
@@ -86,6 +87,7 @@ export function Layout() {
           <Outlet />
         </Suspense>
       </main>
+      <ThreadDivider />
       <Footer />
       <ScrollRestoration />
     </LazyMotion>

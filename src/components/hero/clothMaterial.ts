@@ -1,10 +1,10 @@
 import * as THREE from 'three'
-import { REPEATS, STRIPES, stripesGlsl } from './dinguzaPattern'
+import { dinguzaGlsl } from './dinguzaPattern'
 
 // Cloth and dust shaders for the inner-page 3D scenes.
 
-/** Threads across the cloth: one per unit of the stripe pattern, so each thread has one colour. */
-export const THREADS = REPEATS * STRIPES.reduce((sum, s) => sum + s.width, 0)
+/** How many separate threads the loom cloth is made of. */
+export const THREADS = 48
 
 const clothVertex = /* glsl */ `
   uniform float uTime;
@@ -69,7 +69,7 @@ const clothFragment = /* glsl */ `
   varying vec3 vNormal;
   varying float vFold;
 
-  ${stripesGlsl()}
+  ${dinguzaGlsl()}
 
   void main() {
     // Warp threads: thin strands when loose, closing up into solid cloth as they weave
@@ -78,7 +78,8 @@ const clothFragment = /* glsl */ `
     float strand = 1.0 - smoothstep(halfWidth - 0.06, halfWidth, abs(across - 0.5));
     if (strand < 0.02) discard;
 
-    vec3 color = stripeColor(vUv.x);
+    // Two sets of bands across the cloth; the stepped motif repeats down its length
+    vec3 color = dinguza(vUv.x * 2.0, vUv.y * 5.5);
     // Each strand is round: lighter along its centre
     color *= 0.72 + 0.28 * cos((across - 0.5) * 3.14159);
     // Weft threads appear as the cloth closes up
