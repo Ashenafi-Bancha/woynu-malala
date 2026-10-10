@@ -671,8 +671,7 @@ select:focus {
     #0a0808 46deg 84deg,
     #c9a22e 84deg 90deg
   );
-  /* thickness of the colour band, softness of the glow, size of the orbiting lights, dark gap round the logo */
-  --band: 9px;
+  /* softness of the glow, size of the orbiting lights, dark gap round the logo */
   --blur: 26px;
   --dot: 7px;
   --gap: 7px;
@@ -697,13 +696,12 @@ select:focus {
     emblem-breathe 3.6s ease-in-out infinite alternate;
 }
 
-/* The crisp band of red, black and yellow around the logo */
+/* The ring around the logo: the Dinguza pattern bent into a circle (red band with stepped
+   black blocks outlined in yellow, between black and yellow lines). Drawn as an SVG. */
 .emblem-band {
-  inset: 9%;
-  background: var(--emblem-colours);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--band)), #000 calc(100% - var(--band) + 1px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - var(--band)), #000 calc(100% - var(--band) + 1px));
-  animation: emblem-spin 26s linear infinite;
+  inset: 4%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='81.6' fill='none' stroke='%23e8c33a' stroke-width='1.6'/%3E%3Ccircle cx='100' cy='100' r='83.9' fill='none' stroke='%23141111' stroke-width='3.0'/%3E%3Ccircle cx='100' cy='100' r='90.75' fill='none' stroke='%23b3261e' stroke-width='10.7'/%3E%3Ccircle cx='100' cy='100' r='90.75' fill='none' stroke='%23e8c33a' stroke-width='7.4' stroke-dasharray='17.84 13.84' stroke-dashoffset='1.00'/%3E%3Ccircle cx='100' cy='100' r='90.75' fill='none' stroke='%23e8c33a' stroke-width='4.0'/%3E%3Ccircle cx='100' cy='100' r='90.75' fill='none' stroke='%23141111' stroke-width='5.4' stroke-dasharray='15.84 15.84' stroke-dashoffset='0.00'/%3E%3Ccircle cx='100' cy='100' r='90.75' fill='none' stroke='%23141111' stroke-width='2.0'/%3E%3Ccircle cx='100' cy='100' r='97.4' fill='none' stroke='%23141111' stroke-width='2.6'/%3E%3Ccircle cx='100' cy='100' r='99.2' fill='none' stroke='%23e8c33a' stroke-width='1.5'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  animation: emblem-spin 40s linear infinite;
 }
 
 /* A dashed gold ring turning the other way, as on the footer mark */
@@ -780,7 +778,6 @@ select:focus {
 
 /* Footer mark */
 .emblem-md {
-  --band: 5px;
   --blur: 13px;
   --dot: 5px;
   --gap: 4px;
@@ -789,7 +786,6 @@ select:focus {
 
 /* Header mark: the same emblem at a small size, without the float */
 .emblem-sm {
-  --band: 2.5px;
   --blur: 6px;
   --dot: 3px;
   --gap: 2px;
