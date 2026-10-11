@@ -578,20 +578,18 @@ export const testimonialsPlaceholder =
 export const seenWornNote =
   'Moments from the studio, celebrations, and group shoots — shared on our Facebook page.'
 
-// Small preview thumbnails (206×206) saved from the public Facebook page.
-// Replace with full-size originals from the studio when available.
+// The "Seen & worn" gallery. A file in images/gallery/01…08 replaces the photo in that place.
 const facebookPreviews = [
-  { src: '/photos/facebook/fb-01.jpg', alt: 'A couple outdoors in matching red, white, and black Wolaita garments' },
-  { src: '/photos/facebook/fb-02.jpg', alt: 'A couple in coordinated Wolaita cultural outfits beside a garden' },
-  { src: '/photos/facebook/fb-03.jpg', alt: 'Four women in white dresses with red woven bodices inside the Woynu Malala studio' },
-  { src: '/photos/facebook/fb-04.jpg', alt: 'Two women in white and red Wolaita dresses in the studio showroom' },
-  { src: '/photos/facebook/fb-05.jpg', alt: 'A large group of women in matching Wolaita dresses at an outdoor event' },
-  { src: '/photos/facebook/fb-06.jpg', alt: 'A group of women in white and red cultural dresses among trees' },
-  { src: '/photos/facebook/fb-07.jpg', alt: 'A woman in a Wolaita dress holding a shopping bag at an evening venue' },
-  { src: '/photos/facebook/fb-08.jpg', alt: 'A group in Wolaita dresses in front of a lit monument at night' },
-]
+  fbPhotos.studioFour,
+  shots.ceremony,
+  fbPhotos.groupEvent,
+  fbPhotos.couple,
+  fbPhotos.groupTrees,
+  shots.gold,
+  fbPhotos.monument,
+  fbPhotos.evening,
+].map(({ src, alt }) => ({ src, alt }))
 
-/** "Seen & worn" gallery: studio photos in images/gallery/01…08 replace the Facebook previews. */
 /** What each photo in images/gallery/ shows (alt text), in file order 01…08. */
 const galleryAlts = [
   'A woman in the Woynu Malala studio wearing a white dress with a Dinguza skirt',
