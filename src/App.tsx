@@ -1,8 +1,10 @@
 import { lazy, Suspense } from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { BrandName } from './components/BrandName'
 import { HomePage } from './pages/HomePage'
+
+import { showWoynuAi } from './lib/features'
 
 const CollectionsPage = lazy(() =>
   import('./pages/CollectionsPage').then((m) => ({ default: m.CollectionsPage })),
@@ -56,9 +58,12 @@ const router = createBrowserRouter([
       { path: 'custom', element: <CustomPage /> },
       { path: 'journal', element: <JournalPage /> },
       { path: 'journal/:slug', element: <JournalArticlePage /> },
-      { path: 'woynu-ai', element: <WoynuAIPage /> },
+      // Hidden from the public site until it is ready (see lib/features.ts)
+      ...(showWoynuAi ? [{ path: 'woynu-ai', element: <WoynuAIPage /> }] : []),
       { path: 'order', element: <OrderPage /> },
       { path: 'contact', element: <ContactPage /> },
+      // Any unknown address (including a hidden page) goes back to the home page
+      { path: '*', element: <Navigate to="/" replace /> },
     ],
   },
 ])

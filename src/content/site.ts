@@ -1,3 +1,4 @@
+import { showWoynuAi } from '../lib/features'
 import { imageFor, pad2, slot, slugify } from './images'
 import { fbPhotos, shots } from './media'
 import type {
@@ -24,7 +25,7 @@ export const brand = {
   siteUrl: 'https://woynu-malala.vercel.app',
 }
 
-export const nav = [
+const allNav = [
   { to: '/', label: 'Home' },
   { to: '/collections', label: 'Collections' },
   { to: '/lookbook', label: 'Lookbook' },
@@ -35,6 +36,9 @@ export const nav = [
   { to: '/journal', label: 'Journal' },
   { to: '/contact', label: 'Contact' },
 ]
+
+/** The menu. Woynu AI is left out on the public site until it is ready (see lib/features.ts). */
+export const nav = allNav.filter((item) => showWoynuAi || item.to !== '/woynu-ai')
 
 export const footerNav = [
   ...nav,
