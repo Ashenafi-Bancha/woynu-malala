@@ -33,7 +33,7 @@ export function CollectionDetailPage() {
         path={`/collections/${collection.slug}`}
         description={collection.intro}
       />
-      <PageHeader kicker={kicker} title={c(collection.title)} intro={collection.intro} media={collection.cover}>
+      <PageHeader kicker={kicker} title={c(collection.title)} intro={c(collection.intro)} media={collection.cover}>
         <div className="mt-8">
           <ButtonLink to={`/order?collection=${collection.slug}`}>{t('buy.fromCollection')}</ButtonLink>
         </div>

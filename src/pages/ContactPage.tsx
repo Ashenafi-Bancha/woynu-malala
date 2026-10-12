@@ -29,7 +29,7 @@ const actionLink =
   'mt-6 inline-flex min-h-11 items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-gold transition hover:text-gold-bright'
 
 export function ContactPage() {
-  const { t } = useI18n()
+  const { t, c } = useI18n()
   const [showMap, setShowMap] = useState(false)
   const telegramReady = social.telegram.href !== '#'
   return (
@@ -68,9 +68,9 @@ export function ContactPage() {
       <div className="grid gap-6 px-5 pb-16 md:grid-cols-3 md:px-10">
         <ContactCard label={t('contact.location')} index={0}>
           <p className="font-serif text-3xl font-light">{t('brand.location')}</p>
-          <p className="mt-2 text-xs text-stone">{social.studio.pending}</p>
+          <p className="mt-2 text-xs text-stone">{c(social.studio.pending)}</p>
           <p className="mt-5 text-[10px] uppercase tracking-[0.3em] text-gold">{t('contact.hours')}</p>
-          <p className="mt-2 text-sm text-ivory/75">{openingHours}</p>
+          <p className="mt-2 text-sm text-ivory/75">{c(openingHours)}</p>
           <p className="mt-3 text-sm text-ivory/60">{t('contact.hoursNote')}</p>
           <a href={social.studio.href} target="_blank" rel="noopener noreferrer" className={actionLink}>
             {t('contact.directions')} <span aria-hidden="true">→</span>

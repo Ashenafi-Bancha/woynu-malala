@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { pageImages } from '../content/media'
-import { brand, collections, facebookPhotos, journal, occasions, phoneDisplay, social } from '../content/site'
+import { brand, collections, facebookPhotos, journal, occasions, phoneDisplay, social, testimonials } from '../content/site'
 import { Backdrop3D } from '../components/Backdrop3D'
 import { ButtonLink } from '../components/Button'
 import { CraftsmanshipTimeline } from '../components/CraftsmanshipTimeline'
@@ -24,7 +24,12 @@ import { useAiText } from '../woynu-ai/strings'
 const snapRow = 'grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8'
 const snapItem = ''
 
-const cultureTeasers = ['Traditional clothing', 'Patterns', 'Colors', 'Modern interpretation']
+const cultureTeasers = [
+  { title: 'Traditional clothing', text: 'White cotton finished with woven colour, worn with pride.' },
+  { title: 'Patterns', text: 'The bands and stepped blocks of Dinguza.' },
+  { title: 'Colors', text: 'Red and black lead, with yellow between them.' },
+  { title: 'Modern interpretation', text: 'The same cloth in today’s cuts.' },
+]
 
 /** Everything on the home page below the hero. Loaded and rendered after the hero is on screen. */
 export default function HomeSections() {
@@ -60,7 +65,6 @@ export default function HomeSections() {
             <SplitTitle text={t('home.introTitle')} light />
           </h2>
           <p className="mt-8 max-w-md leading-8 text-ink/75">{t('home.introText')}</p>
-          <p className="mt-6 max-w-md text-sm leading-7 text-ink/60">[Brand introduction — Client Content Needed]</p>
           <div className="mt-10">
             <ButtonLink to="/story" variant="ink">
               {t('home.readStory')}
@@ -153,7 +157,7 @@ export default function HomeSections() {
           <p className="mt-6 max-w-2xl text-ink/70">{t('home.cultureText')}</p>
         </Reveal>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {cultureTeasers.map((title, i) => (
+          {cultureTeasers.map(({ title, text }, i) => (
             <Reveal key={title} tilt delay={i * 90}>
               <Tilt3D auto max={10}>
                 <Link
@@ -166,7 +170,7 @@ export default function HomeSections() {
                   <h3 className="mt-6 font-serif text-3xl font-normal" style={depth(30)}>
                     {c(title)}
                   </h3>
-                  <p className="mt-3 text-sm leading-7 text-ink/65">[Culture copy — Client Content Needed]</p>
+                  <p className="mt-3 text-sm leading-7 text-ink/65">{c(text)}</p>
                   <span className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] text-earth">
                     {t('home.readMore')}
                     <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
@@ -201,7 +205,7 @@ export default function HomeSections() {
                 <div aria-hidden="true" className="absolute inset-3 border border-ivory/20" style={depth(25)} />
                 <div className="absolute inset-x-0 bottom-0 p-6" style={depth(60)}>
                   <h3 className="font-serif text-3xl font-normal text-ivory">{c(o.title)}</h3>
-                  <p className="mt-2 text-sm text-ivory/70">{o.text}</p>
+                  <p className="mt-2 text-sm text-ivory/70">{c(o.text)}</p>
                 </div>
               </Tilt3D>
             </div>
@@ -227,7 +231,8 @@ export default function HomeSections() {
         </div>
       </section>
 
-      <Testimonials />
+      {/* Shown only once the studio has supplied real customer words */}
+      {testimonials.some((item) => !item.placeholder) ? <Testimonials /> : null}
 
       {/* Journal */}
       <section className="overflow-hidden bg-ink-soft px-5 py-20 md:px-10 md:py-28">

@@ -196,7 +196,7 @@ export function LookbookPage() {
               {look.number} · {c(look.collectionTitle)}
             </p>
             <h2 className="mt-3 font-serif text-4xl font-light italic text-gold md:text-6xl">{c(look.title)}</h2>
-            <p className="mx-auto mt-4 max-w-md text-sm text-ivory/60">{look.note}</p>
+            <p className="mx-auto mt-4 max-w-md text-sm text-ivory/60">{c(look.note)}</p>
           </div>
 
           <div className="mx-auto mt-8 flex max-w-xl items-center justify-between gap-4">

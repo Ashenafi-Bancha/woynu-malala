@@ -47,22 +47,22 @@ export const footerNav = [
 ]
 
 export const social = {
-  instagram: { href: '#', label: 'Instagram', pending: '[Social URL — Client Information Needed]' },
+  instagram: { href: '#', label: 'Instagram', pending: 'Coming soon' },
   facebook: { href: 'https://www.facebook.com/profile.php?id=100082906343810', label: 'Facebook', pending: '' },
-  tiktok: { href: '#', label: 'TikTok', pending: '[Social URL — Client Information Needed]' },
+  tiktok: { href: '#', label: 'TikTok', pending: 'Coming soon' },
   whatsapp: { href: 'https://wa.me/251923400278', label: 'WhatsApp', pending: '' },
-  telegram: { href: '#', label: 'Telegram', pending: '[Telegram username — Client Information Needed]' },
+  telegram: { href: '#', label: 'Telegram', pending: 'Telegram is coming soon' },
   phone: { href: 'tel:+251923400278', label: 'Call', pending: '' },
   studio: {
     href: 'https://www.google.com/maps/search/?api=1&query=Wolaita+Sodo%2C+Ethiopia',
     label: 'Visit Studio',
-    pending: '[Exact street address — Client Information Needed]',
+    pending: 'Call or message us for directions to the studio.',
   },
 }
 
 /** Studio phone, shown locally formatted; the same number is used for calls and WhatsApp. */
 /** PLACEHOLDER: replace with the studio's real opening hours. */
-export const openingHours = '[Opening hours — to be provided by Woynu Malala]'
+export const openingHours = 'Call or message us for today’s opening hours.'
 
 /** Map of Wolaita Sodo town (OpenStreetMap). No marker: the exact studio location is not yet confirmed. */
 export const mapEmbedUrl =
@@ -78,7 +78,7 @@ export const collections: Collection[] = [
     title: 'Wolaita Heritage',
     kicker: 'Collection 01',
     intro:
-      '[Collection Description — Client Content Needed] A collection inspired by the traditions, patterns, textures, and identity of Wolaita.',
+      'Our signature collection: white dresses and suits finished with Dinguza, the cloth of Wolaita woven in bands of red, black and yellow.',
     published: true,
     featured: true,
     cover: fbPhotos.groupEvent,
@@ -86,24 +86,24 @@ export const collections: Collection[] = [
       {
         id: 'd1',
         name: 'Heritage drape',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'White dresses and head coverings worn with a Dinguza wrap across the shoulder.',
+        culturalNote: 'Made with Dinguza, the Wolaita cloth of red, black and yellow bands.',
         images: [shots.weave, shots.gold],
         featured: true,
       },
       {
         id: 'd2',
         name: 'Pattern study',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'Dinguza suits with hats for men, beside a white dress with a Dinguza front.',
+        culturalNote: 'Suits like these are often ordered for a whole group.',
         images: [shots.thread],
         featured: false,
       },
       {
         id: 'd3',
         name: 'Ceremonial line',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'Bold suits and dresses in full Dinguza cloth for a whole family or group.',
+        culturalNote: 'Full-cloth outfits show the Dinguza bands from shoulder to hem.',
         images: [shots.linen],
         featured: false,
       },
@@ -115,7 +115,7 @@ export const collections: Collection[] = [
     title: 'Modern Wolaita',
     kicker: 'Collection 02',
     intro:
-      '[Collection Description — Client Content Needed] Contemporary silhouettes carrying Wolaita identity into everyday elegance.',
+      'Wolaita cloth in today’s shapes: gowns, dresses and shirts you can wear to the office, to church or out in the city.',
     published: true,
     featured: true,
     cover: fbPhotos.evening,
@@ -123,16 +123,16 @@ export const collections: Collection[] = [
       {
         id: 'd4',
         name: 'City weave',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'A green woven dress with a Dinguza yoke and waistband, worn with a matching hat.',
+        culturalNote: 'A modern cut that keeps the Dinguza bands as the centre of the design.',
         images: [shots.studio],
         featured: true,
       },
       {
         id: 'd5',
         name: 'Soft architecture',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'A white dress with a striped shawl and a matching hat, easy to wear every day.',
+        culturalNote: 'Everyday wear that still carries the Wolaita colours.',
         images: [shots.linen],
         featured: false,
       },
@@ -144,7 +144,7 @@ export const collections: Collection[] = [
     title: 'Bridal Collection',
     kicker: 'Collection 03',
     intro:
-      '[Collection Description — Client Content Needed] Bridal pieces for ceremonies that honor lineage and presence.',
+      'Wedding outfits for the bride, the groom and the whole bridal party, designed around the Dinguza colours and made to order.',
     published: true,
     featured: true,
     cover: fbPhotos.couplePark,
@@ -152,8 +152,8 @@ export const collections: Collection[] = [
       {
         id: 'd6',
         name: 'Vow',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'A bridal gown in the Dinguza colours with a matching suit for the groom.',
+        culturalNote: 'Bride and groom are designed together so the two outfits belong to each other.',
         images: [shots.gold, shots.ceremony],
         featured: true,
       },
@@ -164,7 +164,7 @@ export const collections: Collection[] = [
     slug: 'women',
     title: "Women's Collection",
     kicker: 'Collection 04',
-    intro: '[Collection Description — Client Content Needed]',
+    intro: 'Dresses for women of every age, from light everyday pieces to full gowns, each finished with Dinguza trim.',
     published: true,
     featured: true,
     cover: fbPhotos.studioTwo,
@@ -172,8 +172,8 @@ export const collections: Collection[] = [
       {
         id: 'd7',
         name: 'Lineage',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'Long white dresses with a Dinguza panel down the front and bands at the cuffs.',
+        culturalNote: 'Available in the studio on mannequins, or made to your measurements.',
         images: [shots.intro],
         featured: true,
       },
@@ -184,7 +184,7 @@ export const collections: Collection[] = [
     slug: 'men',
     title: "Men's Collection",
     kicker: 'Collection 05',
-    intro: '[Collection Description — Client Content Needed]',
+    intro: 'Shirts, jackets, scarves and hats for men, in white with Dinguza panels or in full Dinguza cloth.',
     published: true,
     featured: true,
     cover: fbPhotos.couple,
@@ -192,8 +192,8 @@ export const collections: Collection[] = [
       {
         id: 'd8',
         name: 'Ground',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'A white shirt-jacket with woven panels in red, black and gold on the chest.',
+        culturalNote: 'A simple way for men to wear Dinguza without a full suit.',
         images: [shots.dusk],
         featured: true,
       },
@@ -204,7 +204,7 @@ export const collections: Collection[] = [
     slug: 'children',
     title: "Children's Collection",
     kicker: 'Collection 06',
-    intro: '[Collection Description — Client Content Needed]',
+    intro: 'Small versions of our outfits for boys and girls, made for holidays, family photos and school events.',
     published: true,
     featured: false,
     cover: shots.weave,
@@ -212,8 +212,8 @@ export const collections: Collection[] = [
       {
         id: 'd9',
         name: 'First cloth',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'Dinguza outfits for boys and girls, with matching hats and headbands.',
+        culturalNote: 'Made in children’s sizes from the same cloth as the adult pieces.',
         images: [shots.weave],
         featured: false,
       },
@@ -224,7 +224,7 @@ export const collections: Collection[] = [
     slug: 'special-occasions',
     title: 'Special Occasions',
     kicker: 'Collection 07',
-    intro: '[Collection Description — Client Content Needed]',
+    intro: 'Matching outfits for families, friends and teams: graduations, holidays, church events and celebrations.',
     published: true,
     featured: true,
     cover: fbPhotos.monument,
@@ -232,8 +232,8 @@ export const collections: Collection[] = [
       {
         id: 'd10',
         name: 'Evening heritage',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'White gowns with wide patterned hems, made for celebrations and photographs.',
+        culturalNote: 'Hem patterns and colours can be chosen to suit the occasion.',
         images: [shots.gold],
         featured: true,
       },
@@ -245,7 +245,7 @@ export const collections: Collection[] = [
     title: 'Custom Designs',
     kicker: 'Collection 08',
     intro:
-      '[Collection Description — Client Content Needed] Made for a specific occasion, body, and story — by request.',
+      'Made to order from your own idea: tell us the occasion, the colours and the people to dress, and we design it with you.',
     published: true,
     featured: false,
     cover: fbPhotos.studioFour,
@@ -253,8 +253,8 @@ export const collections: Collection[] = [
       {
         id: 'd11',
         name: 'Commission study',
-        description: '[Design description — Client Content Needed]',
-        culturalNote: '[Cultural context — Client Content Needed]',
+        description: 'A men’s shirt in a dark woven cloth with patterned panels, made to order.',
+        culturalNote: 'Bring an idea or a photo and we will design it with you.',
         images: [shots.paper],
         featured: false,
       },
@@ -283,7 +283,7 @@ export const looks: Look[] = [
     number: 'LOOK 01',
     title: 'Heritage Pair',
     collectionTitle: 'Heritage',
-    note: '[Look note — Client Content Needed]',
+    note: 'A couple dressed to match: her dress and his scarf carry the same Dinguza.',
     image: fbPhotos.couple,
   },
   {
@@ -291,7 +291,7 @@ export const looks: Look[] = [
     number: 'LOOK 02',
     title: 'Garden Ceremony',
     collectionTitle: 'Bridal',
-    note: '[Look note — Client Content Needed]',
+    note: 'A white dress with a red Dinguza yoke, photographed in a garden.',
     image: fbPhotos.couplePark,
   },
   {
@@ -299,7 +299,7 @@ export const looks: Look[] = [
     number: 'LOOK 03',
     title: 'Studio Ensemble',
     collectionTitle: 'Women',
-    note: '[Look note — Client Content Needed]',
+    note: 'Friends in the studio wearing white shirts and dresses with Dinguza trim.',
     image: fbPhotos.studioFour,
   },
   {
@@ -307,7 +307,7 @@ export const looks: Look[] = [
     number: 'LOOK 04',
     title: 'Showroom Duo',
     collectionTitle: 'Women',
-    note: '[Look note — Client Content Needed]',
+    note: 'Two full skirts finished with patterned hems, in the showroom.',
     image: fbPhotos.studioTwo,
   },
   {
@@ -315,7 +315,7 @@ export const looks: Look[] = [
     number: 'LOOK 05',
     title: 'Celebration Line',
     collectionTitle: 'Special Occasions',
-    note: '[Look note — Client Content Needed]',
+    note: 'A group dressed alike in white shirts with Dinguza panels.',
     image: fbPhotos.groupEvent,
   },
   {
@@ -323,7 +323,7 @@ export const looks: Look[] = [
     number: 'LOOK 06',
     title: 'Forest Gathering',
     collectionTitle: 'Heritage',
-    note: '[Look note — Client Content Needed]',
+    note: 'A white dress with a wide striped skirt, among the pines.',
     image: fbPhotos.groupTrees,
   },
   {
@@ -331,7 +331,7 @@ export const looks: Look[] = [
     number: 'LOOK 07',
     title: 'Evening Heritage',
     collectionTitle: 'Modern',
-    note: '[Look note — Client Content Needed]',
+    note: 'A white dress with a red Dinguza bodice for an evening out.',
     image: fbPhotos.evening,
   },
   {
@@ -339,7 +339,7 @@ export const looks: Look[] = [
     number: 'LOOK 08',
     title: 'City Lights',
     collectionTitle: 'Special Occasions',
-    note: '[Look note — Client Content Needed]',
+    note: 'A couple in matching Dinguza trim in front of the monument.',
     image: fbPhotos.monument,
   },
 ]
@@ -349,56 +349,56 @@ export const cultureTopics: CultureTopic[] = [
     id: 'ct1',
     title: 'Traditional Wolaita clothing',
     explanation:
-      '[Culture copy — Client Content Needed] Space for how dress has marked occasion, status, and belonging in Wolaita life.',
+      'In Wolaita, clothing is worn with pride at holidays, weddings and gatherings. White cotton garments finished with woven colour are the heart of what we make.',
     image: shots.intro,
   },
   {
     id: 'ct2',
     title: 'Patterns',
     explanation:
-      '[Culture copy — Client Content Needed] Motifs, geometry, and the language of surface decoration.',
+      'Dinguza is recognised by its bands and by the stepped blocks that run between them. We place the pattern at the hem, the bodice, the cuffs or across the whole garment.',
     image: shots.weave,
   },
   {
     id: 'ct3',
     title: 'Colors',
     explanation:
-      '[Culture copy — Client Content Needed] Earth, gold, and ceremonial palettes as they appear in dress.',
+      'Red, black and yellow are the colours of Dinguza. Red and black lead, with yellow as the thin line between them, set against white cotton.',
     image: shots.gold,
   },
   {
     id: 'ct4',
     title: 'Fabrics',
     explanation:
-      '[Culture copy — Client Content Needed] Cloth, weight, drape, and how materials carry climate and craft.',
+      'We work with soft white cotton for the body of a garment and woven Dinguza for the colour. Ask in the studio to see and feel the cloth before you order.',
     image: shots.linen,
   },
   {
     id: 'ct5',
     title: 'Accessories',
     explanation:
-      '[Culture copy — Client Content Needed] Jewelry, belts, and finishing pieces that complete a look.',
+      'Scarves, hats, headwraps and bags in Dinguza complete an outfit, and make a good gift on their own.',
     image: shots.gold,
   },
   {
     id: 'ct6',
     title: 'Cultural occasions',
     explanation:
-      '[Culture copy — Client Content Needed] Weddings, festivals, and ceremonies that call for specific dress.',
+      'Weddings, holidays, graduations and church events are when families dress together. We prepare matching outfits for the whole group.',
     image: shots.ceremony,
   },
   {
     id: 'ct7',
     title: 'Symbolism',
     explanation:
-      '[Culture copy — Client Content Needed] Meaning held in cut, ornament, and composition.',
+      'The colours and patterns carry meaning for the people who wear them. We are glad to share what we know when you visit the studio.',
     image: shots.dusk,
   },
   {
     id: 'ct8',
     title: 'Modern interpretation',
     explanation:
-      '[Culture copy — Client Content Needed] How Woynu Malala carries those references into contemporary silhouettes.',
+      'We keep the cloth and change the cut: gowns, jackets, shirts and children’s wear that fit the way people dress today.',
     image: shots.studio,
   },
 ]
@@ -408,35 +408,35 @@ export const craftSteps: CraftStep[] = [
     id: 's1',
     number: '01',
     title: 'Inspiration',
-    text: '[Process copy — Client Content Needed] Memory, landscape, and living tradition as a starting point.',
+    text: 'Every piece begins with the occasion and the person: who will wear it, where, and what they want it to say.',
     image: shots.landscape,
   },
   {
     id: 's2',
     number: '02',
     title: 'Design',
-    text: '[Process copy — Client Content Needed] Line, proportion, and the translation of culture into form.',
+    text: 'We agree the style with you: the cut, the length, and where the Dinguza will sit on the garment.',
     image: shots.paper,
   },
   {
     id: 's3',
     number: '03',
     title: 'Material Selection',
-    text: '[Process copy — Client Content Needed] Cloth chosen for hand, color, and how it will be worn.',
+    text: 'You choose the cloth and the colours from what we have in the studio, and we take your measurements.',
     image: shots.linen,
   },
   {
     id: 's4',
     number: '04',
     title: 'Craftsmanship',
-    text: '[Process copy — Client Content Needed] Cutting, construction, and finishing as a practiced craft.',
+    text: 'The garment is cut and sewn, and the woven bands are joined and finished by hand.',
     image: shots.hands,
   },
   {
     id: 's5',
     number: '05',
     title: 'Final Look',
-    text: '[Process copy — Client Content Needed] The garment as it meets the body and the occasion.',
+    text: 'You try it on, we adjust the fit, and it is ready to wear, to collect at the studio or to be sent to you.',
     image: shots.hero,
   },
 ]
@@ -445,37 +445,37 @@ export const occasions: Occasion[] = [
   {
     id: 'o1',
     title: 'Weddings',
-    text: '[Occasion copy — Client Content Needed]',
+    text: 'Gowns and suits for the couple, and matching outfits for family and friends.',
     image: shots.ceremony,
   },
   {
     id: 'o2',
     title: 'Cultural celebrations',
-    text: '[Occasion copy — Client Content Needed]',
+    text: 'Outfits in the Wolaita colours for holidays and community celebrations.',
     image: shots.landscape,
   },
   {
     id: 'o3',
     title: 'Festivals',
-    text: '[Occasion copy — Client Content Needed]',
+    text: 'Group outfits for festival days, made to match for a whole team.',
     image: shots.gold,
   },
   {
     id: 'o4',
     title: 'Traditional ceremonies',
-    text: '[Occasion copy — Client Content Needed]',
+    text: 'Dinguza suits and white shawls for elders and for family ceremonies.',
     image: shots.intro,
   },
   {
     id: 'o5',
     title: 'Fashion events',
-    text: '[Occasion copy — Client Content Needed]',
+    text: 'Statement gowns and jackets for stages, shows and formal evenings.',
     image: shots.studio,
   },
   {
     id: 'o6',
     title: 'Photoshoots',
-    text: '[Occasion copy — Client Content Needed]',
+    text: 'Outfits that photograph beautifully, for couples, families and graduates.',
     image: shots.thread,
   },
 ]
@@ -486,8 +486,8 @@ export const journal: JournalPost[] = [
     slug: 'heritage-reimagined',
     title: 'Heritage, reimagined',
     excerpt:
-      '[Journal excerpt — Client Content Needed] A note on how Wolaita identity can live in contemporary fashion.',
-    body: '[Journal body — Client Content Needed] Full story to be provided by the studio.',
+      'How the cloth of Wolaita finds its place in the way we dress today.',
+    body: 'Dinguza has long been worn for the days that matter. At Woynu Malala we keep the cloth as it is, with its bands of red, black and yellow, and change what we make from it. A gown for an evening event, a jacket over jeans, a dress for the office, a small outfit for a child: each carries the same cloth into a different part of life. That is what we mean by our slogan, ባህላችንን በውበት, our culture in beauty. Visit the studio in Wolaita Sodo, or send us your idea on WhatsApp, and we will show you what the cloth can become.',
     category: 'Fashion stories',
     dateLabel: 'Journal',
     published: true,
@@ -497,8 +497,8 @@ export const journal: JournalPost[] = [
     id: 'j2',
     slug: 'behind-the-cloth',
     title: 'Behind the cloth',
-    excerpt: '[Journal excerpt — Client Content Needed] From the worktable to the finished look.',
-    body: '[Journal body — Client Content Needed]',
+    excerpt: 'From your first message to the final fitting: how an order is made.',
+    body: 'An order starts with a conversation, in the studio or on WhatsApp. Tell us the occasion, who the outfit is for and the date you need it. We agree the style and where the Dinguza will sit, then take your measurements or work from the ones you send. You choose the cloth, we cut and sew, and the woven bands are finished by hand. Before it leaves us you try it on and we adjust the fit. You can collect it at the studio in Wolaita Sodo or ask us about delivery to your town.',
     category: 'Behind the scenes',
     dateLabel: 'Journal',
     published: true,
@@ -508,8 +508,8 @@ export const journal: JournalPost[] = [
     id: 'j3',
     slug: 'styling-wolaita',
     title: 'Styling Wolaita for today',
-    excerpt: '[Journal excerpt — Client Content Needed] Ideas for wearing cultural dress with ease.',
-    body: '[Journal body — Client Content Needed]',
+    excerpt: 'Simple ways to wear Dinguza every day, not only on holidays.',
+    body: 'You do not need a holiday to wear Dinguza. A scarf or a hat over ordinary clothes is the easiest start. A white shirt with Dinguza panels works with jeans. A dress with a Dinguza yoke and waistband is light enough for every day. For couples and friends, matching one detail, such as the trim on a dress and a scarf, is often enough. If you are not sure what suits you, visit the studio or send us a photo and we will suggest something.',
     category: 'Styling ideas',
     dateLabel: 'Journal',
     published: true,
@@ -522,34 +522,35 @@ export const story = {
   blocks: [
     {
       title: 'Beginnings',
-      text: '[Brand Story — Client Content Needed] How Woynu Malala Cultural Cloth Design and Decor started.',
+      text: 'Woynu Malala Cultural Cloth Design and Decor is a studio in Wolaita Sodo. We design and sew cultural clothing, and we prepare décor for celebrations.',
     },
     {
       title: 'Wolaita',
-      text: '[Brand Story — Client Content Needed] The brand’s connection to Wolaita.',
+      text: 'Wolaita is our home and the source of our work. Dinguza, its cloth of red, black and yellow bands, runs through almost everything we make.',
     },
     {
       title: 'Fashion',
-      text: '[Brand Story — Client Content Needed] A passion for clothing as culture and craft.',
+      text: 'We believe cultural clothing should be worn, not kept away for one day a year. So we make it comfortable, well fitted and beautiful.',
     },
     {
       title: 'Purpose',
-      text: '[Brand Story — Client Content Needed] Presenting, preserving, and evolving Wolaita cultural fashion.',
+      text: 'Our purpose is in our slogan: ባህላችንን በውበት, our culture in beauty. We want every customer to carry Wolaita with pride.',
     },
     {
       title: 'Approach',
-      text: '[Brand Story — Client Content Needed] How the studio designs — from reference to finished garment.',
+      text: 'We listen first. Then we agree the design, take measurements, choose the cloth together, sew, and fit the garment until it is right.',
     },
     {
       title: 'Future',
-      text: '[Brand Story — Client Content Needed] Vision for the years ahead.',
+      text: 'We want to dress more families and more celebrations, and to make ordering easy from wherever you are, starting with this website.',
     },
   ],
-  designer: '[Designer Name — Client Information Needed]',
+  designer: '',
 }
 
 /**
- * PLACEHOLDERS. Replace with real customer words (with their permission) and set
+ * Customer words. These three are empty slots: the home page shows the testimonials section
+ * only once at least one has a real quote (with the customer's permission) and
  * `placeholder: false`. Nothing here is an invented quote.
  */
 export const testimonials = [

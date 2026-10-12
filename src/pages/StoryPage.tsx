@@ -17,9 +17,11 @@ export function StoryPage() {
         title={t('story.title')}
         intro={t('story.intro')}
       >
-        <p className="mt-6 text-sm text-ivory/60">
-          {t('story.designer')}: {story.designer}
-        </p>
+        {story.designer ? (
+          <p className="mt-6 text-sm text-ivory/60">
+            {t('story.designer')}: {story.designer}
+          </p>
+        ) : null}
       </PageHeader>
 
       <ParallaxImage media={pageImages.storyBanner} className="mb-20 h-[42vh] md:mb-28 md:h-[62vh]" />
@@ -33,7 +35,7 @@ export function StoryPage() {
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <h2 className="mt-6 font-serif text-3xl font-normal md:text-4xl">{c(block.title)}</h2>
-                <p className="mt-4 leading-7 text-ivory/70">{block.text}</p>
+                <p className="mt-4 leading-7 text-ivory/70">{c(block.text)}</p>
               </div>
             </Tilt3D>
           </Reveal>

@@ -506,7 +506,7 @@ export const am: Record<Key, string> = {
 
 /**
  * Amharic for content that lives in src/content/site.ts, keyed by the English text.
- * Anything missing here (such as "[Client Content Needed]" placeholders) stays in English.
+ * Anything missing here (for example design descriptions and journal articles) stays in English.
  */
 export const contentAm: Record<string, string> = {
   // Collections
@@ -576,4 +576,52 @@ export const contentAm: Record<string, string> = {
   'Behind the scenes': 'ከመጋረጃ ጀርባ',
   'Styling ideas': 'የአለባበስ ሀሳቦች',
   Journal: 'መጽሔት',
+  // Descriptions, story, culture, craftsmanship, occasions and lookbook notes
+  'Our signature collection: white dresses and suits finished with Dinguza, the cloth of Wolaita woven in bands of red, black and yellow.': 'ዋናው ስብስባችን፦ በቀይ፣ በጥቁርና በቢጫ መስመሮች በተሸመነው የወላይታ ዲንጉዛ ያጌጡ ነጭ ቀሚሶችና ሱፎች።',
+  'Wolaita cloth in today’s shapes: gowns, dresses and shirts you can wear to the office, to church or out in the city.': 'የወላይታ ጨርቅ በዛሬ ቅርጽ፦ ለቢሮ፣ ለቤተ ክርስቲያን ወይም ለከተማ የሚለበሱ ቀሚሶችና ሸሚዞች።',
+  'Wedding outfits for the bride, the groom and the whole bridal party, designed around the Dinguza colours and made to order.': 'ለሙሽሪት፣ ለሙሽራውና ለሚዜዎች በዲንጉዛ ቀለማት የተነደፉ፣ በትዕዛዝ የሚሠሩ የሠርግ ልብሶች።',
+  'Dresses for women of every age, from light everyday pieces to full gowns, each finished with Dinguza trim.': 'ለሁሉም ዕድሜ ሴቶች፦ ከቀላል የዕለት ልብስ እስከ ሙሉ ቀሚስ፣ ሁሉም በዲንጉዛ ያጌጡ።',
+  'Shirts, jackets, scarves and hats for men, in white with Dinguza panels or in full Dinguza cloth.': 'ለወንዶች ሸሚዝ፣ ጃኬት፣ ስካርፍና ኮፍያ፦ በነጭ ላይ በዲንጉዛ ያጌጡ ወይም ሙሉ በሙሉ በዲንጉዛ ጨርቅ።',
+  'Small versions of our outfits for boys and girls, made for holidays, family photos and school events.': 'ለወንድና ለሴት ልጆች የተዘጋጁ ልብሶች፦ ለበዓል፣ ለቤተሰብ ፎቶና ለትምህርት ቤት ዝግጅት።',
+  'Matching outfits for families, friends and teams: graduations, holidays, church events and celebrations.': 'ለቤተሰብ፣ ለጓደኞችና ለቡድን ተመሳሳይ ልብሶች፦ ለምረቃ፣ ለበዓል፣ ለቤተ ክርስቲያን ዝግጅትና ለክብረ በዓል።',
+  'Made to order from your own idea: tell us the occasion, the colours and the people to dress, and we design it with you.': 'ከራስዎ ሀሳብ በትዕዛዝ የሚሠራ፦ ዝግጅቱን፣ ቀለሙንና የሚለብሱትን ሰዎች ይንገሩን፤ አብረን እንነድፈዋለን።',
+  'Woynu Malala Cultural Cloth Design and Decor is a studio in Wolaita Sodo. We design and sew cultural clothing, and we prepare décor for celebrations.': 'ወይኑ ማላላ ባህላዊ አልባሳት ዲዛይን እና ዲኮር በወላይታ ሶዶ የሚገኝ ስቱዲዮ ነው። ባህላዊ ልብሶችን እንነድፋለን፣ እንሰፋለን፤ ለዝግጅቶችም ዲኮር እናዘጋጃለን።',
+  'Wolaita is our home and the source of our work. Dinguza, its cloth of red, black and yellow bands, runs through almost everything we make.': 'ወላይታ ቤታችንና የሥራችን ምንጭ ናት። በቀይ፣ በጥቁርና በቢጫ መስመሮች የተሸመነው ዲንጉዛ በምንሠራው ሁሉ ማለት ይቻላል ይገኛል።',
+  'We believe cultural clothing should be worn, not kept away for one day a year. So we make it comfortable, well fitted and beautiful.': 'ባህላዊ ልብስ በዓመት አንድ ቀን ብቻ ሳይሆን ሁልጊዜ ሊለበስ ይገባል ብለን እናምናለን። ስለዚህ ምቹ፣ በልክ የተሰፋና ውብ አድርገን እንሠራዋለን።',
+  'Our purpose is in our slogan: ባህላችንን በውበት, our culture in beauty. We want every customer to carry Wolaita with pride.': 'ዓላማችን በመፈክራችን ውስጥ ነው፦ ባህላችንን በውበት። እያንዳንዱ ደንበኛ ወላይታን በኩራት እንዲለብስ እንፈልጋለን።',
+  'We listen first. Then we agree the design, take measurements, choose the cloth together, sew, and fit the garment until it is right.': 'በመጀመሪያ እናዳምጣለን። ከዚያ ዲዛይኑን እንስማማለን፣ ልክ እንወስዳለን፣ ጨርቁን አብረን እንመርጣለን፣ እንሰፋለን፤ እስኪስተካከልም ድረስ እናስለካለን።',
+  'We want to dress more families and more celebrations, and to make ordering easy from wherever you are, starting with this website.': 'ብዙ ቤተሰቦችንና ብዙ ዝግጅቶችን ማልበስ፣ እንዲሁም ካሉበት ቦታ ሆነው በቀላሉ እንዲያዝዙ ማድረግ እንፈልጋለን፤ ይህ ድረ-ገጽ መጀመሪያው ነው።',
+  'In Wolaita, clothing is worn with pride at holidays, weddings and gatherings. White cotton garments finished with woven colour are the heart of what we make.': 'በወላይታ ልብስ በበዓል፣ በሠርግና በስብሰባ በኩራት ይለበሳል። በተሸመነ ቀለም ያጌጡ ነጭ የጥጥ ልብሶች የሥራችን ማዕከል ናቸው።',
+  'Dinguza is recognised by its bands and by the stepped blocks that run between them. We place the pattern at the hem, the bodice, the cuffs or across the whole garment.': 'ዲንጉዛ በመስመሮቹና በመካከላቸው በሚገኙት ደረጃ መሰል ቅርጾች ይታወቃል። ንድፉን በጠርዝ፣ በደረት፣ በእጅጌ ወይም በሙሉ ልብሱ ላይ እናደርገዋለን።',
+  'Red, black and yellow are the colours of Dinguza. Red and black lead, with yellow as the thin line between them, set against white cotton.': 'ቀይ፣ ጥቁርና ቢጫ የዲንጉዛ ቀለማት ናቸው። ቀይና ጥቁር ይበዛሉ፤ ቢጫ በመካከላቸው እንደ ቀጭን መስመር ይገባል፤ ሁሉም በነጭ ጥጥ ላይ።',
+  'We work with soft white cotton for the body of a garment and woven Dinguza for the colour. Ask in the studio to see and feel the cloth before you order.': 'ለልብሱ አካል ለስላሳ ነጭ ጥጥ፣ ለቀለሙ ደግሞ የተሸመነ ዲንጉዛ እንጠቀማለን። ከማዘዝዎ በፊት ጨርቁን በስቱዲዮ አይተው መንካት ይችላሉ።',
+  'Scarves, hats, headwraps and bags in Dinguza complete an outfit, and make a good gift on their own.': 'የዲንጉዛ ስካርፍ፣ ኮፍያ፣ የራስ መጠምጠሚያና ቦርሳ ልብስን ያሟላሉ፤ ለብቻቸውም ጥሩ ስጦታ ናቸው።',
+  'Weddings, holidays, graduations and church events are when families dress together. We prepare matching outfits for the whole group.': 'ሠርግ፣ በዓል፣ ምረቃና የቤተ ክርስቲያን ዝግጅቶች ቤተሰብ አብሮ የሚለብስባቸው ጊዜያት ናቸው። ለሙሉ ቡድኑ ተመሳሳይ ልብስ እናዘጋጃለን።',
+  'The colours and patterns carry meaning for the people who wear them. We are glad to share what we know when you visit the studio.': 'ቀለማቱና ንድፎቹ ለሚለብሷቸው ሰዎች ትርጉም አላቸው። ስቱዲዮውን ሲጎበኙ የምናውቀውን ለማካፈል ደስተኞች ነን።',
+  'We keep the cloth and change the cut: gowns, jackets, shirts and children’s wear that fit the way people dress today.': 'ጨርቁን ጠብቀን አሰፋፉን እንቀይራለን፦ ዛሬ ሰዎች በሚለብሱበት መንገድ የሚስማሙ ቀሚሶች፣ ጃኬቶች፣ ሸሚዞችና የልጆች ልብሶች።',
+  'Every piece begins with the occasion and the person: who will wear it, where, and what they want it to say.': 'እያንዳንዱ ልብስ ከዝግጅቱና ከሰውየው ይጀምራል፦ ማን ይለብሰዋል፣ የት፣ ምንስ እንዲገልጽ ይፈልጋል።',
+  'We agree the style with you: the cut, the length, and where the Dinguza will sit on the garment.': 'ዘይቤውን ከእርስዎ ጋር እንስማማለን፦ አሰፋፉን፣ ርዝመቱንና ዲንጉዛው በልብሱ ላይ የሚቀመጥበትን ቦታ።',
+  'You choose the cloth and the colours from what we have in the studio, and we take your measurements.': 'በስቱዲዮው ካለው ጨርቅና ቀለም ይመርጣሉ፤ እኛም ልክዎን እንወስዳለን።',
+  'The garment is cut and sewn, and the woven bands are joined and finished by hand.': 'ልብሱ ይቆረጣል፣ ይሰፋል፤ የተሸመኑት መስመሮችም በእጅ ተገጥመው ይጠናቀቃሉ።',
+  'You try it on, we adjust the fit, and it is ready to wear, to collect at the studio or to be sent to you.': 'ይለኩታል፣ እኛ እናስተካክለዋለን፤ ከዚያ ለመልበስ ዝግጁ ነው፦ ከስቱዲዮ ለመረከብ ወይም ወደ እርስዎ ለመላክ።',
+  'Gowns and suits for the couple, and matching outfits for family and friends.': 'ለሙሽሮች ቀሚስና ሱፍ፣ ለቤተሰብና ለጓደኞች ደግሞ ተመሳሳይ ልብሶች።',
+  'Outfits in the Wolaita colours for holidays and community celebrations.': 'ለበዓላትና ለማኅበረሰብ ክብረ በዓላት በወላይታ ቀለማት የተሠሩ ልብሶች።',
+  'Group outfits for festival days, made to match for a whole team.': 'ለፌስቲቫል ቀናት ለሙሉ ቡድን ተመሳሳይ ሆነው የሚሠሩ ልብሶች።',
+  'Dinguza suits and white shawls for elders and for family ceremonies.': 'ለሽማግሌዎችና ለቤተሰብ ሥነ ሥርዓቶች የዲንጉዛ ሱፍና ነጭ ጋቢ።',
+  'Statement gowns and jackets for stages, shows and formal evenings.': 'ለመድረክ፣ ለትርዒትና ለመደበኛ ምሽቶች ጎልተው የሚታዩ ቀሚሶችና ጃኬቶች።',
+  'Outfits that photograph beautifully, for couples, families and graduates.': 'ለጥንዶች፣ ለቤተሰብና ለተመራቂዎች በፎቶ ላይ ውብ ሆነው የሚታዩ ልብሶች።',
+  'A couple dressed to match: her dress and his scarf carry the same Dinguza.': 'ተመሳስለው የለበሱ ጥንዶች፦ የእሷ ቀሚስና የእሱ ስካርፍ አንድ ዓይነት ዲንጉዛ አላቸው።',
+  'A white dress with a red Dinguza yoke, photographed in a garden.': 'ቀይ የዲንጉዛ ደረት ያለው ነጭ ቀሚስ፣ በአትክልት ሥፍራ።',
+  'Friends in the studio wearing white shirts and dresses with Dinguza trim.': 'በስቱዲዮው ውስጥ በዲንጉዛ ያጌጡ ነጭ ሸሚዞችና ቀሚሶች የለበሱ ጓደኞች።',
+  'Two full skirts finished with patterned hems, in the showroom.': 'በማሳያ ክፍሉ ውስጥ ጠርዛቸው በንድፍ ያጌጠ ሁለት ሰፊ ቀሚሶች።',
+  'A group dressed alike in white shirts with Dinguza panels.': 'በዲንጉዛ ያጌጡ ነጭ ሸሚዞችን ተመሳስለው የለበሱ ቡድን።',
+  'A white dress with a wide striped skirt, among the pines.': 'ሰፊ ባለመስመር ቀሚስ ያለው ነጭ ልብስ፣ በጥድ ዛፎች መካከል።',
+  'A white dress with a red Dinguza bodice for an evening out.': 'ለምሽት ቀይ የዲንጉዛ ደረት ያለው ነጭ ቀሚስ።',
+  'A couple in matching Dinguza trim in front of the monument.': 'በሐውልቱ ፊት ተመሳሳይ የዲንጉዛ ማስጌጫ የለበሱ ጥንዶች።',
+  'White cotton finished with woven colour, worn with pride.': 'በተሸመነ ቀለም ያጌጠ፣ በኩራት የሚለበስ ነጭ ጥጥ።',
+  'The bands and stepped blocks of Dinguza.': 'የዲንጉዛ መስመሮችና ደረጃ መሰል ቅርጾች።',
+  'Red and black lead, with yellow between them.': 'ቀይና ጥቁር ይበዛሉ፤ ቢጫ በመካከላቸው።',
+  'The same cloth in today’s cuts.': 'ያው ጨርቅ በዛሬ አሰፋፍ።',
+  'Call or message us for today’s opening hours.': 'ለዛሬ የሥራ ሰዓት ይደውሉልን ወይም መልዕክት ይላኩልን።',
+  'Call or message us for directions to the studio.': 'ወደ ስቱዲዮው አቅጣጫ ለማግኘት ይደውሉልን ወይም መልዕክት ይላኩልን።',
 }

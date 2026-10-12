@@ -64,7 +64,7 @@ export function ProcessPinned() {
               >
                 <p className="text-3d font-serif text-8xl font-bold italic lg:text-9xl">{step.number}</p>
                 <h2 className="mt-4 font-serif text-5xl font-light lg:text-6xl">{c(step.title)}</h2>
-                <p className="mt-5 max-w-md leading-7 text-ivory/70">{step.text}</p>
+                <p className="mt-5 max-w-md leading-7 text-ivory/70">{c(step.text)}</p>
               </li>
             ))}
           </ol>

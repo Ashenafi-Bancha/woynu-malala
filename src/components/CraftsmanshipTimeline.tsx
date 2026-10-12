@@ -35,7 +35,7 @@ export function CraftsmanshipTimeline({ heading = true }: { heading?: boolean })
             <Reveal delay={120} className={i % 2 === 1 ? 'md:justify-self-end md:text-right' : ''}>
               <p className="text-3d font-serif text-7xl font-bold italic md:text-8xl">{step.number}</p>
               <h3 className="mt-4 font-serif text-4xl font-normal text-ivory">{c(step.title)}</h3>
-              <p className={`mt-5 max-w-md leading-7 text-ivory/75 ${i % 2 === 1 ? 'md:ml-auto' : ''}`}>{step.text}</p>
+              <p className={`mt-5 max-w-md leading-7 text-ivory/75 ${i % 2 === 1 ? 'md:ml-auto' : ''}`}>{c(step.text)}</p>
             </Reveal>
           </li>
         ))}

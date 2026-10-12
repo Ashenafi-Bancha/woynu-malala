@@ -38,7 +38,7 @@ export function CulturePage() {
                 </span>
                 <div className="p-6 md:p-7">
                   <h2 className="font-serif text-2xl font-normal md:text-3xl">{c(topic.title)}</h2>
-                  <p className="mt-3 text-sm leading-7 text-ivory/70">{topic.explanation}</p>
+                  <p className="mt-3 text-sm leading-7 text-ivory/70">{c(topic.explanation)}</p>
                 </div>
               </section>
             </Tilt3D>
