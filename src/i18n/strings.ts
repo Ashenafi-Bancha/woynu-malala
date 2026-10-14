@@ -110,6 +110,18 @@ export const en = {
   // Culture
   'culture.kicker': 'Heritage',
   'culture.intro': 'Patterns, colours, fabrics, and the meaning each one carries.',
+  'heritage.kicker': 'Heritage in our designs',
+  'heritage.title': 'Wolaita history, woven in',
+  'heritage.intro': 'Some of our designs carry the history and heritage of Wolaita. These are the motifs you will find in them, each drawn here in the Dinguza pattern.',
+  'heritage.kingsTitle': 'More than 50 kings',
+  'heritage.kingsText': 'Wolaita’s long line of more than fifty kings is remembered in our designs.',
+  'heritage.gatesTitle': 'The seven gates of Sodo',
+  'heritage.gatesText': 'Wolaita Sodo has seven gates, and we show them in our designs.',
+  'heritage.spearTitle': 'ጦር — the spear',
+  'heritage.spearText': 'Wolaita warriors carried the spear in war. We use it as a motif on our clothes.',
+  'heritage.shieldTitle': 'ጋሻ — the shield',
+  'heritage.shieldText': 'The shield was carried with the spear in war, and it appears on our clothes too.',
+  'heritage.note': 'The 3D pieces are our illustrations in the Dinguza colours. Ask us in the studio about the clothes that carry these motifs.',
 
   // Craftsmanship
   'craft.kicker': 'Craftsmanship',
@@ -360,6 +372,18 @@ export const am: Record<Key, string> = {
 
   'culture.kicker': 'ቅርስ',
   'culture.intro': 'ጥለቶች፣ ቀለሞች፣ ጨርቆች እና እያንዳንዳቸው የያዙት ትርጉም።',
+  'heritage.kicker': 'ቅርስ በዲዛይናችን',
+  'heritage.title': 'የወላይታ ታሪክ በሸማው ውስጥ',
+  'heritage.intro': 'አንዳንድ ዲዛይኖቻችን የወላይታን ታሪክና ቅርስ ይዘዋል። በውስጣቸው የሚያገኟቸው ምልክቶች እነዚህ ናቸው፤ እያንዳንዳቸው እዚህ በዲንጉዛ ንድፍ ተሥለዋል።',
+  'heritage.kingsTitle': 'ከ50 በላይ ነገሥታት',
+  'heritage.kingsText': 'የወላይታ ከሃምሳ በላይ የሆኑ ነገሥታት ታሪክ በዲዛይኖቻችን ይታወሳል።',
+  'heritage.gatesTitle': 'የሶዶ ሰባቱ በሮች',
+  'heritage.gatesText': 'ወላይታ ሶዶ ሰባት በሮች አሏት፤ በዲዛይኖቻችንም እናሳያቸዋለን።',
+  'heritage.spearTitle': 'ጦር',
+  'heritage.spearText': 'የወላይታ ጀግኖች በጦርነት ጦር ይይዙ ነበር። በልብሶቻችን ላይ እንደ ምልክት እንጠቀምበታለን።',
+  'heritage.shieldTitle': 'ጋሻ',
+  'heritage.shieldText': 'ጋሻ በጦርነት ከጦር ጋር ይያዝ ነበር፤ እሱም በልብሶቻችን ላይ ይገኛል።',
+  'heritage.note': 'የ3D ምስሎቹ በዲንጉዛ ቀለማት የተሠሩ የእኛ ሥዕሎች ናቸው። እነዚህን ምልክቶች ስለያዙት ልብሶች በስቱዲዮ ይጠይቁን።',
 
   'craft.kicker': 'የእጅ ጥበብ',
   'craft.title': 'በእጅ የተሠራ',

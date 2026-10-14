@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { collections } from '../content/site'
 import { ButtonLink } from '../components/Button'
+import { HeritageMotifs } from '../components/heritage/HeritageMotifs'
 import { PageHeader } from '../components/PageHeader'
 import { PlaceholderImage } from '../components/PlaceholderImage'
 import { Reveal } from '../components/Reveal'
@@ -76,6 +77,9 @@ export function CollectionDetailPage() {
           ))}
         </div>
       </section>
+
+      {/* The heritage collection also shows the history motifs its designs draw on */}
+      {collection.slug === 'wolaita-heritage' ? <HeritageMotifs /> : null}
     </article>
   )
 }

@@ -1,4 +1,5 @@
 import { cultureTopics } from '../content/site'
+import { HeritageMotifs } from '../components/heritage/HeritageMotifs'
 import { PageHeader } from '../components/PageHeader'
 import { PlaceholderImage } from '../components/PlaceholderImage'
 import { Reveal } from '../components/Reveal'
@@ -45,6 +46,9 @@ export function CulturePage() {
           </Reveal>
         ))}
       </div>
+
+      {/* The kings, the seven gates, the spear and the shield, in 3D */}
+      <HeritageMotifs />
     </article>
   )
 }
