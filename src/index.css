@@ -577,23 +577,39 @@ nav[aria-label='Primary'] a {
   padding-block: 0.5rem;
 }
 
+/* Header links: a small Dinguza strip (equal red, black and yellow blocks) draws in under
+   the link on hover and keeps travelling while the pointer stays; the current page keeps it still */
 nav[aria-label='Primary'] a::after {
   content: '';
   position: absolute;
   inset-inline: 0;
-  bottom: 0;
-  height: 1px;
-  background: #dea052;
-  box-shadow: 0 0 10px 1px rgba(222, 160, 82, 0.8);
+  bottom: -3px;
+  height: 6px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='6' viewBox='0 0 18 6'%3E%3Crect x='0' y='1' width='6' height='4' fill='%23b3261e'/%3E%3Crect x='6.3' y='0.3' width='5.4' height='5.4' fill='%23141111' stroke='%23e8c33a' stroke-width='0.6'/%3E%3Crect x='12' y='1' width='6' height='4' fill='%23e8c33a'/%3E%3C/svg%3E") 0 0 / 18px 6px repeat-x;
+  filter: drop-shadow(0 0 4px rgba(232, 195, 58, 0.45));
   transform: scaleX(0);
   transform-origin: 100% 50%;
   transition: transform 0.45s var(--ease-fashion);
 }
 
 nav[aria-label='Primary'] a:hover::after,
+nav[aria-label='Primary'] a:focus-visible::after,
 nav[aria-label='Primary'] a[aria-current='page']::after {
   transform: scaleX(1);
   transform-origin: 0 50%;
+}
+
+nav[aria-label='Primary'] a:hover::after,
+nav[aria-label='Primary'] a:focus-visible::after {
+  animation: nav-dinguza 0.9s linear infinite;
+}
+
+@keyframes nav-dinguza {
+  to { background-position: 18px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  nav[aria-label='Primary'] a:hover::after { animation: none; }
 }
 
 /* Phone menu: each link slides and lights up under the finger */
@@ -966,13 +982,6 @@ select:focus {
 /* Scroll progress line at the top: woven in the three colours */
 .progress-weave {
   background: repeating-linear-gradient(90deg, #b3261e 0 30px, #e8c33a 30px 33px, #141111 33px 55px, #e8c33a 55px 58px);
-}
-
-/* Header links: the underline is a tiny tricolour thread */
-nav[aria-label='Primary'] a::after {
-  height: 2px;
-  background: linear-gradient(90deg, #b3261e 0 46%, #e8c33a 46% 54%, #141111 54% 100%);
-  box-shadow: 0 0 10px 0 rgba(232, 195, 58, 0.55);
 }
 
 /* Tap sparks fly out in the three colours */
