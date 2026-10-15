@@ -3,7 +3,6 @@ import { collectionCategories, collectionFilters, collections, type CollectionFi
 import { useI18n } from '../i18n'
 import { DinguzaBand } from '../components/Backdrop3D'
 import { CollectionGrid } from '../components/CollectionCard'
-import { Reveal } from '../components/Reveal'
 import { SplitTitle, headingClass } from '../components/SplitTitle'
 import { Seo } from '../components/Seo'
 
@@ -22,7 +21,8 @@ export function CollectionsPage() {
         className="pointer-events-none absolute -left-40 top-20 hidden h-[50vh] w-[50vw] rounded-full bg-gold/10 blur-[140px] md:block"
       />
       <DinguzaBand />
-      <Reveal className="relative px-5 pb-10 pt-6 md:px-10 md:pb-12 md:pt-8">
+      {/* The opening is shown at once (no fade-in), so the page's main text appears without delay */}
+      <div className="relative px-5 pb-10 pt-6 md:px-10 md:pb-12 md:pt-8">
         <p className="text-[11px] uppercase tracking-[0.4em] text-gold">
           {t('collections.kicker')} · {String(published.length).padStart(2, '0')} {t('collections.count')}
         </p>
@@ -33,7 +33,7 @@ export function CollectionsPage() {
           <p className="max-w-xl text-base leading-8 text-ivory/65 md:text-lg">{t('collections.intro')}</p>
           <p className="hidden text-[10px] uppercase tracking-[0.3em] text-ivory/45 md:block">{t('collections.hint')}</p>
         </div>
-      </Reveal>
+      </div>
 
       {/* Category filter: the chips wrap onto more lines when they do not fit */}
       <div
