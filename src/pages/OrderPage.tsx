@@ -50,7 +50,7 @@ const CONTACT_BY: Choice[] = [
 const published = collections.filter((c) => c.published)
 
 const field =
-  'mt-2 w-full min-h-12 rounded-lg border border-ivory/20 bg-ink px-4 py-3 text-base text-ivory outline-none transition placeholder:text-ivory/35 focus:border-gold'
+  'form-field mt-2 text-base'
 const labelClass = 'block text-[11px] uppercase tracking-[0.24em] text-gold'
 
 function Field({ id, label, hint, children }: { id: string; label: string; hint?: string; children: ReactNode }) {

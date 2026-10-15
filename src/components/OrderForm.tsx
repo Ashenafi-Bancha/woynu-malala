@@ -27,7 +27,7 @@ export function OrderForm() {
   }
 
   const field =
-    'mt-2 w-full min-h-11 border-0 border-b border-ivory/25 bg-transparent py-3 text-base text-ivory outline-none transition placeholder:text-stone focus:border-gold md:text-sm'
+    'form-field mt-2 text-base md:text-sm'
   const label = 'mt-7 block text-[10px] uppercase tracking-[0.28em] text-gold first:mt-0'
 
   return (

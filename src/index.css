@@ -1153,3 +1153,40 @@ select:focus {
     animation: none;
   }
 }
+
+/* Form fields: a clearly visible outline that works on dark and light sections alike
+   (the colours follow the text colour of the section the form sits in) */
+.form-field {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid color-mix(in srgb, currentColor 50%, transparent);
+  border-radius: 10px;
+  background-color: color-mix(in srgb, currentColor 6%, transparent);
+  color: inherit;
+  outline: none;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s,
+    background-color 0.3s;
+}
+
+.form-field:hover {
+  border-color: color-mix(in srgb, currentColor 75%, transparent);
+}
+
+.form-field:focus {
+  border-color: #dea052;
+  background-color: color-mix(in srgb, currentColor 9%, transparent);
+}
+
+.form-field::placeholder {
+  color: currentColor;
+  opacity: 0.45;
+}
+
+/* the opened list of a dropdown is drawn by the system on white */
+select.form-field option {
+  color: #040303;
+}

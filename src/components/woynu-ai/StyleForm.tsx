@@ -251,7 +251,7 @@ export function StyleForm({ draft, onDraftChange, step, onStepChange, onSubmit }
               placeholder={a('s6Placeholder')}
               aria-describedby="woynu-note-help woynu-note-count"
               rows={4}
-              className="mt-4 block w-full resize-y border border-ivory/20 bg-ink-soft p-4 text-base text-ivory outline-none transition placeholder:text-stone focus:border-gold"
+              className="form-field mt-4 block resize-y text-base"
             />
             <div className="mt-2 flex flex-wrap justify-between gap-2 text-xs text-ivory/50">
               <p id="woynu-note-help" className="max-w-lg">

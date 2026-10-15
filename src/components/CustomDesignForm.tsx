@@ -56,7 +56,7 @@ export function CustomDesignForm({ prefill }: { prefill?: DesignRequestPrefill }
   }
 
   const field =
-    'w-full min-h-11 border-0 border-b border-ivory/25 bg-transparent py-3 text-base md:text-sm text-ivory outline-none transition placeholder:text-stone focus:border-gold'
+    'form-field mt-2 text-base md:text-sm'
   const label = 'mt-8 block text-[10px] uppercase tracking-[0.28em] text-gold'
 
   return (
