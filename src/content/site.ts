@@ -597,14 +597,14 @@ const facebookPreviews = [
 
 /** What each photo in images/gallery/ shows (alt text), in file order 01…08. */
 const galleryAlts = [
-  'A woman and a man in Dinguza outfits standing in a courtyard',
-  'A couple in Dinguza clothing outdoors, the woman holding a Dinguza bag',
-  'A young man in a white jacket with Dinguza panels and a yellow hat',
-  'A woman in a white and Dinguza dress seated in a pine forest',
-  'Three people in white garments with Dinguza trim in front of a monument',
-  'A couple outdoors, the man in a Dinguza scarf holding a Dinguza hat',
-  'A woman in a white dress with a red Dinguza bodice among bamboo',
-  'Two young men in white shirts with Dinguza scarves',
+  'A couple in Dinguza outfits, the man in a shirt with a "50" motif',
+  'A woman in a white dress with Dinguza trim at a venue decorated with flowers and leaves',
+  'A long line of women in white dresses with Dinguza sashes at an outdoor celebration',
+  'Elders in Dinguza suits and white shawls holding staffs',
+  'Men in Dinguza suits, hats and scarves at an outdoor gathering',
+  'A family in white and Dinguza clothing in a field of yellow flowers',
+  'A group in white and red Wolaita dresses at the Sodo city monument at night',
+  'A couple in white garments with Dinguza trim, holding a Dinguza bag',
 ]
 
 export const facebookPhotos = facebookPreviews.map((photo, i) => {

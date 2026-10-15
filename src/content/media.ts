@@ -27,27 +27,30 @@ const library = {
   elders: studio('elders', 'Elders in Dinguza suits and white shawls holding staffs', 'ivory'),
   men: studio('men', 'Men in Dinguza suits and hats standing in a row outdoors', 'moss'),
   skirt: studio('skirt', 'Close view of a Dinguza skirt in red, black and yellow bands'),
+  team: studio('team', 'The Woynu Malala team in Dinguza blazers and dresses inside the studio', 'gold'),
+  coupleDinguza: studio('couple-dinguza', 'A couple in Dinguza outfits, the man in a shirt with a "50" motif', 'moss'),
+  night: studio('night', 'A group in white and red Wolaita dresses at the Sodo city monument at night', 'ink'),
 }
 
 /** Photos of people wearing the studio's work. (Names are kept from the first version of the site.) */
 export const fbPhotos = {
-  couple: library.couple,
-  couplePark: library.family,
+  couple: library.coupleDinguza,
+  couplePark: library.couple,
   studioFour: library.studioFlare,
   studioTwo: library.mirror,
   groupEvent: library.line,
   groupTrees: library.family,
   evening: library.redDress,
-  monument: library.headwrap,
+  monument: library.night,
 }
 
 /** Studio, shop and detail photos. (These names once pointed at stock images; all are real photos now.) */
 export const shots = {
   hero: library.lineWide,
-  intro: library.studio,
+  intro: library.team,
   gold: library.mannequins,
   landscape: library.lineWide,
-  weave: library.skirt,
+  weave: library.headwrap,
   thread: library.mannequins,
   hands: library.mirror,
   scissors: library.shopfront,
@@ -55,7 +58,7 @@ export const shots = {
   dusk: library.lineWide,
   ceremony: library.event,
   paper: library.sign,
-  studio: library.studioFlare,
+  studio: library.coupleDinguza,
 }
 
 /**
